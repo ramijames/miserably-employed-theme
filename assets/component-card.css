@@ -3,6 +3,8 @@
   height: 100%;
   position: relative;
   text-decoration: none;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .card {
@@ -44,8 +46,9 @@
 .card--standard .card__inner {
   position: relative;
   box-sizing: border-box;
-  border-radius: var(--border-radius);
+  border-radius: 20px;
   border: var(--border-width) solid rgba(var(--color-foreground), var(--border-opacity));
+  margin-bottom: -20px;
 }
 
 .card--card:after,
@@ -57,7 +60,7 @@
   height: calc(var(--border-width) * 2 + 100%);
   top: calc(var(--border-width) * -1);
   left: calc(var(--border-width) * -1);
-  border-radius: var(--border-radius);
+  border-radius: 20px;
   box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius)
     rgba(var(--color-shadow), var(--shadow-opacity));
 }
@@ -119,7 +122,8 @@
 
 .card--media .card__inner .card__content {
   position: relative;
-  padding: calc(var(--image-padding) + 1rem);
+  padding: calc(var(--image-padding) + 1rem) calc(var(--image-padding) + 1rem) calc(var(--image-padding) + 1rem + 20px)
+    calc(var(--image-padding) + 1rem);
 }
 
 .card__content {
@@ -424,8 +428,12 @@
 }
 
 .card--standard > .card__content .card__information {
-  padding-left: 0;
+  padding: 20px;
+  padding-right: 20px;
   padding-right: 0;
+  background: white;
+  z-index: 1;
+  border-radius: 20px 20px 0 0;
 }
 
 .card--card.card--media .card__inner .card__information,
