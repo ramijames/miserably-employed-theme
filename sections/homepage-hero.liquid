@@ -4,14 +4,14 @@
 
 <div class="homepage-hero">
   <div class="hero-content-vibe">
-    <p>{{ settings.hero_tagline }}</p>
-    <h1>{{ settings.hero_quote }}</h1>
+    <p class="tagline">{{ section.settings.hero_tagline }}</p>
+    <p class="quote">"{{ section.settings.hero_quote }}"</p>
   </div>
   <div class="hero-content">
-    <h1>{{ settings.hero_title }}</h1>
+    <h1>{{ section.settings.hero_title }}</h1>
     <div class="hero-buttons">
-      <a class="btn btn-primary" href="{{ settings.shop_link }}">{{ settings.shop_link_text }}</a>
-      <a class="btn btn-primary" href="{{ settings.tee_link }}">{{ settings.tee_link_text }}</a>
+      <a class="btn btn-primary" href="{{ section.settings.shop_link }}">{{ section.settings.shop_link_text }}</a>
+      <a class="btn btn-primary" href="{{ section.settings.tee_link }}">{{ section.settings.tee_link_text }}</a>
     </div>
   </div>
 </div>
@@ -21,22 +21,50 @@
     background-color: var(--color-dark);
     color: var(--color-light);
     display: flex;
-    flex-direction: row;
-    padding: var(--spacing-xl);
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    padding: var(--spacing-xxl);
+    justify-content: flex-start;
+    align-items: flex-start;
     height: 720px;
     text-align: center;
+    gap: var(--spacing-lg);
+    border-radius: var(--br-lg);
   }
 
-  .homepage-hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+  .hero-content-vibe {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--spacing-md);
   }
 
-  .homepage-hero p {
-    font-size: 1.25rem;
-    color: #333;
+  .hero-content-vibe p {
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .hero-content-vibe .tagline {
+    opacity: 0.4;
+  }
+
+  .hero-content-vibe .quote {
+    font-style: italic;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    max-width: 512px;
+  }
+
+  .hero-content h1 {
+    font-size: var(--font-size-xxxl);
+    line-height: 90px;
   }
 {% endstylesheet %}
 
