@@ -24,7 +24,7 @@ To push the new theme to the shopify store for the first time, you'll use:
 shopify theme push --unpublished
 ```
 
-You'll be prompted to provide a name.
+You'll be prompted to provide a name, but in this case one has already been created for our use.
 
 After the theme is created, you can update your theme code by running the push command without any flags:
 
@@ -32,12 +32,16 @@ After the theme is created, you can update your theme code by running the push c
 shopify theme push
 ```
 
+You'll be able to see the updates here: https://miserably-employed-dev.myshopify.com/
+
+To update the actual content of the deployed website, you have to go to the admin: https://admin.shopify.com/store/miserably-employed-dev/themes
+
 ### Publish
 
 Once you're ready, you can publish with:
 
 ```sh
-shopify theme push
+shopify theme publish
 ```
 
 
