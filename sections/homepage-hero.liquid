@@ -2,12 +2,30 @@
   Homepage Hero Section
 {% endcomment %}
 
-<div class="homepage-hero">test</div>
+<div class="homepage-hero">
+  <div class="hero-content-vibe">
+    <p>{{ settings.hero_tagline }}</p>
+    <h1>{{ settings.hero_quote }}</h1>
+  </div>
+  <div class="hero-content">
+    <h1>{{ settings.hero_title }}</h1>
+    <div class="hero-buttons">
+      <a class="btn btn-primary" href="{{ settings.shop_link }}">{{ settings.shop_link_text }}</a>
+      <a class="btn btn-primary" href="{{ settings.tee_link }}">{{ settings.tee_link_text }}</a>
+    </div>
+  </div>
+</div>
 
 {% stylesheet %}
   .homepage-hero {
-    background-color: #f6f6f7;
-    padding: 72px 0;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    display: flex;
+    flex-direction: row;
+    padding: var(--spacing-xl);
+    justify-content: center;
+    align-items: center;
+    height: 720px;
     text-align: center;
   }
 
@@ -28,15 +46,45 @@
   "settings": [
     {
       "type": "text",
-      "id": "hero_title",
-      "label": "Hero Title",
-      "default": "Welcome to being miserable"
+      "id": "hero_tagline",
+      "label": "Hero Tagline",
+      "default": "—Wearable satire for the workplace"
     },
     {
-      "type": "textarea",
-      "id": "hero_description",
-      "label": "Hero Description",
-      "default": "Discover our latest products and offers."
+      "type": "text",
+      "id": "hero_quote",
+      "label": "Hero Quote",
+      "default": "I can not handle it anymore!"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "Tees that say what you really think."
+    },
+    {
+      "type": "text",
+      "id": "shop_link",
+      "label": "Shop Link URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "shop_link_text",
+      "label": "Shop Link Text",
+      "default": "Shop Bestsellers"
+    },
+    {
+      "type": "text",
+      "id": "tee_link",
+      "label": "Tee Link URL",
+      "default": "/collections/tees"
+    },
+    {
+      "type": "text",
+      "id": "tee_link_text",
+      "label": "Tee Link Text",
+      "default": "Check out this tee"
     }
   ],
   "presets": [

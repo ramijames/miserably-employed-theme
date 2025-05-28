@@ -7,7 +7,10 @@
     {% # Load Google fonts first %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    >
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
@@ -16,6 +19,47 @@
     {% render 'meta-tags' %}
 
     {{ content_for_header }}
+
+    <style>
+      /* Root Styles */
+
+      :root {
+        --color-primary: #007bff;
+        --color-secondary: #6c757d;
+        --color-success: #28a745;
+        --color-danger: #dc3545;
+        --color-warning: #ffc107;
+        --color-info: #17a2b8;
+        --color-light: #f8f9fa;
+        --color-dark: #121212;
+
+        --spacing-xs: 0.25rem;
+        --spacing-sm: 0.5rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 3rem;
+        --spacing-xxl: 4rem;
+
+        --br-sm: 10px;
+        --br-md: 20px;
+        --br-lg: 40px;
+
+        --br-pill: 50rem;
+        --br-circle: 50%;
+        --br: 0.25rem;
+
+        --font-family-base: 'Public Sans', sans-serif;
+
+        --font-size-base: 1.5rem;
+        --font-size-sm: 1.25rem;
+        --font-size-md: 1.5rem;
+        --font-size-lg: 2rem;
+        --font-size-xl: 4rem;
+
+        --line-height-base: 1.5;
+        --line-height-sm: 1.25;
+      }
+    </style>
   </head>
 
   <body>
