@@ -2,7 +2,14 @@
   Homepage Hero Section
 {% endcomment %}
 
-<div class="homepage-hero">
+<div
+  class="homepage-hero"
+  {% if section.settings.hero_background_image != blank %}
+    style="background-image: url({{ section.settings.hero_background_image | image_url: 'master' }});"
+  {% else %}
+    style="background-image: url('{{ 'homepage-background.jpg' | asset_url }}');"
+  {% endif %}
+>
   <div class="hero-content-vibe">
     <p class="tagline">{{ section.settings.hero_tagline }}</p>
     <p class="quote">"{{ section.settings.hero_quote }}"</p>
@@ -29,6 +36,9 @@
     text-align: center;
     gap: var(--spacing-lg);
     border-radius: var(--br-lg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .hero-content-vibe {
@@ -113,6 +123,11 @@
       "id": "tee_link_text",
       "label": "Tee Link Text",
       "default": "Check out this tee"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_background_image",
+      "label": "Background Image"
     }
   ],
   "presets": [
