@@ -1,4 +1,1 @@
-MatchingTranslations:
-  enabled: false
-TemplateLength:
-  enabled: false
+extends: theme-check:recommended
