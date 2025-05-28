@@ -73,7 +73,8 @@ p:empty {
 
 /** Theme styles below */
 body {
-  font-family: var(--font-primary--family);
+  font-family: "Public Sans", sans-serif;
+  font-optical-sizing: auto;
   background-color: var(--color-background);
   color: var(--color-foreground);
 }

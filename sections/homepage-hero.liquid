@@ -1,0 +1,49 @@
+{% comment %}
+  Homepage Hero Section
+{% endcomment %}
+
+<div class="homepage-hero">test</div>
+
+{% stylesheet %}
+  .homepage-hero {
+    background-color: #f6f6f7;
+    padding: 72px 0;
+    text-align: center;
+  }
+
+  .homepage-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  .homepage-hero p {
+    font-size: 1.25rem;
+    color: #333;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Homepage Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "Welcome to being miserable"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description",
+      "label": "Hero Description",
+      "default": "Discover our latest products and offers."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage Hero",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
