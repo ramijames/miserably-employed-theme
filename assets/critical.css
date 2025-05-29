@@ -127,6 +127,20 @@ button,
   cursor: pointer;
   transition: background-color 0.2s ease;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 600px) {
+  button,
+  .button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-weight: 600;
+    font-size: var(--font-size-md);
+  }
 }
 
 button:hover,

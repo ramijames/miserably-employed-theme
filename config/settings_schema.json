@@ -54,6 +54,29 @@
     ]
   },
   {
+    "name": "Social Media Links",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram Link",
+        "placeholder": "https://www.instagram.com/miserablyemployed_/"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube Link",
+        "placeholder": "https://www.youtube.com/@miserablyemployed"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok Link",
+        "placeholder": "https://www.tiktok.com/@miserablyemployed"
+      }
+    ]
+  },
+  {
     "name": "t:general.colors",
     "settings": [
       {

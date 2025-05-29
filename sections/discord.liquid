@@ -1,0 +1,138 @@
+{% comment %}
+  discord banner section
+{% endcomment %}
+
+<div
+  class="discord-banner"
+  {% if section.settings.hero_background_image != blank %}
+    style="background-image: url({{ section.settings.discord_background_image | image_url: 'master' }});"
+  {% else %}
+    style="background-image: url('{{ 'discord-background.jpg' | asset_url }}');"
+  {% endif %}
+>
+  <div class="discord-banner-content">
+    <h2>{{ section.settings.discord_title }}</h2>
+    <p>{{ section.settings.discord_convincer }}</p>
+    <a href="{{ section.settings.discord_invite_button_link }}" class="button primary">
+      {{- section.settings.discord_invite_button_text -}}
+    </a>
+  </div>
+</div>
+<div class="features-banner">
+  <div class="single-feature">
+    <img src="{{ 'feature-fabric.png' | asset_url }}" alt="High-Quality Fabric" width="100" height="100">
+    <h3>High-Quality Fabric</h3>
+  </div>
+  <div class="single-feature">
+    <img src="{{ 'feature-returns.png' | asset_url }}" alt="Free Returns" width="100" height="100">
+    <h3>Free Returns</h3>
+  </div>
+  <div class="single-feature">
+    <img src="{{ 'feature-shipping.png' | asset_url }}" alt="International Shipping" width="100" height="100">
+    <h3>International Shipping</h3>
+  </div>
+  <div class="single-feature">
+    <img src="{{ 'feature-earth.png' | asset_url }}" alt="Sustainably sourced" width="100" height="100">
+    <h3>Sustainably sourced</h3>
+  </div>
+</div>
+
+{% stylesheet %}
+  .discord-banner {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    padding: var(--spacing-xxl);
+    text-align: center;
+    border-radius: var(--br-md) var(--br-md) 0 0;
+    margin-top: var(--spacing-lg);
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+  }
+
+  .discord-banner-content {
+    max-width: 512px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .discord-banner-content h2 {
+    font-size: var(--font-size-xxl);
+    margin: 0;
+  }
+
+  .discord-banner p {
+    margin-bottom: var(--spacing-xl);
+    opacity: 0.4;
+  }
+
+  .features-banner {
+    display: flex;
+    justify-content: space-around;
+    padding: var(--spacing-lg);
+    background-color: var(--color-light);
+    border-radius: 0 0 var(--br-md) var(--br-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .single-feature {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Discord Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "discord_title",
+      "label": "Discord Title",
+      "default": "Want free gear?"
+    },
+    {
+      "type": "textarea",
+      "id": "discord_convincer",
+      "label": "Convincer Text",
+      "default": "We run frequent giveaways in our Discord channel and on our social  network profiles. Easiest way to get stay informed is to join the  Discord."
+    },
+    {
+      "type": "text",
+      "id": "discord_invite_button_link",
+      "label": "Discord Invite Button Link",
+      "default": "https://discord.gg/your-invite-link"
+    },
+    {
+      "type": "text",
+      "id": "discord_invite_button_text",
+      "label": "Discord Invite Button Text",
+      "default": "Join our Discord"
+    },
+    {
+      "type": "image_picker",
+      "id": "discord_background_image",
+      "label": "Background Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Discord Banner",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
