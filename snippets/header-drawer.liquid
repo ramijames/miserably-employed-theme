@@ -1,0 +1,382 @@
+{% comment %}
+  Renders a header drawer menu for mobile and desktop.
+
+  Usage:
+  {% render 'header-drawer' %}
+{% endcomment %}
+
+<header-drawer
+  class="header-mobile"
+  data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}"
+>
+  <details id="Details-menu-drawer-container" class="menu-drawer-container">
+    <summary
+      class="header__icon header__icon--menu header__icon--summary link focus-inset"
+      aria-label="{{ 'sections.header.menu' | t }}"
+    >
+      <span class="menu-hamburger">
+        {{- 'icon-hamburger.svg' | inline_asset_content -}}
+      </span>
+      <span class="menu-close">
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </span>
+    </summary>
+    <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
+      <div class="menu-drawer__inner-container">
+        <div class="menu-drawer__navigation-container">
+          <nav class="menu-drawer__navigation">
+            <ul class="menu-drawer__menu has-submenu list-menu" role="list">
+              {%- for link in section.settings.menu.links -%}
+                <li>
+                  {%- if link.links != blank -%}
+                    <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
+                      <summary
+                        id="HeaderDrawer-{{ link.handle }}"
+                        class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
+                      >
+                        {{ link.title | escape }}
+                        <span class="svg-wrapper">
+                          {{- 'icon-arrow.svg' | inline_asset_content -}}
+                        </span>
+                        <span class="svg-wrapper">
+                          {{- 'icon-caret.svg' | inline_asset_content -}}
+                        </span>
+                      </summary>
+                      <div
+                        id="link-{{ link.handle | escape }}"
+                        class="menu-drawer__submenu has-submenu gradient motion-reduce"
+                        tabindex="-1"
+                      >
+                        <div class="menu-drawer__inner-submenu">
+                          <button class="menu-drawer__close-button link link--text focus-inset" aria-expanded="true">
+                            <span class="svg-wrapper">
+                              {{- 'icon-arrow.svg' | inline_asset_content -}}
+                            </span>
+                            {{ link.title | escape }}
+                          </button>
+                          <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                            {%- for childlink in link.links -%}
+                              <li>
+                                {%- if childlink.links == blank -%}
+                                  <a
+                                    id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
+                                    href="{{ childlink.url }}"
+                                    class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                    {% if childlink.current %}
+                                      aria-current="page"
+                                    {% endif %}
+                                  >
+                                    {{ childlink.title | escape }}
+                                  </a>
+                                {%- else -%}
+                                  <details id="Details-menu-drawer-{{ link.handle }}-{{ childlink.handle }}">
+                                    <summary
+                                      id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
+                                      class="menu-drawer__menu-item link link--text list-menu__item focus-inset"
+                                    >
+                                      {{ childlink.title | escape }}
+                                      <span class="svg-wrapper">
+                                        {{- 'icon-arrow.svg' | inline_asset_content -}}
+                                      </span>
+                                      <span class="svg-wrapper">
+                                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                                      </span>
+                                    </summary>
+                                    <div
+                                      id="childlink-{{ childlink.handle | escape }}"
+                                      class="menu-drawer__submenu has-submenu gradient motion-reduce"
+                                    >
+                                      <button
+                                        class="menu-drawer__close-button link link--text focus-inset"
+                                        aria-expanded="true"
+                                      >
+                                        <span class="svg-wrapper">
+                                          {{- 'icon-arrow.svg' | inline_asset_content -}}
+                                        </span>
+                                        {{ childlink.title | escape }}
+                                      </button>
+                                      <ul
+                                        class="menu-drawer__menu list-menu"
+                                        role="list"
+                                        tabindex="-1"
+                                      >
+                                        {%- for grandchildlink in childlink.links -%}
+                                          <li>
+                                            <a
+                                              id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                              href="{{ grandchildlink.url }}"
+                                              class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                              {% if grandchildlink.current %}
+                                                aria-current="page"
+                                              {% endif %}
+                                            >
+                                              {{ grandchildlink.title | escape }}
+                                            </a>
+                                          </li>
+                                        {%- endfor -%}
+                                      </ul>
+                                    </div>
+                                  </details>
+                                {%- endif -%}
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      </div>
+                    </details>
+                  {%- else -%}
+                    <a
+                      id="HeaderDrawer-{{ link.handle }}"
+                      href="{{ link.url }}"
+                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                      {% if link.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{ link.title | escape }}
+                    </a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </nav>
+          <div class="menu-drawer__utility-links">
+            {%- if shop.customer_accounts_enabled -%}
+              <a
+                href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                class="menu-drawer__account link focus-inset h5 medium-hide large-up-hide"
+                rel="nofollow"
+              >
+                {%- if section.settings.enable_customer_avatar -%}
+                  <account-icon>
+                    {%- if customer and customer.has_avatar? -%}
+                      {{ customer | avatar }}
+                    {%- else -%}
+                      <span class="svg-wrapper">
+                        {{- 'icon-account.svg' | inline_asset_content -}}
+                      </span>
+                    {%- endif -%}
+                  </account-icon>
+                {%- else -%}
+                  <span class="svg-wrapper">
+                    {{- 'icon-account.svg' | inline_asset_content -}}
+                  </span>
+                {%- endif -%}
+                {%- liquid
+                  if customer
+                    echo 'customer.account_fallback' | t
+                  else
+                    echo 'customer.log_in' | t
+                  endif
+                -%}
+              </a>
+            {%- endif -%}
+            {% comment %}
+              {%- if localization.available_countries or localization.available_languages -%}
+                <div class="menu-drawer__localization header-localization">
+                  {%- if localization.available_countries and localization.available_countries.size > 1 -%}
+                    <localization-form>
+                      {%- form 'localization', id: 'HeaderCountryMobileForm', class: 'localization-form' -%}
+                        <div>
+                          <h2 class="visually-hidden" id="HeaderCountryMobileLabel">
+                            {{ 'localization.country_label' | t }}
+                          </h2>
+                          {%- render 'country-localization', localPosition: 'HeaderCountryMobile' -%}
+                        </div>
+                      {%- endform -%}
+                    </localization-form>
+                  {% endif %}
+
+                  {%- if localization.available_languages and localization.available_languages.size > 1 -%}
+                    <localization-form>
+                      {%- form 'localization', id: 'HeaderLanguageMobileForm', class: 'localization-form' -%}
+                        <div>
+                          <h2 class="visually-hidden" id="HeaderLanguageMobileLabel">
+                            {{ 'localization.language_label' | t }}
+                          </h2>
+                          {%- render 'language-localization', localPosition: 'HeaderLanguageMobile' -%}
+                        </div>
+                      {%- endform -%}
+                    </localization-form>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+</header-drawer>
+
+{% stylesheet %}
+  .header-mobile {
+    display: none;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .header-mobile {
+      display: block;
+    }
+  }
+
+  .menu-drawer-container {
+    position: relative;
+  }
+
+  .menu-drawer {
+    position: fixed;
+    top: 90px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    overflow-y: auto;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+  }
+
+  .menu-drawer__inner-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .menu-drawer__navigation-container {
+    flex-grow: 1;
+  }
+
+  .menu-drawer__navigation {
+    padding: var(--spacing-lg);
+  }
+  .menu-drawer__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .menu-drawer__menu-item {
+    display: block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--color-light);
+    text-decoration: none;
+    font-size: var(--font-size-md);
+  }
+  .menu-drawer__menu-item--active {
+    background-color: var(--color-primary);
+  }
+  .menu-drawer__submenu {
+    display: none;
+    position: relative;
+  }
+  .menu-drawer__submenu.has-submenu {
+    display: block;
+  }
+  .menu-drawer__submenu .menu-drawer__menu {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  .menu-drawer__close-button {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--color-light);
+    text-decoration: none;
+    font-size: var(--font-size-md);
+  }
+  .menu-drawer__close-button .svg-wrapper {
+    margin-right: var(--spacing-xs);
+  }
+  .menu-drawer__utility-links {
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  .menu-drawer__utility-links .list-social {
+    display: flex;
+    gap: var(--spacing-sm);
+  }
+  .menu-drawer__utility-links .list-social__item {
+    list-style: none;
+  }
+  .menu-drawer__utility-links .list-social__link {
+    color: var(--color-light);
+    text-decoration: none;
+  }
+  .menu-drawer__utility-links .list-social__link .svg-wrapper {
+    width: 24px;
+    height: 24px;
+  }
+  .menu-drawer__account {
+    display: flex;
+    align-items: center;
+    color: var(--color-light);
+    text-decoration: none;
+    font-size: var(--font-size-md);
+  }
+  .menu-drawer__account .svg-wrapper {
+    margin-right: var(--spacing-xs);
+  }
+  .menu-drawer__localization {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  .menu-drawer__localization .localization-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  .menu-drawer__localization .localization-form select {
+    width: 100%;
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-md);
+    border-radius: var(--br);
+    border: 1px solid var(--color-secondary);
+    background-color: var(--color-light);
+    color: var(--color-dark);
+  }
+  .menu-drawer__icon {
+    display: none;
+  }
+  .menu-drawer__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+  }
+
+  .header__icon .menu-hamburger {
+    display: block;
+  }
+  .header__icon .menu-close {
+    display: none;
+  }
+  details.menu-drawer-container[open] .header__icon .menu-hamburger {
+    display: none;
+  }
+  details.menu-drawer-container[open] .header__icon .menu-close {
+    display: block;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', function () {
+    const details = document.querySelectorAll('.menu-drawer-container details');
+    details.forEach((detail) => {
+      detail.addEventListener('toggle', function () {
+        if (this.open) {
+          this.querySelector('.menu-drawer__submenu').style.display = 'block';
+        } else {
+          this.querySelector('.menu-drawer__submenu').style.display = 'none';
+        }
+      });
+    });
+  });
+{% endjavascript %}

@@ -1,9 +1,9 @@
 <header>
-  {% comment %}
-    <h2 class="header__title">
-      {{ shop.name | link_to: routes.root_url }}
-    </h2>
-  {% endcomment %}
+  {%- liquid
+    if section.settings.menu != blank
+      render 'header-drawer'
+    endif
+  -%}
 
   <div class="header-menu">
     <a href="{{ routes.root_url }}" class="logo">
@@ -89,9 +89,21 @@
 
   header a sup {
     position: absolute;
-    left: 100%;
+    right: 2px;
+    bottom: 0;
     overflow: hidden;
     max-width: var(--page-margin);
+    background: var(--color-dark);
+    color: var(--color-light);
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--br-circle);
+    font-size: var(--font-size-xs);
   }
 
   .header-icons svg {
@@ -103,6 +115,7 @@
     align-items: center;
     height: 100%;
     width: auto;
+    min-width: 100px;
     margin-right: var(--spacing-md);
   }
 
