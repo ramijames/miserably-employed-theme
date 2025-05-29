@@ -1,11 +1,11 @@
 <header>
-  {%- liquid
-    if section.settings.menu != blank
-      render 'header-drawer'
-    endif
-  -%}
-
   <div class="header-menu">
+    {%- liquid
+      if section.settings.menu != blank
+        render 'header-drawer'
+      endif
+    -%}
+
     <a href="{{ routes.root_url }}" class="logo">
       <svg width="93" height="34" viewBox="0 0 93 34" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M90.0116 22.7287V20.9931H91.8269V22.7287H90.0116Z" fill="#121212"/>
@@ -122,6 +122,9 @@
   header .header-menu,
   header .header-icons {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     gap: 1rem;
   }
 {% endstylesheet %}

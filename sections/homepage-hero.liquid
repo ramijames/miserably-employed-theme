@@ -35,10 +35,46 @@
     height: 720px;
     text-align: center;
     gap: var(--spacing-lg);
-    border-radius: var(--br-lg);
+    border-radius: var(--br-md);
     background-size: cover;
-    background-position: center;
+    background-position: bottom center;
     background-repeat: no-repeat;
+    position: relative;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .homepage-hero {
+      padding: var(--spacing-lg);
+      height: calc(100vh - 90px - var(--spacing-md));
+      justify-content: space-between;
+      background-position: bottom center;
+    }
+  }
+
+  .homepage-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-20deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.35) 75%);
+    border-radius: var(--br-md);
+    z-index: 1;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .homepage-hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 75%);
+      border-radius: var(--br-md);
+      z-index: 1;
+    }
   }
 
   .hero-content-vibe {
@@ -47,6 +83,8 @@
     justify-content: space-between;
     width: 100%;
     gap: var(--spacing-md);
+    z-index: 2;
+    position: relative;
   }
 
   .hero-content-vibe p {
@@ -63,6 +101,12 @@
     font-style: italic;
   }
 
+  @media screen and (max-width: 1024px) {
+    .hero-content-vibe .quote {
+      display: none;
+    }
+  }
+
   .hero-content {
     display: flex;
     flex-direction: column;
@@ -70,17 +114,40 @@
     justify-content: flex-start;
     text-align: left;
     max-width: 512px;
+    z-index: 2;
+    position: relative;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .hero-content {
+      max-width: 100%;
+    }
   }
 
   .hero-content h1 {
     font-size: var(--font-size-xxxl);
     line-height: 90px;
+    text-wrap: balance;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .hero-content h1 {
+      font-size: var(--font-size-xxl);
+      line-height: 60px;
+    }
   }
 
   .hero-buttons {
     display: flex;
     flex-direction: row;
     gap: var(--spacing-md);
+  }
+
+  @media screen and (max-width: 600px) {
+    .hero-buttons {
+      flex-direction: column;
+      width: 100%;
+    }
   }
 {% endstylesheet %}
 

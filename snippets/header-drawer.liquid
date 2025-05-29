@@ -12,16 +12,26 @@
   <details id="Details-menu-drawer-container" class="menu-drawer-container">
     <summary
       class="header__icon header__icon--menu header__icon--summary link focus-inset"
-      aria-label="{{ 'sections.header.menu' | t }}"
+      aria-label="Mobile menu"
+      aria-controls="menu-drawer"
+      aria-expanded="false"
     >
       <span class="menu-hamburger">
         {{- 'icon-hamburger.svg' | inline_asset_content -}}
       </span>
+      {% comment %}
+        <span class="menu-close">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
+      {% endcomment %}
+    </summary>
+
+    <div class="blur"></div>
+
+    <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
       <span class="menu-close">
         {{- 'icon-close.svg' | inline_asset_content -}}
       </span>
-    </summary>
-    <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
       <div class="menu-drawer__inner-container">
         <div class="menu-drawer__navigation-container">
           <nav class="menu-drawer__navigation">
@@ -48,12 +58,6 @@
                         tabindex="-1"
                       >
                         <div class="menu-drawer__inner-submenu">
-                          <button class="menu-drawer__close-button link link--text focus-inset" aria-expanded="true">
-                            <span class="svg-wrapper">
-                              {{- 'icon-arrow.svg' | inline_asset_content -}}
-                            </span>
-                            {{ link.title | escape }}
-                          </button>
                           <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
                             {%- for childlink in link.links -%}
                               <li>
@@ -226,54 +230,84 @@
 
   .menu-drawer {
     position: fixed;
-    top: 90px;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    bottom: var(--spacing-md);
+    left: var(--spacing-md);
     z-index: 1000;
     overflow-y: auto;
-    background-color: var(--color-dark);
+    background-color: var(--color-light);
     color: var(--color-light);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--br-sm);
+    padding: var(--spacing-sm);
   }
 
   .menu-drawer__inner-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    justify-content: space-between;
+    height: calc(100% - var(--spacing-lg) * 2);
   }
 
   .menu-drawer__navigation-container {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .menu-drawer__navigation {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-sm);
   }
+
   .menu-drawer__menu {
     list-style: none;
     padding: 0;
     margin: 0;
   }
+
   .menu-drawer__menu-item {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     padding: var(--spacing-sm) var(--spacing-md);
-    color: var(--color-light);
+    color: var(--color-dark);
     text-decoration: none;
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
   }
+
+  ..menu-drawer__menu-item:hover,
+  .menu-drawer__menu-item:focus,
+  .menu-drawer__menu-item:focus-visible,
+  .menu-drawer__menu-item:active {
+    background-color: var(--color-light-hover);
+    border-radius: var(--br-sm);
+  }
+
   .menu-drawer__menu-item--active {
-    background-color: var(--color-primary);
+    background-color: var(--color-light-hover);
+    border-radius: var(--br-sm);
   }
+
   .menu-drawer__submenu {
     display: none;
     position: relative;
   }
+
   .menu-drawer__submenu.has-submenu {
     display: block;
   }
+
   .menu-drawer__submenu .menu-drawer__menu {
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: var(--spacing-xs) 0 0 var(--spacing-md);
+    border-left: 2px solid rgba(0, 0, 0, 0.05);
+    border-radius: var(--br-sm);
   }
+
   .menu-drawer__close-button {
     display: flex;
     align-items: center;
@@ -282,50 +316,61 @@
     text-decoration: none;
     font-size: var(--font-size-md);
   }
+
   .menu-drawer__close-button .svg-wrapper {
     margin-right: var(--spacing-xs);
   }
+
   .menu-drawer__utility-links {
     padding: var(--spacing-md);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
   }
+
   .menu-drawer__utility-links .list-social {
     display: flex;
     gap: var(--spacing-sm);
   }
+
   .menu-drawer__utility-links .list-social__item {
     list-style: none;
   }
+
   .menu-drawer__utility-links .list-social__link {
     color: var(--color-light);
     text-decoration: none;
   }
+
   .menu-drawer__utility-links .list-social__link .svg-wrapper {
     width: 24px;
     height: 24px;
   }
+
   .menu-drawer__account {
     display: flex;
     align-items: center;
-    color: var(--color-light);
+    color: var(--color-dark);
     text-decoration: none;
     font-size: var(--font-size-md);
   }
+
   .menu-drawer__account .svg-wrapper {
     margin-right: var(--spacing-xs);
   }
+
   .menu-drawer__localization {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
   }
+
   .menu-drawer__localization .localization-form {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
   }
+
   .menu-drawer__localization .localization-form select {
     width: 100%;
     padding: var(--spacing-sm);
@@ -335,9 +380,11 @@
     background-color: var(--color-light);
     color: var(--color-dark);
   }
+
   .menu-drawer__icon {
     display: none;
   }
+
   .menu-drawer__icon svg {
     width: 24px;
     height: 24px;
@@ -355,28 +402,37 @@
   .header__icon .menu-hamburger {
     display: block;
   }
-  .header__icon .menu-close {
-    display: none;
-  }
-  details.menu-drawer-container[open] .header__icon .menu-hamburger {
-    display: none;
-  }
-  details.menu-drawer-container[open] .header__icon .menu-close {
-    display: block;
+
+  .blur {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    z-index: 999;
   }
 {% endstylesheet %}
 
 {% javascript %}
-  document.addEventListener('DOMContentLoaded', function () {
-    const details = document.querySelectorAll('.menu-drawer-container details');
-    details.forEach((detail) => {
-      detail.addEventListener('toggle', function () {
-        if (this.open) {
-          this.querySelector('.menu-drawer__submenu').style.display = 'block';
-        } else {
-          this.querySelector('.menu-drawer__submenu').style.display = 'none';
-        }
-      });
-    });
+  // Toggle the menu drawer open/close state
+  function toggleMenuDrawer() {
+    const details = document.getElementById('Details-menu-drawer-container');
+    const summary = details.querySelector('summary');
+
+    if (details.open) {
+      summary.setAttribute('aria-expanded', 'true');
+    } else {
+      summary.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  // On event for the close button, toggle the menu drawer
+  document.querySelector('.menu-close').addEventListener('click', function () {
+    const details = document.getElementById('Details-menu-drawer-container');
+    const blur = details.querySelector('.blur');
+    details.removeAttribute('open');
+    toggleMenuDrawer();
   });
 {% endjavascript %}
