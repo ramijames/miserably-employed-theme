@@ -55,6 +55,41 @@
     position: relative;
   }
 
+  @media screen and (max-width: 1024px) {
+    .discord-banner {
+      padding: var(--spacing-lg);
+      background-position: bottom center;
+      align-items: flex-start;
+      height: 360px;
+    }
+  }
+
+  .discord-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-20deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.35) 75%);
+    border-radius: var(--br-md);
+    z-index: 1;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .discord-banner:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 75%);
+      border-radius: var(--br-md);
+      z-index: 1;
+    }
+  }
+
   .discord-banner-content {
     max-width: 512px;
     display: flex;
@@ -62,6 +97,8 @@
     align-items: flex-start;
     justify-content: flex-start;
     text-align: left;
+    position: relative;
+    z-index: 2;
   }
 
   .discord-banner-content h2 {
@@ -69,18 +106,41 @@
     margin: 0;
   }
 
+  @media screen and (max-width: 1024px) {
+    .discord-banner-content h2 {
+      font-size: var(--font-size-xl);
+      line-height: 60px;
+    }
+  }
+
   .discord-banner p {
     margin-bottom: var(--spacing-xl);
-    opacity: 0.4;
+    opacity: 0.8;
+    max-width: 512px;
+    text-wrap: balance;
   }
 
   .features-banner {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: var(--spacing-lg);
     justify-content: space-around;
     padding: var(--spacing-lg);
     background-color: var(--color-light);
     border-radius: 0 0 var(--br-md) var(--br-md);
     margin-bottom: var(--spacing-lg);
+  }
+
+  @media screen and (max-width: 1024px) {
+    .features-banner {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .features-banner {
+      grid-template-columns: 1fr;
+    }
   }
 
   .single-feature {
