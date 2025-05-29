@@ -17,8 +17,8 @@
   <div class="hero-content">
     <h1>{{ section.settings.hero_title }}</h1>
     <div class="hero-buttons">
-      <a class="btn btn-primary" href="{{ section.settings.shop_link }}">{{ section.settings.shop_link_text }}</a>
-      <a class="btn btn-primary" href="{{ section.settings.tee_link }}">{{ section.settings.tee_link_text }}</a>
+      <a class="button primary" href="{{ section.settings.shop_link }}">{{ section.settings.shop_link_text }}</a>
+      <a class="button" href="{{ section.settings.tee_link }}">{{ section.settings.tee_link_text }}</a>
     </div>
   </div>
 </div>
@@ -75,6 +75,12 @@
   .hero-content h1 {
     font-size: var(--font-size-xxxl);
     line-height: 90px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-md);
   }
 {% endstylesheet %}
 

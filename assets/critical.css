@@ -3,7 +3,6 @@
 /* Reset styles inspired by https://www.joshwcomeau.com/css/custom-css-reset/ */
 * {
   box-sizing: border-box;
-  margin: 0;
 }
 
 body {
@@ -73,7 +72,7 @@ p:empty {
 
 /** Theme styles below */
 body {
-  font-family: "Public Sans", sans-serif;
+  font-family: 'Public Sans', sans-serif;
   font-optical-sizing: auto;
   background-color: var(--color-background);
   color: var(--color-foreground);
@@ -93,10 +92,7 @@ body {
  * the entire viewport.
  */
 .shopify-section {
-  --content-width: min(
-    calc(var(--page-width) - var(--page-margin) * 2),
-    calc(100% - var(--page-margin) * 2)
-  );
+  --content-width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
   --content-margin: minmax(var(--page-margin), 1fr);
   --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
 
@@ -115,4 +111,38 @@ body {
 /* Child elements that use the full-width utility class span the entire viewport. */
 .shopify-section > .full-width {
   grid-column: 1 / -1;
+}
+
+/** Buttons */
+
+button,
+.button {
+  font: inherit;
+  color: var(--color-button-text);
+  background-color: var(--color-dark);
+  text-decoration: none;
+  border: none;
+  border-radius: var(--br-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 700;
+}
+
+button:hover,
+.button:hover {
+  background-color: var(--color-dark-hover);
+  transform: scale(1.02);
+}
+
+button.primary,
+.button.primary {
+  background-color: var(--color-light);
+  color: var(--color-dark);
+}
+
+button.primary:hover,
+.button.primary:hover {
+  background-color: var(--color-light-hover);
+  transform: scale(1.02);
 }
