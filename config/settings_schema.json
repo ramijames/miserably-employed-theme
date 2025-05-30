@@ -54,7 +54,7 @@
     ]
   },
   {
-    "name": "Social Media Links",
+    "name": "t:settings_schema.social-media.name",
     "settings": [
       {
         "type": "text",

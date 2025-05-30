@@ -12,9 +12,14 @@
     "main": {
       "type": "homepage-hero",
       "settings": {}
-    }
+    },
+    "discord": {
+      "type": "discord",
+      "settings": {}
+    },
   },
   "order": [
-    "main"
+    "main",
+    "discord"
   ]
 }
