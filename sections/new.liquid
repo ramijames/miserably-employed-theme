@@ -1,0 +1,145 @@
+{% comment %}
+  new items to show on the homepage
+{% endcomment %}
+
+<div class="new-items">
+  <h2 class="section-title">{{ section.settings.new_title }}</h2>
+  <div class="new-items-grid">
+    {% for product in collections[section.settings.new_collection].products %}
+      <div class="product-card">
+        <a href="{{ product.url }}">
+          <img src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.title }}">
+          <div class="product-details">
+            <h3>{{ product.title }}</h3>
+            <p>{{ product.price | money }}</p>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .new-items {
+    padding: var(--spacing-xxl);
+
+    @media screen and (max-width: 1024px) {
+      padding: var(--spacing-xxl) 0;
+    }
+
+    .section-title {
+      font-size: var(--font-size-xxl);
+
+      @media screen and (max-width: 1024px) {
+        font-size: var(--font-size-xl);
+      }
+    }
+
+    .new-items-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-xl);
+
+      .product-card {
+        border-radius: var(--br-md);
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+
+        img {
+          transition: transform 0.3s ease;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(-140deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.95) 75%);
+          opacity: 0.1;
+          border-radius: var(--br-md);
+          z-index: 1;
+          transition: all 0.3s ease;
+        }
+
+        &:hover::after {
+          opacity: 0.4;
+        }
+
+        &:hover .product-details {
+          padding: 1.15rem;
+        }
+
+        &:hover img {
+          transform: scale(1.05);
+        }
+
+        .product-details {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          padding: var(--spacing-md);
+          background: var(--color-light-hover);
+          border-radius: 0 var(--br-md) 0 0;
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-xs);
+          z-index: 2;
+          transition: all 0.3s ease;
+
+          @media screen and (max-width: 1024px) {
+            width: 100%;
+            border-radius: var(--br-md) var(--br-md) 0 0;
+          }
+
+          h3 {
+            margin: 0;
+            font-size: var(--font-size-lg);
+            color: var(--color-dark);
+          }
+
+          p {
+            margin: 0;
+            font-size: var(--font-size-md);
+            color: var(--color-dark);
+          }
+        }
+      }
+
+      @media screen and (max-width: 1024px) {
+        gap: var(--spacing-md);
+      }
+
+      @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "New!",
+  "settings": [
+    {
+      "type": "text",
+      "id": "new_title",
+      "label": "New Title",
+      "default": "New!"
+    },
+    {
+      "type": "collection",
+      "id": "new_collection",
+      "label": "New Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "New!",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
