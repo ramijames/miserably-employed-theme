@@ -13,13 +13,18 @@
       "type": "homepage-hero",
       "settings": {}
     },
+    "new": {
+      "type": "new",
+      "settings": {}
+    },
     "discord": {
       "type": "discord",
       "settings": {}
-    },
+    }
   },
   "order": [
     "main",
+    "new",
     "discord"
   ]
 }

@@ -160,3 +160,9 @@ button.primary:hover,
   background-color: var(--color-light-hover);
   transform: scale(1.02);
 }
+
+button.outline,
+.button.outline {
+  background-color: var(--color-light);
+  color: var(--color-dark);
+}

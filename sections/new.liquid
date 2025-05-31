@@ -3,20 +3,22 @@
 {% endcomment %}
 
 <div class="new-items">
-  <h2 class="section-title">{{ section.settings.new_title }}</h2>
-  <div class="new-items-grid">
-    {% for product in collections[section.settings.new_collection].products %}
-      <div class="product-card">
-        <a href="{{ product.url }}">
+  {% if section.settings.new_collection == blank or collections[section.settings.new_collection].products.size == 0 %}
+    <p class="no-products">No collection set in admin.</p>
+  {% else %}
+    <h2 class="section-title">{{ section.settings.new_title }}</h2>
+    <div class="new-items-grid">
+      {% for product in collections[section.settings.new_collection].products %}
+        <a class="product-card" href="{{ product.url }}">
           <img src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.title }}">
           <div class="product-details">
             <h3>{{ product.title }}</h3>
             <p>{{ product.price | money }}</p>
           </div>
         </a>
-      </div>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 </div>
 
 {% stylesheet %}
@@ -69,11 +71,11 @@
         }
 
         &:hover .product-details {
-          padding: 1.15rem;
+          padding: 1.15rem var(--spacing-md);
         }
 
         &:hover img {
-          transform: scale(1.05);
+          transform: rotate(-1deg) scale(1.05);
         }
 
         .product-details {
@@ -81,7 +83,8 @@
           left: 0;
           bottom: 0;
           padding: var(--spacing-md);
-          background: var(--color-light-hover);
+          background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 1));
+          backdrop-filter: blur(8px);
           border-radius: 0 var(--br-md) 0 0;
           display: flex;
           flex-direction: column;
