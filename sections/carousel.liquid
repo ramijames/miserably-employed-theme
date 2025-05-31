@@ -8,28 +8,11 @@
   %}
     <p class="no-products">No collection set in admin for this carousel.</p>
   {% else %}
-    {% comment %}
-      <h2 class="section-title">{{ section.settings.carousel_title }}</h2>
-      <div class="carousel-inner">
-        {% for product in collections[section.settings.carousel_collection].products %}
-          <div class="carousel-item">
-            <a href="{{ product.url }}">
-              <img src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.title }}">
-              <div class="carousel-caption">
-                <h3>{{ product.title }}</h3>
-                <p>{{ product.price | money }}</p>
-              </div>
-            </a>
-          </div>
-        {% endfor %}
-      </div>
-    {% endcomment %}
-
     <div class="carousel-header">
       <h2 class="section-title">{{ section.settings.carousel_title }}</h2>
       {% if section.settings.show_categories == true %}
         <div class="categories">
-          {% for collection in collections %}
+          {% for collection in section.settings.categories %}
             <a class="button category" href="{{ collection.url }}" class="category-link">{{ collection.title }}</a>
           {% endfor %}
         </div>
@@ -255,7 +238,12 @@
     {
       "type": "collection",
       "id": "carousel_collection",
-      "label": "Selected Collection"
+      "label": "Carousel Collection"
+    },
+    {
+      "type": "collection_list",
+      "id": "categories",
+      "label": "Collections to show in categories"
     },
     {
       "type": "checkbox",

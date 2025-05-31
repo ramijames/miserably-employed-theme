@@ -6,7 +6,12 @@
   {% if section.settings.new_collection == blank or collections[section.settings.new_collection].products.size == 0 %}
     <p class="no-products">No collection set in admin.</p>
   {% else %}
-    <h2 class="section-title">{{ section.settings.new_title }}</h2>
+    <h2 class="section-title">
+      {{ section.settings.new_title }}
+      <a href="{{ collections[section.settings.new_collection].url }}" class="button category show-all"
+        >Browse all tees</a
+      >
+    </h2>
     <div class="new-items-grid">
       {% for product in collections[section.settings.new_collection].products %}
         <a class="product-card" href="{{ product.url }}">
@@ -31,9 +36,19 @@
 
     .section-title {
       font-size: var(--font-size-xxl);
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
 
       @media screen and (max-width: 1024px) {
         font-size: var(--font-size-xl);
+      }
+
+      .show-all {
+        text-decoration: none;
+        font-size: var(--font-size-lg);
+        padding: var(--spacing-sm) var(--spacing-md);
       }
     }
 
