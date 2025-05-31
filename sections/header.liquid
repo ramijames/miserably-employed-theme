@@ -83,8 +83,16 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-lg);
     font-weight: 500;
+
+    span {
+      border-bottom: 2px solid transparent;
+
+      &.header__active-menu-item {
+        border-bottom: 2px solid var(--color-dark);
+      }
+    }
   }
 
   header a sup {
@@ -103,7 +111,7 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--br-circle);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-lg);
   }
 
   .header-icons svg {

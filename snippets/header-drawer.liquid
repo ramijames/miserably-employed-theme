@@ -416,7 +416,19 @@
 {% endstylesheet %}
 
 {% javascript %}
-  // Toggle the menu drawer open/close state
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   const hamburger = document.querySelectorAll('.menu-hamburger');
+  //   hamburger.forEach((detail) => {
+  //     detail.addEventListener('toggle', function () {
+  //       if (this.open) {
+  //         this.querySelector('.menu-drawer__submenu').style.display = 'flex';
+  //       } else {
+  //         this.querySelector('.menu-drawer__submenu').style.display = 'none';
+  //       }
+  //     });
+  //   });
+  // });
+
   function toggleMenuDrawer() {
     const details = document.getElementById('Details-menu-drawer-container');
     const summary = details.querySelector('summary');

@@ -149,8 +149,13 @@
   }
 
   .list-menu-li header-menu details summary span {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-lg);
     font-weight: 500;
+    border-bottom: 2px solid transparent;
+
+    &.header__active-menu-item {
+      border-bottom: 2px solid var(--color-dark);
+    }
   }
 
   .header__inline-menu .list-menu__item {
