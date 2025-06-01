@@ -17,6 +17,12 @@
       "type": "new",
       "settings": {}
     },
+    "carousel": {
+      "type": "carousel",
+      "settings": {
+        
+      }
+    },
     "discord": {
       "type": "discord",
       "settings": {}
@@ -25,6 +31,7 @@
   "order": [
     "main",
     "new",
+    "carousel",
     "discord"
   ]
 }

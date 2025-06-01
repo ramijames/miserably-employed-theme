@@ -116,9 +116,10 @@ body {
 /** Buttons */
 
 button,
-.button {
+.button,
+input[type='submit'] {
   font: inherit;
-  color: var(--color-button-text);
+  color: var(--color-light);
   background-color: var(--color-dark);
   text-decoration: none;
   border: none;
@@ -134,7 +135,8 @@ button,
 
 @media screen and (max-width: 600px) {
   button,
-  .button {
+  .button,
+  input[type='submit'] {
     padding: var(--spacing-sm) var(--spacing-md);
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -144,7 +146,8 @@ button,
 }
 
 button:hover,
-.button:hover {
+.button:hover,
+input[type='submit']:hover {
   background-color: var(--color-dark-hover);
   transform: scale(1.02);
 }
@@ -198,4 +201,11 @@ textarea {
     border-color: var(--color-dark);
     outline: none;
   }
+}
+
+button.small,
+.button.small,
+input[type='submit'].small {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-md);
 }

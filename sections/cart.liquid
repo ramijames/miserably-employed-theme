@@ -5,29 +5,185 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
 {% endcomment %}
 
-<h1>{{ 'cart.title' | t }}</h1>
+{% comment %} <h1 class="cart-title">{{ 'cart.title' | t }}</h1> {% endcomment %}
 
-<form action="{{ routes.cart_url }}" method="post">
-  <table>
+<form class="cart-items" action="{{ routes.cart_url }}" method="post">
+  <div class="total">
     {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
+      <div class="cart-item">
+        {% render 'image', image: item.image, url: item.url %}
+        <div class="cart-item-details">
+          <p class="cart-item-title">{{ item.product.title }}</p>
+          <p class="cart-item-price">
+            {{ item.price | money }}
+          </p>
+          {% if item.variant.options.size > 0 %}
+            <p class="cart-item-options">
+              {% for option in item.variant.options %}
+                {{ option.name }}: {{ option.value -}}
+                {%- if forloop.last == false %}, {% endif %}
+              {% endfor %}
+            </p>
+          {% endif %}
 
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
+          <span class="remove">{{ 'cart.remove' | t | link_to: item.url_to_remove }}</span>
+
+          <div class="cart-item-quantity">
+            <input type="text" name="updates[]" value="{{ item.quantity }}">
+            <input type="submit" class="small" value="{{ 'cart.update' | t }}">
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="cart-total">
+    <div class="final-price">{{ cart.total_price | money }}</div>
+    <input class="cart-checkout" type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
+  </div>
 </form>
+
+{% stylesheet %}
+  h1.cart-title {
+    font-size: var(--font-size-xxl);
+    margin-bottom: 0;
+    text-align: center;
+    width: 100%;
+    color: var(--color-dark);
+    margin: var(--spacing-xs) 0 var(--spacing-lg);
+  }
+
+  .cart-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-md);
+    background-color: var(--color-light);
+
+    .total {
+      border-bottom: 2px solid var(--color-dark);
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: var(--spacing-md);
+      padding: var(--spacing-sm);
+      gap: var(--spacing-md);
+
+      a {
+        text-decoration: none;
+        color: var(--color-primary);
+        width: 50%;
+
+        img {
+          max-width: 300px;
+          max-height: 300px;
+          border-radius: var(--br-md);
+        }
+      }
+
+      .cart-item-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        gap: var(--spacing-xs);
+
+        p {
+          margin: 0;
+          color: var(--color-dark);
+        }
+
+        .cart-item-title {
+          font-size: var(--font-size-xl);
+          color: var(--color-dark);
+          margin-bottom: var(--spacing-xs);
+          font-weight: bold;
+        }
+
+        .cart-item-options {
+          font-size: var(--font-size-md);
+          opacity: 0.5;
+        }
+
+        .remove {
+          color: var(--color-danger);
+          font-size: var(--font-size-md);
+          text-decoration: none;
+          cursor: pointer;
+          margin: var(--spacing-sm) 0;
+        }
+
+        .cart-item-quantity {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-xs);
+
+          input[type='text'] {
+            width: 50px;
+            text-align: center;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--br-sm);
+            padding: var(--spacing-xs);
+            font-size: var(--font-size-md);
+          }
+
+          input[type='submit'] {
+            border: none;
+            border-radius: var(--br-sm);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            cursor: pointer;
+          }
+        }
+
+        .cart-item-price {
+          font-size: var(--font-size-lg);
+          color: var(--color-dark);
+        }
+      }
+    }
+  }
+
+  input[type='text'] {
+    width: 50px;
+    text-align: center;
+  }
+
+  .cart-checkout {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    padding: var(--spacing-sm);
+    background-color: var(--color-primary);
+    color: var(--color-light);
+    border: none;
+    border-radius: var(--br-md);
+    font-size: var(--font-size-md);
+    cursor: pointer;
+  }
+
+  .cart-total {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: var(--spacing-lg);
+    max-width: 600px;
+    padding: var(--spacing-sm);
+
+    .final-price {
+      font-size: var(--font-size-xl);
+      font-weight: bold;
+      color: var(--color-dark);
+      margin-bottom: var(--spacing-sm);
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
