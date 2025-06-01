@@ -5,41 +5,324 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
-
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
-
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
-
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
+<div class="product-section">
+  <div class="product-images">
+    {% assign featured_image = product.selected_or_first_available_variant.featured_image
+      | default: product.featured_image
+    %}
+    <div class="thumbnail-container">
+      {% for image in product.images %}
+        <div class="thumbnail" data-image-id="{{ image.id }}" data-image-url="{{ image | img_url: 'large' }}">
+          <img src="{{ image | img_url: 'small' }}" alt="{{ image.alt | escape }}">
+        </div>
       {% endfor %}
-    </select>
+    </div>
+    <div class="main-image">
+      <img
+        id="main-product-image"
+        src="{{ featured_image | img_url: 'large' }}"
+        alt="{{ featured_image.alt | escape }}"
+        class="product-image"
+      >
+    </div>
+  </div>
 
-    <input type="text" name="quantity" min="1" value="1">
+  <div class="product-info">
+    <h1>{{ product.title }}</h1>
+    <p id="product-price">{{ product.selected_or_first_available_variant.price | money }}</p>
+    <div class="product-description">{{ product.description }}</div>
 
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
+    <div class="product-form">
+      {% form 'product', product %}
+        {% assign current_variant = product.selected_or_first_available_variant %}
+        <input type="hidden" name="id" id="variant-id" value="{{ current_variant.id }}">
+
+        {%- for option in product.options_with_values -%}
+          <div class="product-option">
+            <label for="option-{{ forloop.index }}">{{ option.name }}</label>
+            <div class="option-wrapper {% if option.name contains 'Color' %}color-option-wrapper{% endif %}">
+              <select
+                id="option-{{ forloop.index }}"
+                class="option-selector"
+                data-option-index="{{ forloop.index0 }}"
+                data-option-name="{{ option.name | handleize }}"
+              >
+                {%- for value in option.values -%}
+                  <option
+                    value="{{ value | escape }}"
+                    {% if option.selected_value == value %}
+                      selected="selected"
+                    {% endif %}
+                  >
+                    {{ value }}
+                  </option>
+                {%- endfor -%}
+              </select>
+            </div>
+          </div>
+        {%- endfor -%}
+
+        <div class="quantity-selector">
+          <label for="quantity">Quantity</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1">
+        </div>
+
+        <div class="product-actions">
+          <button type="submit" id="add-to-cart" class="button primary">Add to cart</button>
+          {{ form | payment_button }}
+        </div>
+      {% endform %}
+    </div>
+  </div>
 </div>
+
+{% stylesheet %}
+  .product-section {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--spacing-xl);
+  }
+
+  @media screen and (max-width: 768px) {
+    .product-section {
+      flex-direction: column;
+    }
+  }
+
+  .product-images {
+    display: grid;
+    flex-direction: row;
+    grid-template-columns: 60px 1fr;
+    gap: var(--spacing-md);
+    width: 50%;
+  }
+
+  .main-image {
+    width: 100%;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .main-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--br-lg);
+    object-fit: cover;
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    outline-offset: -1px;
+  }
+
+  .thumbnail-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .thumbnail {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border-radius: var(--br-md);
+    overflow: hidden;
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    outline-offset: -1px;
+    transition: border 0.1s ease, outline 0.1s ease;
+  }
+
+  .thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+  }
+
+  .thumbnail.active {
+    border: 2px solid var(--color-dark);
+    outline: 2px solid rgba(255, 255, 255, 1);
+    outline-offset: -3px;
+  }
+
+  .product-info {
+    width: 50%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: flex-start;
+
+    h1 {
+      font-size: var(--font-size-xxl);
+      margin-bottom: 0;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .product-images,
+    .product-info {
+      width: 100%;
+    }
+  }
+
+  .product-option {
+    margin-bottom: var(--spacing-md);
+    width: 100%;
+  }
+
+  .product-option label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+  }
+
+  .option-wrapper {
+    position: relative;
+  }
+
+  .option-selector {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--br-sm);
+  }
+
+  .quantity-selector {
+    margin-bottom: var(--spacing-md);
+    width: 100%;
+  }
+
+  .quantity-selector label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+  }
+
+  .quantity-selector input {
+    width: 100px;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--br-sm);
+  }
+
+  .product-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    width: 100%;
+  }
+
+  .product-actions .button {
+    width: 100%;
+  }
+{% endstylesheet %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Product variants handling
+    const variants = {{ product.variants | json }};
+    const productOptions = {{ product.options_with_values | json }};
+    const variantImages = {};
+    
+    // Map variant ids to their image ids (if they have specific images)
+    {% for variant in product.variants %}
+      {% if variant.image.id %}
+        variantImages[{{ variant.id }}] = {{ variant.image.id }};
+      {% endif %}
+    {% endfor %}
+    
+    // Get elements
+    const optionSelectors = document.querySelectorAll('.option-selector');
+    const variantInput = document.getElementById('variant-id');
+    const priceElement = document.getElementById('product-price');
+    const mainImage = document.getElementById('main-product-image');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    
+    // Initialize option state
+    let selectedOptions = {};
+    optionSelectors.forEach(selector => {
+      const optionIndex = selector.getAttribute('data-option-index');
+      const optionName = selector.getAttribute('data-option-name');
+      selectedOptions[optionName] = selector.value;
+    });
+    
+    // Find the matching variant when options change
+    function findVariantByOptions() {
+      return variants.find(variant => {
+        return productOptions.every((option, index) => {
+          const optionName = option.name.toLowerCase();
+          return variant.options[index] === selectedOptions[optionName];
+        });
+      });
+    }
+    
+    // Update the UI based on selected variant
+    function updateVariantUI(variant) {
+      if (!variant) return;
+      
+      // Update variant ID input
+      variantInput.value = variant.id;
+      
+      // Update price
+      priceElement.innerHTML = formatMoney(variant.price);
+      
+      // Update image if this variant has a specific image
+      if (variantImages[variant.id]) {
+        const imageId = variantImages[variant.id];
+        const thumbnail = document.querySelector(`.thumbnail[data-image-id="${imageId}"]`);
+        if (thumbnail) {
+          updateMainImage(thumbnail.getAttribute('data-image-url'));
+          thumbnails.forEach(t => t.classList.remove('active'));
+          thumbnail.classList.add('active');
+        }
+      }
+    }
+    
+    // Handle option change
+    function handleOptionChange(e) {
+      const selector = e.target;
+      const optionName = selector.getAttribute('data-option-name');
+      selectedOptions[optionName] = selector.value;
+      
+      const variant = findVariantByOptions();
+      updateVariantUI(variant);
+    }
+    
+    // Update main product image
+    function updateMainImage(imageUrl) {
+      mainImage.src = imageUrl;
+    }
+    
+    // Format money amount based on store currency
+    function formatMoney(cents) {
+      return (cents / 100).toLocaleString('en-US', {
+        style: 'currency',
+        currency: '{{ shop.currency }}'
+      });
+    }
+    
+    // Add event listeners
+    optionSelectors.forEach(selector => {
+      selector.addEventListener('change', handleOptionChange);
+    });
+    
+    // Thumbnail click handling
+    thumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', function() {
+        const imageUrl = this.getAttribute('data-image-url');
+        updateMainImage(imageUrl);
+        thumbnails.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+    
+    // Initialize the first thumbnail as active
+    if (thumbnails.length > 0) {
+      thumbnails[0].classList.add('active');
+    }
+  });
+</script>
 
 {% schema %}
 {
