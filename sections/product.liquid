@@ -29,7 +29,14 @@
 
   <div class="product-info">
     <h1>{{ product.title }}</h1>
-    <p id="product-price">{{ product.selected_or_first_available_variant.price | money }}</p>
+    <p id="product-price">
+      {{ product.selected_or_first_available_variant.price | money }}
+      {% if product.selected_or_first_available_variant.compare_at_price
+          != product.selected_or_first_available_variant.price
+      %}
+        <span class="compare-at">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+      {% endif %}
+    </p>
     <div class="product-description">{{ product.description }}</div>
 
     <div class="product-form">
@@ -68,7 +75,7 @@
         </div>
 
         <div class="product-actions">
-          <button type="submit" id="add-to-cart" class="button primary">Add to cart</button>
+          <button type="submit" id="add-to-cart" class="button outline">Add to cart</button>
           {{ form | payment_button }}
         </div>
       {% endform %}
@@ -83,6 +90,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xxl);
   }
 
   @media screen and (max-width: 768px) {
@@ -150,12 +158,34 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
     align-items: flex-start;
 
     h1 {
       font-size: var(--font-size-xxl);
       margin-bottom: 0;
+    }
+
+    .product-description {
+      font-size: var(--font-size-md);
+      opacity: 0.5;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .product-price {
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .compare-at {
+      text-decoration: line-through;
+      color: var(--color-secondary);
+      margin-left: var(--spacing-xs);
+    }
+
+    .product-form {
+      width: 100%;
     }
   }
 
@@ -183,9 +213,6 @@
 
   .option-selector {
     width: 100%;
-    padding: var(--spacing-sm);
-    border: 1px solid var(--color-border);
-    border-radius: var(--br-sm);
   }
 
   .quantity-selector {
@@ -200,15 +227,12 @@
   }
 
   .quantity-selector input {
-    width: 100px;
-    padding: var(--spacing-sm);
-    border: 1px solid var(--color-border);
-    border-radius: var(--br-sm);
+    width: 100%;
   }
 
   .product-actions {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: var(--spacing-sm);
     width: 100%;
   }

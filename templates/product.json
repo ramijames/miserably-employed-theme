@@ -12,9 +12,14 @@
     "main": {
       "type": "product",
       "settings": {}
-    }
+    },
+    "discord": {
+      "type": "discord",
+      "settings": {}
+    },
   },
   "order": [
-    "main"
+    "main",
+    "discord"
   ]
 }
