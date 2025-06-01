@@ -74,10 +74,19 @@
       padding: var(--spacing-sm);
       gap: var(--spacing-md);
 
+      @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: center;
+      }
+
       a {
         text-decoration: none;
         color: var(--color-primary);
         width: 50%;
+
+        @media (max-width: 600px) {
+          width: 100%;
+        }
 
         img {
           max-width: 300px;
@@ -92,6 +101,10 @@
         flex-direction: column;
         width: 50%;
         gap: var(--spacing-xs);
+
+        @media (max-width: 600px) {
+          width: 100%;
+        }
 
         p {
           margin: 0;
@@ -174,7 +187,12 @@
     width: 100%;
     margin-top: var(--spacing-lg);
     max-width: 600px;
-    padding: var(--spacing-sm);
+    padding: 0 var(--spacing-sm) var(--spacing-xl);
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: center;
+    }
 
     .final-price {
       font-size: var(--font-size-xl);
