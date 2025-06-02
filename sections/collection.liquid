@@ -5,26 +5,37 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
-<h1>{{ collection.title }}</h1>
+<h1 class="collection-title">{{ collection.title }}</h1>
 
 <div class="collection-products">
   {% paginate collection.products by 20 %}
     {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
+      {% comment %}
+        <div class="collection-product">
+          {% if product.featured_image %}
+            {% render 'image',
+              class: 'collection-product__image',
+              image: product.featured_image,
+              url: product.url,
+              width: 400,
+              height: 400,
+              crop: 'center'
+            %}
+          {% endif %}
+          <div class="collection-product__content">
+            <p>{{ product.title | escape | link_to: product.url }}</p>
+            <p>{{ product.price | money }}</p>
+          </div>
         </div>
+      {% endcomment %}
+      <div class="collection-item">
+        <a href="{{ product.url }}">
+          <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
+          <div class="item-caption">
+            <h3>{{ product.title }}</h3>
+            <p>{{ product.price | money }}</p>
+          </div>
+        </a>
       </div>
     {% endfor %}
 
@@ -33,9 +44,100 @@
 </div>
 
 {% stylesheet %}
+  .collection-title {
+    font-size: var(--font-size-xxl);
+    margin-bottom: 0;
+    text-align: left;
+    width: 100%;
+    color: var(--color-dark);
+    margin: var(--spacing-xs) 0 var(--spacing-lg);
+  }
+
   .collection-products {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .collection-item {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-right: var(--spacing-lg);
+    margin-bottom: 10px;
+    scroll-snap-align: start;
+    position: relative;
+    overflow: hidden;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(220deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 100%);
+      opacity: 1;
+      border-radius: var(--br-md);
+      z-index: 1;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+
+      img {
+        width: 100%;
+        height: 440px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        transform: rotate(1deg) scale(1.05);
+
+        @media screen and (max-width: 600px) {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      &:hover img {
+        transform: rotate(0deg) scale(1);
+      }
+
+      &:hover .item-caption {
+        padding: 1.15rem var(--spacing-md);
+      }
+
+      .item-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+        padding: var(--spacing-md);
+        /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4)); */
+        background: transparent;
+        border-radius: var(--br-md) var(--br-md) 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xs);
+        z-index: 2;
+        transition: all 0.3s ease;
+
+        h3 {
+          margin: 0;
+          font-size: var(--font-size-lg);
+          color: var(--color-light);
+        }
+
+        p {
+          margin: 0;
+          font-size: var(--font-size-md);
+          color: var(--color-light);
+        }
+      }
+    }
   }
 {% endstylesheet %}
 
