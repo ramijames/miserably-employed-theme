@@ -5,10 +5,10 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
+<h1 class="product-title">{{ product.title }}</h1>
+
 <div class="product-section">
   <div class="product-info">
-    <h1 class="product-title">{{ product.title }}</h1>
-
     {% comment %} I need to make this only show if the product is in stock {% endcomment %}
 
     <p id="product-price" class="product-price">
@@ -108,7 +108,7 @@
     justify-content: flex-start;
     gap: var(--spacing-xl);
     margin-bottom: var(--spacing-xxl);
-    padding: 0 var(--spacing-xl) var(--spacing-xxl);
+    padding: 0 0 var(--spacing-xxl);
 
     @media screen and (max-width: 1024px) {
       gap: var(--spacing-lg);
@@ -117,7 +117,7 @@
 
   @media screen and (max-width: 1024px) {
     .product-section {
-      flex-direction: column;
+      flex-direction: column-reverse;
       padding: 0;
     }
   }
