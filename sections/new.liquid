@@ -11,9 +11,10 @@
         {{- 'header-new.svg' | inline_asset_content -}}
         {{ section.settings.new_title }}
       </h2>
-      <a href="{{ collections[section.settings.new_collection].url }}" class="button category show-all"
-        >Browse all tees</a
-      >
+      <a href="{{ collections[section.settings.new_collection].url }}" class="button category show-all">
+        Browse all tees
+        {{- 'arrow-right.svg' | inline_asset_content -}}
+      </a>
     </div>
     <div class="new-items-grid">
       {% for product in collections[section.settings.new_collection].products %}

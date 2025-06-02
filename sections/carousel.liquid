@@ -9,7 +9,10 @@
     <p class="no-products">No collection set in admin for this carousel.</p>
   {% else %}
     <div class="carousel-header">
-      <h2 class="section-title">{{ section.settings.carousel_title }}</h2>
+      <h2 class="section-title">
+        {{- 'header-tees.svg' | inline_asset_content -}}
+        {{ section.settings.carousel_title }}
+      </h2>
       {% if section.settings.show_categories == true %}
         <div class="categories">
           {% for collection in section.settings.categories %}
@@ -116,8 +119,13 @@
     }
 
     .section-title {
+      margin: 0;
       font-size: var(--font-size-xxl);
-      margin-bottom: var(--spacing-lg);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--spacing-xs);
+      color: var(--color-dark);
 
       @media screen and (max-width: 1024px) {
         font-size: var(--font-size-xl);
