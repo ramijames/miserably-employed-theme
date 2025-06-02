@@ -5,32 +5,13 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
-<h1 class="product-title">{{ product.title }}</h1>
-
 <div class="product-section">
-  <div class="product-images">
-    {% assign featured_image = product.selected_or_first_available_variant.featured_image
-      | default: product.featured_image
-    %}
-    <div class="main-image">
-      <img
-        id="main-product-image"
-        src="{{ featured_image | img_url: 'master' }}"
-        alt="{{ featured_image.alt | escape }}"
-        class="product-image"
-      >
-    </div>
-    <div class="thumbnail-container">
-      {% for image in product.images %}
-        <div class="thumbnail" data-image-id="{{ image.id }}" data-image-url="{{ image | img_url: 'master' }}">
-          <img src="{{ image | img_url: 'small' }}" alt="{{ image.alt | escape }}">
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-
   <div class="product-info">
-    <p id="product-price">
+    <h1 class="product-title">{{ product.title }}</h1>
+
+    {% comment %} I need to make this only show if the product is in stock {% endcomment %}
+
+    <p id="product-price" class="product-price">
       {{ product.selected_or_first_available_variant.price | money }}
       {% if product.selected_or_first_available_variant.compare_at_price
           != product.selected_or_first_available_variant.price
@@ -38,7 +19,12 @@
         <span class="compare-at">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
       {% endif %}
     </p>
-    <div class="product-description">{{ product.description }}</div>
+    <div class="product-description truncated">
+      {{ product.description }}
+      <button class="read-more-button">
+        {{ 'icon-plus.svg' | inline_asset_content }}
+      </button>
+    </div>
 
     <div class="product-form">
       {% form 'product', product %}
@@ -82,13 +68,34 @@
       {% endform %}
     </div>
   </div>
+
+  <div class="product-images">
+    {% assign featured_image = product.selected_or_first_available_variant.featured_image
+      | default: product.featured_image
+    %}
+    <div class="main-image">
+      <img
+        id="main-product-image"
+        src="{{ featured_image | img_url: 'master' }}"
+        alt="{{ featured_image.alt | escape }}"
+        class="product-image"
+      >
+    </div>
+    <div class="thumbnail-container">
+      {% for image in product.images %}
+        <div class="thumbnail" data-image-id="{{ image.id }}" data-image-url="{{ image | img_url: 'master' }}">
+          <img src="{{ image | img_url: 'small' }}" alt="{{ image.alt | escape }}">
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 
 {% stylesheet %}
-  h1.product-title {
+  .product-title {
     font-size: var(--font-size-xxl);
     margin-bottom: 0;
-    text-align: center;
+    text-align: left;
     width: 100%;
     color: var(--color-dark);
     margin: var(--spacing-xs) 0 var(--spacing-lg);
@@ -119,7 +126,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
-    width: 50%;
+    width: 65%;
 
     @media screen and (max-width: 1024px) {
       width: 100%;
@@ -175,7 +182,7 @@
   }
 
   .product-info {
-    width: 50%;
+    width: 35%;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -188,13 +195,12 @@
 
     .product-description {
       font-size: var(--font-size-md);
-      opacity: 0.5;
       margin-bottom: var(--spacing-lg);
     }
 
     .product-price {
       font-size: var(--font-size-lg);
-      font-weight: 700;
+      font-weight: bold;
       margin-bottom: var(--spacing-md);
     }
 
@@ -251,14 +257,72 @@
   }
 
   .product-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
     width: 100%;
   }
 
   .product-actions .button {
     width: 100%;
+  }
+
+  .product-description {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+  }
+
+  .product-description.truncated {
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    &:after {
+      content: '';
+      display: block;
+      height: 60px;
+      width: 100%;
+      background: linear-gradient(to bottom, transparent 0%, white 70%);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+  }
+
+  .read-more-button {
+    color: var(--color-dark);
+    font-weight: bold;
+    padding: 0;
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-xs);
+    display: none;
+  }
+
+  .product-description.truncated .read-more-button {
+    display: inline-block;
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    left: 0;
+    height: 40px;
+    width: 40px;
+    margin: 0 auto;
+    background: white;
+    z-index: 10;
+    padding: 0 var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--br-md);
+    box-shadow: var(--box-shadow);
   }
 {% endstylesheet %}
 
@@ -366,6 +430,36 @@
       thumbnails[0].classList.add('active');
     }
   });
+
+  // Read more functionality for the description
+  document.addEventListener('DOMContentLoaded', function() {
+  
+  // Handle expandable product description
+  const description = document.querySelector('.product-description');
+  const readMoreButton = document.querySelector('.read-more-button');
+  
+  if (description && readMoreButton) {
+    // Check if the description needs truncation
+    const descriptionHeight = description.scrollHeight;
+    const lineHeight = parseInt(window.getComputedStyle(description).lineHeight);
+    const maxHeight = lineHeight * 4;
+    
+    if (descriptionHeight <= maxHeight) {
+      description.classList.remove('truncated');
+      readMoreButton.style.display = 'none';
+    } else {
+      readMoreButton.addEventListener('click', function() {
+        if (description.classList.contains('truncated')) {
+          description.classList.remove('truncated');
+          readMoreButton.textContent = 'Read less';
+        } else {
+          description.classList.add('truncated');
+          readMoreButton.textContent = 'Read more';
+        }
+      });
+    }
+  }
+});
 </script>
 
 {% schema %}

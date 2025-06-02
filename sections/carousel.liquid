@@ -70,7 +70,7 @@
 
 {% stylesheet %}
   .carousel {
-    padding: var(--spacing-xxl);
+    padding: var(--spacing-xxl) 0;
     position: relative;
 
     @media screen and (max-width: 1024px) {
@@ -161,10 +161,28 @@
         width: 300px;
         height: 440px;
         margin-right: var(--spacing-lg);
+        margin-bottom: 10px;
         scroll-snap-align: start;
         position: relative;
         border-radius: var(--br-md);
         overflow: hidden;
+        box-shadow: var(--box-shadow-md);
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(220deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 100%);
+          opacity: 1;
+          border-radius: var(--br-md);
+          z-index: 1;
+          transition: all 0.3s ease;
+          pointer-events: none;
+        }
 
         a {
           text-decoration: none;
@@ -198,8 +216,8 @@
             right: 0;
             background-color: white;
             padding: var(--spacing-md);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 1) 50%);
-            backdrop-filter: blur(40px);
+            /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4)); */
+            background: transparent;
             border-radius: var(--br-md) var(--br-md) 0 0;
             display: flex;
             flex-direction: column;
@@ -210,13 +228,13 @@
             h3 {
               margin: 0;
               font-size: var(--font-size-lg);
-              color: var(--color-dark);
+              color: var(--color-light);
             }
 
             p {
               margin: 0;
               font-size: var(--font-size-md);
-              color: var(--color-dark);
+              color: var(--color-light);
             }
           }
         }

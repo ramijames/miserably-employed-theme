@@ -123,7 +123,7 @@ input[type='submit'] {
   background-color: var(--color-dark);
   text-decoration: none;
   border: none;
-  border-radius: var(--br-sm);
+  border-radius: var(--br-md);
   padding: var(--spacing-md) var(--spacing-lg);
   cursor: pointer;
   transition: all 0.2s ease;
