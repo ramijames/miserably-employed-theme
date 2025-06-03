@@ -7,41 +7,117 @@
 
 <h1 class="collection-title">{{ collection.title }}</h1>
 
-<div class="collection-products">
-  {% paginate collection.products by 20 %}
-    {% for product in collection.products %}
-      {% comment %}
-        <div class="collection-product">
-          {% if product.featured_image %}
-            {% render 'image',
-              class: 'collection-product__image',
-              image: product.featured_image,
-              url: product.url,
-              width: 400,
-              height: 400,
-              crop: 'center'
-            %}
-          {% endif %}
-          <div class="collection-product__content">
-            <p>{{ product.title | escape | link_to: product.url }}</p>
-            <p>{{ product.price | money }}</p>
-          </div>
-        </div>
-      {% endcomment %}
-      <div class="collection-item">
-        <a href="{{ product.url }}">
-          <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
-          <div class="item-caption">
-            <h3>{{ product.title }}</h3>
-            <p>{{ product.price | money }}</p>
-          </div>
-        </a>
+<div class="collection">
+  <div class="collection-details-and-filter">
+    {% if collection.description != blank %}
+      <div class="collection-description">
+        {{ collection.description | string }}
       </div>
-    {% endfor %}
+    {% endif %}
+    <h3>Filters</h3>
 
-    {{ paginate | default_pagination }}
-  {% endpaginate %}
+    {% if collection.filters.size > 0 %}
+      <form id="CollectionFiltersForm" method="get">
+        {% for filter in collection.filters %}
+          <fieldset class="{% if filter.label contains 'Color' %}color-filter-fieldset{% endif %}">
+            <legend>
+              {% if filter.label contains 'Color' %}
+                Tee Color
+              {% else %}
+                {{ filter.label }}
+              {% endif %}
+            </legend>
+
+            {% case filter.type %}
+              {% when 'list' %}
+                {% for value in filter.values %}
+                  <label class="filter-item {% if filter.label contains 'Color' %}color-filter{% endif %}">
+                    <input
+                      type="checkbox"
+                      name="{{ filter.param_name }}"
+                      value="{{ value.value }}"
+                      {% if value.active %}
+                        checked
+                      {% endif %}
+                      {% if value.count == 0 and value.active == false %}
+                        disabled
+                      {% endif %}
+                    >
+                    {% if filter.label contains 'Color' %}
+                      <span
+                        class="color-swatch"
+                        style="background-color: {% render 'color-mapping', color_name: value.label %}"
+                        title="{{ value.label }}"
+                      ></span>
+                    {% endif %}
+                    <span class="{% if filter.label contains 'Color' %}color-label{% endif %}">{{ value.label }}</span>
+                    {% comment %} {{ value.label }} {% endcomment %}
+                  </label>
+                {% endfor %}
+              {% when 'price_range' %}
+                <label>
+                  From:
+                  <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}">
+                </label>
+                <label>
+                  To:
+                  <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}">
+                </label>
+            {% endcase %}
+          </fieldset>
+        {% endfor %}
+
+        <button type="submit">Apply Filters</button>
+      </form>
+    {% endif %}
+    {% comment %}
+      You can add more filters here, such as price range, vendor, etc.
+      This is a basic example of how to implement filtering.
+    {% endcomment %}
+  </div>
+  <div class="collection-products">
+    {% comment %} Add sorting {% endcomment %}
+    {% if collection.sorts.size > 1 %}
+      <form id="CollectionSortForm" method="get">
+        <label for="SortBy">Sort by:</label>
+        <select name="sort_by" id="SortBy" onchange="this.form.submit()">
+          {% for option in collection.sorts %}
+            <option
+              value="{{ option.value }}"
+              {% if option.value == collection.sort_by %}
+                selected
+              {% endif %}
+            >
+              {{ option.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </form>
+    {% endif %}
+
+    {% comment %} Pagination and product listing {% endcomment %}
+    {% paginate collection.products by 20 %}
+      {% for product in collection.products %}
+        <div class="collection-item">
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
+            <div class="item-caption">
+              <h3>{{ product.title }}</h3>
+              <p>{{ product.price | money }}</p>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+
+      {{ paginate | default_pagination }}
+    {% endpaginate %}
+  </div>
 </div>
+
+{% comment %}
+  This section is used to style the collection page.
+  It includes styles for the collection title, product grid, and individual product items.
+{% endcomment %}
 
 {% stylesheet %}
   .collection-title {
@@ -51,6 +127,29 @@
     width: 100%;
     color: var(--color-dark);
     margin: var(--spacing-xs) 0 var(--spacing-lg);
+  }
+
+  .collection {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-lg);
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .collection-details-and-filter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    max-width: 25%;
+    padding-right: var(--spacing-lg);
+  }
+
+  .collection-description {
+    font-size: var(--font-size-md);
+    color: var(--color-secondary);
+    line-height: 1.5;
+    margin-bottom: var(--spacing-lg);
   }
 
   .collection-products {
@@ -68,6 +167,7 @@
     position: relative;
     overflow: hidden;
     position: relative;
+    max-height: 440px;
 
     &::after {
       content: '';
@@ -78,7 +178,6 @@
       height: 100%;
       background: linear-gradient(220deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 1) 100%);
       opacity: 1;
-      border-radius: var(--br-md);
       z-index: 1;
       transition: all 0.3s ease;
       pointer-events: none;
@@ -116,9 +215,7 @@
         right: 0;
         background-color: white;
         padding: var(--spacing-md);
-        /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4)); */
         background: transparent;
-        border-radius: var(--br-md) var(--br-md) 0 0;
         display: flex;
         flex-direction: column;
         gap: var(--spacing-xs);
@@ -138,6 +235,88 @@
         }
       }
     }
+  }
+
+  .color-filter-fieldset {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .color-filter {
+    display: flex;
+    align-items: center;
+
+    input[type='checkbox'],
+    .color-label {
+      display: none;
+    }
+    input[type='checkbox'] + span {
+      cursor: pointer;
+    }
+    input[type='checkbox']:checked + span {
+      border: 2px solid var(--color-dark);
+      outline: 2px solid var(--color-light);
+      outline-offset: -4px;
+    }
+    input[type='checkbox']:disabled + span {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    input[type='checkbox']:disabled + span:hover {
+      border-color: var(--color-dark);
+    }
+    input[type='checkbox']:checked + span:hover {
+      border-color: var(--color-dark);
+    }
+    input[type='checkbox'] + span:hover {
+      border-color: var(--color-dark);
+    }
+    input[type='checkbox'] + span:active {
+      transform: scale(0.95);
+    }
+    input[type='checkbox'] + span:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  .color-swatch {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--br-sm);
+  }
+
+  /* Enhanced tooltip styling (optional) */
+  .color-swatch::after {
+    content: attr(title);
+    position: relative;
+    top: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    padding: 4px 8px;
+    border-radius: var(--br-sm);
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .color-swatch:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* White color needs a special border */
+  .color-swatch[style='background-color: #FFFFFF'] {
+    border: 1px solid #ccc;
   }
 {% endstylesheet %}
 

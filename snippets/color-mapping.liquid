@@ -1,0 +1,141 @@
+{% comment %}
+  Map color names to hex values for color swatches
+  Usage: {% render 'color-mapping', color_name: value.label %}
+{% endcomment %}
+
+{% assign clean_color_name = color_name | downcase | strip | escape %}
+
+{% case clean_color_name %}
+  {% when 'anthracite' %}
+    {% assign color_hex = '#364135' %}
+  {% when 'aqua triblend' %}
+    {% assign color_hex = '#7fdbff' %}
+  {% when 'ash' %}
+    {% assign color_hex = '#e6e6e6' %}
+  {% when 'asphalt' %}
+    {% assign color_hex = '#555555' %}
+  {% when 'autumn' %}
+    {% assign color_hex = '#D2691E' %}
+  {% when 'berry triblend' %}
+    {% assign color_hex = '#C71585' %}
+  {% when 'black' %}
+    {% assign color_hex = '#000000' %}
+  {% when 'black heather' %}
+    {% assign color_hex = '#222222' %}
+  {% when 'brown' %}
+    {% assign color_hex = '#A52A2A' %}
+  {% when 'brown triblend' %}
+    {% assign color_hex = '#8B4513' %}
+  {% when 'burgundy' %}
+    {% assign color_hex = '#800020' %}
+  {% when 'cardinal' %}
+    {% assign color_hex = '#C41E3A' %}
+  {% when 'charcoal-black triblend' %}
+    {% assign color_hex = '#333333' %}
+  {% when 'citron' %}
+    {% assign color_hex = '#E8F48C' %}
+  {% when 'dark grey' %}
+    {% assign color_hex = '#444444' %}
+  {% when 'dark grey heather' %}
+    {% assign color_hex = '#555555' %}
+  {% when 'dark heather blue' %}
+    {% assign color_hex = '#4682B4' %}
+  {% when 'dark heather grey' %}
+    {% assign color_hex = '#666666' %}
+  {% when 'denim' %}
+    {% assign color_hex = '#1560BD' %}
+  {% when 'forest' %}
+    {% assign color_hex = '#228B22' %}
+  {% when 'french navy' %}
+    {% assign color_hex = '#00205B' %}
+  {% when 'graphite' %}
+    {% assign color_hex = '#474A51' %}
+  {% when 'gray', 'grey' %}
+    {% assign color_hex = '#aaaaaa' %}
+  {% when 'green' %}
+    {% assign color_hex = '#2ECC40' %}
+  {% when 'heather clay' %}
+    {% assign color_hex = '#C17E61' %}
+  {% when 'heather deep teal' %}
+    {% assign color_hex = '#008080' %}
+  {% when 'heather forest' %}
+    {% assign color_hex = '#228B22' %}
+  {% when 'heather grey' %}
+    {% assign color_hex = '#9999A9' %}
+  {% when 'heather ice blue' %}
+    {% assign color_hex = '#ADD8E6' %}
+  {% when 'heather midnight navy' %}
+    {% assign color_hex = '#191970' %}
+  {% when 'heather mint' %}
+    {% assign color_hex = '#98FB98' %}
+  {% when 'heather navy' %}
+    {% assign color_hex = '#000080' %}
+  {% when 'heather prism ice blue' %}
+    {% assign color_hex = '#B0E0E6' %}
+  {% when 'heather true royal' %}
+    {% assign color_hex = '#4169E1' %}
+  {% when 'ice grey' %}
+    {% assign color_hex = '#D3D3D3' %}
+  {% when 'india ink grey' %}
+    {% assign color_hex = '#464646' %}
+  {% when 'khaki' %}
+    {% assign color_hex = '#C3B091' %}
+  {% when 'light blue' %}
+    {% assign color_hex = '#ADD8E6' %}
+  {% when 'maroon' %}
+    {% assign color_hex = '#800000' %}
+  {% when 'midnight navy' %}
+    {% assign color_hex = '#191970' %}
+  {% when 'natural' %}
+    {% assign color_hex = '#F5F5DC' %}
+  {% when 'navy' %}
+    {% assign color_hex = '#001f3f' %}
+  {% when 'oxblood black' %}
+    {% assign color_hex = '#4A0404' %}
+  {% when 'pepper' %}
+    {% assign color_hex = '#696969' %}
+  {% when 'purple' %}
+    {% assign color_hex = '#B10DC9' %}
+  {% when 'red' %}
+    {% assign color_hex = '#FF4136' %}
+  {% when 'red triblend' %}
+    {% assign color_hex = '#E34234' %}
+  {% when 'royal blue' %}
+    {% assign color_hex = '#4169E1' %}
+  {% when 'sage' %}
+    {% assign color_hex = '#BCB88A' %}
+  {% when 'silver' %}
+    {% assign color_hex = '#C0C0C0' %}
+  {% when 'soft pink' %}
+    {% assign color_hex = '#FADADD' %}
+  {% when 'solid black triblend' %}
+    {% assign color_hex = '#000000' %}
+  {% when 'sport grey' %}
+    {% assign color_hex = '#C4C4C4' %}
+  {% when 'stargazer' %}
+    {% assign color_hex = '#6B66A3' %}
+  {% when 'steel blue' %}
+    {% assign color_hex = '#4682B4' %}
+  {% when 'teal triblend' %}
+    {% assign color_hex = '#008B8B' %}
+  {% when 'team purple' %}
+    {% assign color_hex = '#8A2BE2' %}
+  {% when 'toast' %}
+    {% assign color_hex = '#D2B48C' %}
+  {% when 'true royal' %}
+    {% assign color_hex = '#4169E1' %}
+  {% when 'true royal triblend' %}
+    {% assign color_hex = '#4169E1' %}
+  {% when 'vintage black' %}
+    {% assign color_hex = '#222222' %}
+  {% when 'vintage white' %}
+    {% assign color_hex = '#F5F5F0' %}
+  {% when 'white' %}
+    {% assign color_hex = '#FFFFFF' %}
+  {% when 'yellow' %}
+    {% assign color_hex = '#FFDC00' %}
+  {% else %}
+    {% assign color_hex = '#cccccc' %}
+{% endcase %}
+
+{{ color_hex }}
