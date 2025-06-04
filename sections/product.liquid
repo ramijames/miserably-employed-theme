@@ -5,6 +5,10 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
+<div class="product-bg-text">
+  {{ product.title | escape }}
+</div>
+
 <div class="product-section">
   <div class="product-images">
     {% assign featured_image = product.selected_or_first_available_variant.featured_image
@@ -92,6 +96,25 @@
 </div>
 
 {% stylesheet %}
+  .product-bg-text {
+    color: white;
+    background-color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-size: 20rem;
+    text-wrap: nowrap;
+    position: absolute;
+    font-weight: bold;
+    top: -2rem;
+    left: -30%;
+    right: -1vw;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.1;
+    width: 100vw;
+    text-align: center;
+    transform: rotate(-10deg);
+  }
+
   .product-title {
     font-size: var(--font-size-xl);
     margin: 0;
@@ -135,6 +158,8 @@
   .main-image {
     width: 100%;
     margin-bottom: var(--spacing-sm);
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: var(--br-md);
   }
 
   .main-image img {
@@ -292,7 +317,8 @@
   }
 
   .read-more-button {
-    color: var(--color-dark);
+    color: var(--color-light);
+    background: var(--color-dark);
     font-weight: bold;
     padding: 0;
     cursor: pointer;
@@ -310,7 +336,7 @@
     height: 40px;
     width: 40px;
     margin: 0 auto;
-    background: white;
+    background: var(--color-dark);
     z-index: 10;
     padding: 0 var(--spacing-xs);
     display: flex;
@@ -318,6 +344,12 @@
     justify-content: center;
     border-radius: var(--br-md);
     box-shadow: var(--box-shadow);
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--color-light);
+    }
   }
 {% endstylesheet %}
 

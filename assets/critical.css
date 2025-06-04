@@ -11,6 +11,8 @@ body {
   margin: 0;
   min-height: 100svh;
   overflow-x: hidden;
+  border-top: 4px solid black;
+  border-bottom: 40px solid black;
 }
 
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
