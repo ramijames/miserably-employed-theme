@@ -2,6 +2,8 @@
   Homepage Hero Section
 {% endcomment %}
 
+<div class="hero-bg-text">Miserably Employed</div>
+
 <div
   class="homepage-hero"
   {% if section.settings.hero_background_image != blank %}
@@ -24,6 +26,25 @@
 </div>
 
 {% stylesheet %}
+  .hero-bg-text {
+    color: white;
+    background-color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-size: 20rem;
+    text-wrap: nowrap;
+    position: absolute;
+    font-weight: bold;
+    top: -2rem;
+    left: -30%;
+    right: -1vw;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.1;
+    width: 100vw;
+    text-align: center;
+    transform: rotate(-10deg);
+  }
+
   .homepage-hero {
     background-color: var(--color-dark);
     color: var(--color-light);

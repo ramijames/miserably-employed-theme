@@ -10,6 +10,7 @@ body {
   flex-direction: column;
   margin: 0;
   min-height: 100svh;
+  overflow-x: hidden;
 }
 
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
@@ -181,10 +182,8 @@ button.category,
 label {
   display: block;
   margin-bottom: var(--spacing-xs);
-  font-weight: 600;
   color: var(--color-dark);
   font-size: var(--font-size-md);
-  font-weight: bold;
 }
 
 input,
