@@ -3,80 +3,58 @@
   listing all products within a collection.
 
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
+
+  --
+
+  For the colors to show up, you must have the Shopify Search & Discovery app installed and a "Colors" filter created in the app.
 {% endcomment %}
 
-<h1 class="collection-title">{{ collection.title }}</h1>
+{% assign has_active_filters = null %}
+{% for filter in collection.filters %}
+  {% if filter.active_values.size > 0 %}
+    {% assign has_active_filters = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
 
-<div class="collection">
-  <div class="collection-details-and-filter">
-    {% if collection.description != blank %}
-      <div class="collection-description">
-        {{ collection.description | string }}
-      </div>
+<div
+  class="collection-top"
+  {% comment %}
+    {% if collection.image != blank %}
+      style="background-image: url({{ collection.image | image_url: 'master' }});"
+    {% else %}
+      style="background-image: url('{{ 'collection-background.jpg' | asset_url }}');"
     {% endif %}
-    <h3>Filters</h3>
+  {% endcomment %}
+>
+  <h1>{{ collection.title }}</h1>
+  {% if collection.description != blank %}
+    <div class="collection-description">
+      {{ collection.description | strip_html }}
+    </div>
+  {% endif %}
+</div>
 
-    {% if collection.filters.size > 0 %}
-      <form id="CollectionFiltersForm" method="get">
-        {% for filter in collection.filters %}
-          <fieldset class="{% if filter.label contains 'Color' %}color-filter-fieldset{% endif %}">
-            <legend>
-              {% if filter.label contains 'Color' %}
-                Tee Color
-              {% else %}
-                {{ filter.label }}
-              {% endif %}
-            </legend>
-
-            {% case filter.type %}
-              {% when 'list' %}
-                {% for value in filter.values %}
-                  <label class="filter-item {% if filter.label contains 'Color' %}color-filter{% endif %}">
-                    <input
-                      type="checkbox"
-                      name="{{ filter.param_name }}"
-                      value="{{ value.value }}"
-                      {% if value.active %}
-                        checked
-                      {% endif %}
-                      {% if value.count == 0 and value.active == false %}
-                        disabled
-                      {% endif %}
-                    >
-                    {% if filter.label contains 'Color' %}
-                      <span
-                        class="color-swatch"
-                        style="background-color: {% render 'color-mapping', color_name: value.label %}"
-                        title="{{ value.label }}"
-                      ></span>
-                    {% endif %}
-                    <span class="{% if filter.label contains 'Color' %}color-label{% endif %}">{{ value.label }}</span>
-                    {% comment %} {{ value.label }} {% endcomment %}
-                  </label>
-                {% endfor %}
-              {% when 'price_range' %}
-                <label>
-                  From:
-                  <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}">
-                </label>
-                <label>
-                  To:
-                  <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}">
-                </label>
-            {% endcase %}
-          </fieldset>
-        {% endfor %}
-
-        <button type="submit">Apply Filters</button>
+<div class="function-bar">
+  <div class="function-bar-left">
+    <a href="{{ routes.collections_url }}" class="button back-to-collections primary small">
+      {{ 'arrow-left.svg' | inline_asset_content }}
+      Back to Collections
+    </a>
+  </div>
+  <div class="function-bar-right">
+    {% if has_active_filters %}
+      <form id="ClearFiltersForm" method="get">
+        <button type="submit" class="clear-filters-button small">Clear Filters</button>
       </form>
     {% endif %}
-    {% comment %}
-      You can add more filters here, such as price range, vendor, etc.
-      This is a basic example of how to implement filtering.
-    {% endcomment %}
+    <button id="CollectionFiltersButton" class="filters-button small">Filters</button>
   </div>
+</div>
+
+<div class="collection">
   <div class="collection-products">
-    {% comment %} Add sorting {% endcomment %}
+    {% comment %} TODO: Add sorting, but this isn't working yet {% endcomment %}
     {% if collection.sorts.size > 1 %}
       <form id="CollectionSortForm" method="get">
         <label for="SortBy">Sort by:</label>
@@ -96,11 +74,11 @@
     {% endif %}
 
     {% comment %} Pagination and product listing {% endcomment %}
-    {% paginate collection.products by 20 %}
+    {% paginate collection.products by 12 %}
       {% for product in collection.products %}
         <div class="collection-item">
           <a href="{{ product.url }}">
-            <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
+            <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title }}">
             <div class="item-caption">
               <h3>{{ product.title }}</h3>
               <p>{{ product.price | money }}</p>
@@ -108,25 +86,185 @@
           </a>
         </div>
       {% endfor %}
-
-      {{ paginate | default_pagination }}
     {% endpaginate %}
   </div>
 </div>
 
-{% comment %}
-  This section is used to style the collection page.
-  It includes styles for the collection title, product grid, and individual product items.
-{% endcomment %}
+<div class="pagination">
+  {% paginate collection.products by 12 %}
+    {{ paginate | default_pagination }}
+  {% endpaginate %}
+</div>
+
+{% comment %} Collection details and filters section {% endcomment %}
+
+<div class="collection-details-and-filter">
+  {% comment %} check if there are filters active {% endcomment %}
+
+  {% comment %} Render clear filters button if there are active filters {% endcomment %}
+
+  {% if has_active_filters %}
+    <form id="ClearFiltersForm" method="get">
+      <button type="submit" class="clear-filters-button">Clear Filters</button>
+    </form>
+  {% endif %}
+
+  {% comment %} Render active filters if any {% endcomment %}
+
+  {% comment %}
+    {% if collection.filters.size > 0 and collection.filters.active.size > 0 %}
+      <div class="active-filters">
+        <p>Active filters:</p>
+        <ul>
+          {% for active_filter in collection.filters.active %}
+            <li>
+              {{ active_filter.label }}: {{ active_filter.active_values | map: 'label' | join: ', ' }}
+              <a href="{{ active_filter.url_to_remove }}" class="active-filter-remove">✕</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  {% endcomment %}
+
+  {% comment %} Render filters if available {% endcomment %}
+
+  {% if collection.filters.size > 0 %}
+    <div class="filter-blur"></div>
+    <form id="CollectionFiltersForm" method="get">
+      <h3>Filters</h3>
+
+      {% for filter in collection.filters %}
+        <div
+          class="
+            fieldset
+            {% if filter.label contains 'Color' %}color-filter-fieldset{% endif %}
+            {% if filter.label contains 'Price' %}price-filter-fieldset{% endif %}
+          "
+        >
+          <div class="filter-label">
+            {% if filter.label contains 'Color' %}
+              Tee Color
+            {% else %}
+              {{ filter.label }}
+            {% endif %}
+          </div>
+
+          {% case filter.type %}
+            {% when 'list' %}
+              {% for value in filter.values %}
+                <label class="filter-item {% if filter.label contains 'Color' %}color-filter{% endif %}">
+                  <input
+                    type="checkbox"
+                    name="{{ filter.param_name }}"
+                    value="{{ value.value }}"
+                    {% if value.active %}
+                      checked
+                    {% endif %}
+                    {% if value.count == 0 and value.active == false %}
+                      disabled
+                    {% endif %}
+                  >
+                  {% if filter.label contains 'Color' %}
+                    <span
+                      class="color-swatch"
+                      style="background-color: {% render 'color-mapping', color_name: value.label %}"
+                      title="{{ value.label }}"
+                    ></span>
+                  {% endif %}
+                  <span class="{% if filter.label contains 'Color' %}color-label{% endif %}">{{ value.label }}</span>
+                  {% comment %} {{ value.label }} {% endcomment %}
+                </label>
+              {% endfor %}
+            {% when 'price_range' %}
+              <label>
+                From:
+                <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}">
+              </label>
+              <label>
+                To:
+                <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}">
+              </label>
+          {% endcase %}
+        </div>
+      {% endfor %}
+
+      <button type="submit">Apply Filters</button>
+    </form>
+  {% endif %}
+</div>
 
 {% stylesheet %}
-  .collection-title {
-    font-size: var(--font-size-xxl);
-    margin-bottom: 0;
+  .collection-top {
+    margin: 0;
     text-align: left;
     width: 100%;
-    color: var(--color-dark);
+    padding: 0 0 var(--spacing-xl);
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
     margin: var(--spacing-xs) 0 var(--spacing-lg);
+    border-radius: var(--br-md);
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(220deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+
+  .collection-top h1 {
+    margin: 0;
+    font-size: var(--font-size-xxxl);
+    font-weight: bold;
+    color: var(--color-dark);
+    position: relative;
+    z-index: 2;
+  }
+
+  .collection-description {
+    font-size: var(--font-size-md);
+    color: var(--color-dark);
+    line-height: 1.5;
+    position: relative;
+    z-index: 2;
+    max-width: 512px;
+    text-wrap: balance;
+    opacity: 0.5;
+  }
+
+  .function-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .function-bar-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .function-bar-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sm);
   }
 
   .collection {
@@ -135,6 +273,7 @@
     gap: var(--spacing-lg);
     align-items: flex-start;
     justify-content: flex-start;
+    gap: var(--spacing-md);
   }
 
   .collection-details-and-filter {
@@ -142,20 +281,95 @@
     flex-direction: column;
     gap: var(--spacing-lg);
     max-width: 25%;
-    padding-right: var(--spacing-lg);
   }
 
-  .collection-description {
+  #CollectionFiltersForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: var(--color-light);
+    padding: var(--spacing-sm);
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 10;
+    transition: transform 0.3s ease;
+    transform: translateX(100%);
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.05);
+
+    &.active {
+      transform: translateX(0);
+    }
+  }
+
+  .filter-blur {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 9;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    backdrop-filter: blur(5px);
+
+    &.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  #CollectionFiltersForm h3 {
+    margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-md);
+    font-size: var(--font-size-lg);
+    color: var(--color-dark);
+  }
+
+  #CollectionFiltersForm .fieldset {
+    border: 2px solid var(--color-light);
+    padding: var(--spacing-md);
+    background: var(--color-light-hover);
+    border-radius: var(--br-sm);
+  }
+
+  #CollectionFiltersForm .fieldset .filter-label {
     font-size: var(--font-size-md);
-    color: var(--color-secondary);
-    line-height: 1.5;
-    margin-bottom: var(--spacing-lg);
+    color: var(--color-dark);
+    font-weight: 600;
+    width: 100%;
+    background: var(--color-light-hover);
+    margin-bottom: var(--spacing-md);
+  }
+
+  #CollectionFiltersForm button {
+    width: 100%;
+    align-self: flex-end;
   }
 
   .collection-products {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: var(--spacing-lg);
+    background: var(--color-light);
+    padding: var(--spacing-lg);
+    border-radius: var(--br-lg);
+    margin-bottom: var(--spacing-xl);
+    width: 100%;
+
+    @media screen and (max-width: 800px) {
+      grid-template-columns: 1fr 1fr;
+    }
+    @media screen and (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
   }
 
   .collection-item {
@@ -167,7 +381,8 @@
     position: relative;
     overflow: hidden;
     position: relative;
-    max-height: 440px;
+    max-height: 520px;
+    border-radius: var(--br-md);
 
     &::after {
       content: '';
@@ -189,7 +404,7 @@
 
       img {
         width: 100%;
-        height: 440px;
+        height: 520px;
         object-fit: cover;
         transition: transform 0.3s ease;
         transform: rotate(1deg) scale(1.05);
@@ -235,6 +450,47 @@
         }
       }
     }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin: var(--spacing-md) 0 var(--spacing-xl);
+    gap: var(--spacing-md);
+  }
+
+  .pagination span {
+    border-radius: var(--br-sm);
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    text-decoration: none;
+    font-size: var(--font-size-md);
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: var(--color-dark-hover);
+      color: var(--color-light-hover);
+
+      a {
+        color: var(--color-light-hover);
+      }
+    }
+  }
+
+  .pagination a {
+    text-decoration: none;
+    color: var(--color-dark);
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pagination .current {
+    background-color: var(--color-dark);
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--color-light);
+    pointer-events: none;
   }
 
   .color-filter-fieldset {
@@ -318,6 +574,50 @@
   .color-swatch[style='background-color: #FFFFFF'] {
     border: 1px solid #ccc;
   }
+
+  .price-filter-fieldset label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--spacing-xs);
+    width: 50%;
+  }
+
+  .active-filters {
+    margin-bottom: var(--spacing-md);
+    background: var(--color-light);
+    padding: var(--spacing-sm);
+    border-radius: var(--br-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  .active-filters p {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-weight: bold;
+  }
+
+  .active-filters ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .active-filters li {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-background-light);
+    padding: 4px 8px;
+    border-radius: var(--br-sm);
+    font-size: 14px;
+  }
+
+  .active-filter-remove {
+    margin-left: 6px;
+    color: var(--color-dark);
+    text-decoration: none;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -326,3 +626,21 @@
   "settings": []
 }
 {% endschema %}
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', function () {
+    const filtersButton = document.getElementById('CollectionFiltersButton');
+    const filtersForm = document.getElementById('CollectionFiltersForm');
+    const filterBlur = document.querySelector('.filter-blur');
+
+    filtersButton.addEventListener('click', function () {
+      filtersForm.classList.add('active');
+      filterBlur.classList.add('active');
+    });
+
+    filterBlur.addEventListener('click', function () {
+      filtersForm.classList.remove('active');
+      filterBlur.classList.remove('active');
+    });
+  });
+{% endjavascript %}

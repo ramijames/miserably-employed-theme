@@ -131,6 +131,7 @@ input[type='submit'] {
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
+  border-radius: var(--br-md);
 }
 
 @media screen and (max-width: 600px) {
@@ -204,6 +205,6 @@ textarea {
 button.small,
 .button.small,
 input[type='submit'].small {
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-md);
 }
