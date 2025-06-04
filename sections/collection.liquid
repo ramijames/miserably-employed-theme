@@ -233,6 +233,15 @@
     color: var(--color-dark);
     position: relative;
     z-index: 2;
+    text-wrap: balance;
+
+    @media screen and (max-width: 1024px) {
+      font-size: var(--font-size-xxl);
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: var(--font-size-xl);
+    }
   }
 
   .collection-description {
