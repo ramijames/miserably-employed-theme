@@ -32,8 +32,16 @@
       "type": "carousel",
       "settings": {
         "carousel_title": "Tees",
-        "carousel_collection": "",
-        "categories": [],
+        "carousel_collection": "developer",
+        "categories": [
+          "academia",
+          "designer",
+          "developer",
+          "project-manager",
+          "restaurant-staff",
+          "apparel-for-technology-slaves",
+          "recommended"
+        ],
         "show_categories": true
       }
     },
