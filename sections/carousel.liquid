@@ -27,6 +27,28 @@
         {% for product in collections[section.settings.carousel_collection].products %}
           <div class="swiper-slide carousel-item">
             <a href="{{ product.url }}">
+              <!-- Available Colors -->
+              {% assign color_option_index = 0 %}
+              {% assign has_color_option = false %}
+
+              {% for option in product.options_with_values %}
+                {% if option.name contains 'Color' %}
+                  {% assign has_color_option = true %}
+                  {% assign color_option_index = forloop.index0 %}
+                  <div class="product-colors">
+                    {% for value in option.values %}
+                      {% if value != blank %}
+                        <span
+                          class="color-dot"
+                          style="background-color: {% render 'color-mapping', color_name: value %}"
+                          title="{{ value }}"
+                        ></span>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+
               <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
               <div class="carousel-caption">
                 <h3>{{ product.title }}</h3>
@@ -172,6 +194,7 @@
         position: relative;
         overflow: hidden;
         position: relative;
+        border-radius: var(--br-md);
 
         &::after {
           content: '';
