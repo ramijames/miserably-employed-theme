@@ -15,7 +15,16 @@
       <a href="/collections">our collections</a>.
     </p>
     <p class="empty-cart">
-      <a href="{{ routes.root_url }}" class="button primary">{{ 'cart.continue_shopping' | t }}</a>
+      <a href="{{ routes.root_url }}" class="button primary">
+        <img
+          src="{{ 'arrow-left.svg' | asset_url }}"
+          alt="Continue shopping"
+          width="24"
+          height="24"
+          style="margin: 0;"
+        >
+        Continue shopping
+      </a>
     </p>
   {% endif %}
   {% if cart.item_count > 0 %}
