@@ -6,59 +6,242 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/article
 {% endcomment %}
 
-{% if article.image %}
-  {{ article.image | image_url: width: 1000 | image_tag }}
-{% endif %}
+<div class="article-bg-text">{{ article.title }}</div>
 
-<h1>{{ article.title }}</h1>
+<div class="article">
+  <div class="article-image-and-nav">
+    {% if article.image %}
+      {{ article.image | image_url: width: 1000 | image_tag: class: 'article-image', alt: article.title }}
+      <div class="article-navigation">
+        {% if blog.previous_article %}
+          <a href="{{ blog.previous_article.url }}" class="prev-article">
+            {% comment %} ← {{ blog.previous_article.title }} {% endcomment %}
+            <img
+              src="{{ 'arrow-left.svg' | asset_url }}"
+              alt="{{ blog.previous_article.title }}"
+              width="24"
+              height="24"
+            >
+          </a>
+        {% endif %}
 
-{% assign date = article.published_at | time_tag: format: 'date' %}
-<p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
-
-{{ article.content }}
-
-{% if blog.comments_enabled? %}
-  <h2>{{ 'blog.article_comments' | t }}</h2>
-
-  <div id="comments">
-    {% paginate article.comments by 10 %}
-      {% for comment in article.comments %}
-        <div>
-          <p>{{ comment.author }}</p>
-          <p>
-            {{- comment.created_at | time_tag: format: 'date' -}}
-          </p>
-          <p>{{ comment.content }}</p>
-        </div>
-      {% endfor %}
-
-      {{ paginate | default_pagination: anchor: 'comments' }}
-    {% endpaginate %}
+        {% if blog.next_article %}
+          <a href="{{ blog.next_article.url }}" class="next-article">
+            <img src="{{ 'arrow-right.svg' | asset_url }}" alt="{{ blog.next_article.title }}" width="24" height="24">
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
   </div>
 
-  {% form 'new_comment', article %}
-    <h2>{{ 'blog.comment_form_title' | t }}</h2>
+  <h1 class="article-title">{{ article.title }}</h1>
 
-    {{ form.errors | default_errors }}
+  {{ article.content }}
 
-    <div>
-      <label for="author">{{ 'blog.comment_form_name' | t }}</label>
-      <input type="text" name="comment[author]" id="author" value="{{ form.author }}" required>
+  <a class="button small primary" href="{{ blog.url }}" class="back-to-blog">
+    <img
+      src="{{ 'arrow-left.svg' | asset_url }}"
+      alt="{{ blog.previous_article.title }}"
+      width="24"
+      height="24"
+      style="margin: 0;"
+    >
+    Back to Rants
+  </a>
+
+  {% if blog.comments_enabled? %}
+    <h2>{{ 'blog.article_comments' | t }}</h2>
+
+    <div id="comments">
+      {% paginate article.comments by 10 %}
+        {% for comment in article.comments %}
+          <div>
+            <p>{{ comment.author }}</p>
+            <p>
+              {{- comment.created_at | time_tag: format: 'date' -}}
+            </p>
+            <p>{{ comment.content }}</p>
+          </div>
+        {% endfor %}
+
+        {{ paginate | default_pagination: anchor: 'comments' }}
+      {% endpaginate %}
     </div>
 
-    <div>
-      <label for="email">{{ 'blog.comment_form_email' | t }}</label>
-      <input type="email" name="comment[email]" id="email" value="{{ form.email }}" required>
-    </div>
+    {% form 'new_comment', article %}
+      <h2>{{ 'blog.comment_form_title' | t }}</h2>
 
-    <div>
-      <label for="body">{{ 'blog.comment_form_body' | t }}</label>
-      <textarea name="comment[body]" id="body" required>{{ form.body }}</textarea>
-    </div>
+      {{ form.errors | default_errors }}
 
-    <input type="submit" value="{{ 'blog.comment_form_submit' | t }}">
-  {% endform %}
-{% endif %}
+      <div>
+        <label for="author">{{ 'blog.comment_form_name' | t }}</label>
+        <input type="text" name="comment[author]" id="author" value="{{ form.author }}" required>
+      </div>
+
+      <div>
+        <label for="email">{{ 'blog.comment_form_email' | t }}</label>
+        <input type="email" name="comment[email]" id="email" value="{{ form.email }}" required>
+      </div>
+
+      <div>
+        <label for="body">{{ 'blog.comment_form_body' | t }}</label>
+        <textarea name="comment[body]" id="body" required>{{ form.body }}</textarea>
+      </div>
+
+      <input type="submit" value="{{ 'blog.comment_form_submit' | t }}">
+    {% endform %}
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .article-bg-text {
+    color: white;
+    background-color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-size: 20rem;
+    text-wrap: nowrap;
+    position: absolute;
+    font-weight: bold;
+    top: -2rem;
+    left: -30%;
+    right: -1vw;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.1;
+    width: 100vw;
+    text-align: center;
+    transform: rotate(-10deg);
+  }
+
+  .article {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--spacing-xxl);
+    color: var(--color-dark);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+
+    @media screen and (max-width: 1024px) {
+      padding: 0;
+    }
+
+    .article-image-and-nav {
+      position: relative;
+
+      .article-navigation {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: -30px;
+        right: -30px;
+        display: flex;
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        width: calc(100% + 60px);
+        z-index: 1;
+
+        @media screen and (max-width: 1024px) {
+          left: 0;
+          right: 0;
+          width: 100%;
+          top: 100%;
+        }
+
+        &:has(.prev-article:only-child) {
+          justify-content: flex-start; /* Left-align when only prev exists */
+        }
+
+        &:has(.next-article:only-child) {
+          justify-content: flex-end; /* Right-align when only next exists */
+        }
+
+        a {
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--color-light);
+          border-radius: var(--br-lg);
+          border: 1px solid var(--color-border);
+          box-shadow: var(--box-shadow-md);
+          transition: all 0.3s ease;
+
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+
+        .prev-article,
+        .next-article {
+          width: 40px;
+          height: 40px;
+        }
+
+        .next-article {
+          align-self: flex-end;
+        }
+
+        img {
+          margin: 0 !important;
+        }
+      }
+    }
+
+    h2 {
+      margin-top: var(--spacing-xl);
+    }
+
+    h3 {
+      margin-top: var(--spacing-lg);
+      font-size: var(--font-size-lg);
+      color: var(--color-dark);
+    }
+
+    p {
+      margin: var(--spacing-md) 0;
+      font-size: var(--font-size-md);
+      opacity: 0.8;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--br-md);
+      margin: var(--spacing-xl) 0;
+
+      @media screen and (max-width: 1024px) {
+        margin: var(--spacing-lg) 0;
+      }
+    }
+  }
+
+  .article-image {
+    width: 100%;
+    height: auto;
+    margin: 0 0 var(--spacing-xl) 0 !important;
+    border-radius: var(--br-md);
+  }
+
+  .article-title {
+    margin: var(--spacing-xxl) 0;
+    font-size: var(--font-size-xxl);
+    text-wrap: balance;
+    font-weight: bold;
+    color: var(--color-dark);
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.05;
+
+    @media screen and (max-width: 1024px) {
+      font-size: var(--font-size-xl);
+      margin: var(--spacing-xl) 0 var(--spacing-lg) 0;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

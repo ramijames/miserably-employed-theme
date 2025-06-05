@@ -5,27 +5,129 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/blog
 {% endcomment %}
 
-<h1>{{ blog.title }}</h1>
+<div class="blog-bg-text">Miserably Employed</div>
 
-{% paginate blog.articles by 5 %}
-  {% for article in blog.articles %}
-    <div>
-      {% if article.image %}
-        {{ article.image | image_url: width: 1000 | image_tag }}
-      {% endif %}
-      <h2>
-        {{ article.title | link_to: article.url }}
-      </h2>
-      {% assign date = article.published_at | time_tag: format: 'date' %}
-      <p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
-      <p>{{ article.excerpt }}</p>
-    </div>
-  {% endfor %}
+<h1 class="blog-title">
+  <img src="{{ 'rant-left.svg' | asset_url }}" alt="Rants!" width="100" height="100">
+  {{ blog.title }}
+  <img src="{{ 'rant-right.svg' | asset_url }}" alt="Rants!" width="100" height="100">
+</h1>
 
-  {%- if paginate.pages > 1 -%}
-    {{- paginate | default_pagination -}}
-  {%- endif -%}
-{% endpaginate %}
+<div class="blogs">
+  {% paginate blog.articles by 12 %}
+    {% for article in blog.articles %}
+      <a href="{{ article.url }}" class="blog-article">
+        {% if article.image %}
+          {{ article.image | image_url: width: 1000 | image_tag }}
+        {% endif %}
+        <h2 class="blog-article-title">
+          {{ article.title }}
+        </h2>
+        <p class="blog-excerpt">{{ article.excerpt }}</p>
+      </a>
+    {% endfor %}
+  {% endpaginate %}
+</div>
+
+<div class="pagination">
+  {% paginate blog.articles by 12 %}
+    {{ paginate | default_pagination }}
+  {% endpaginate %}
+</div>
+
+{% stylesheet %}
+  .blog-bg-text {
+    color: white;
+    background-color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-size: 20rem;
+    text-wrap: nowrap;
+    position: absolute;
+    font-weight: bold;
+    top: -2rem;
+    left: -30%;
+    right: -1vw;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.1;
+    width: 100vw;
+    text-align: center;
+    transform: rotate(-10deg);
+  }
+
+  .blog-title {
+    margin: 0;
+    font-size: var(--font-size-xxxl);
+    font-weight: bold;
+    color: var(--color-dark);
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: 1024px) {
+      font-size: var(--font-size-xxl);
+
+      img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  }
+
+  .blogs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    background-color: var(--color-light);
+    padding: var(--spacing-lg);
+    border-radius: var(--br-lg);
+    border: 1px solid var(--color-border);
+    margin: var(--spacing-xl) 0;
+
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .blog-article {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    text-decoration: none;
+    padding-bottom: var(--spacing-lg);
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--br-md);
+      margin-bottom: var(--spacing-md);
+      transition: transform 0.3s ease;
+      &:hover {
+        transform: scale(1.01);
+      }
+    }
+
+    p {
+      font-size: var(--font-size-md);
+      color: var(--color-text);
+      opacity: 0.5;
+      margin: var(--spacing-sm) 0;
+    }
+  }
+
+  .blog-article-title {
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+  }
+
+  .blog-excerpt {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    opacity: 0.5;
+    margin-top: var(--spacing-sm);
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

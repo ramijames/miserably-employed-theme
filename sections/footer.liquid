@@ -54,6 +54,14 @@
     {% endif %}
   </div>
 
+  <div class="policies">
+    {%- for policy in shop.policies -%}
+      {%- if policy != blank -%}
+        <a class="button small primary" href="{{ policy.url }}">{{ policy.title | escape }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
   <div class="footer-copyright">
     &copy;
     {{ 'now' | date: '%Y' }}
@@ -95,6 +103,13 @@
   footer .footer__payment {
     display: flex;
     gap: 1rem;
+  }
+
+  .policies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    justify-content: center;
   }
 
   .footer-copyright {

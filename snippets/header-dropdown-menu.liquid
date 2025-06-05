@@ -174,9 +174,10 @@
     outline: 1px solid var(--color-light);
     outline-offset: -1px;
     min-width: 280px;
-    min-height: 200px;
     max-height: 400px;
     list-style: none;
+    box-shadow: var(--box-shadow-blur);
+    border-radius: var(--br-md);
   }
 
   .header__submenu li {
@@ -187,5 +188,22 @@
 
   header-menu details[open] .header__submenu {
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  summary {
+    list-style: none; /* Standard approach */
+  }
+
+  summary::-webkit-details-marker {
+    display: none; /* Safari-specific approach */
+  }
+
+  /* Ensure your custom caret is properly displayed */
+  summary svg {
+    margin-left: 0.5em;
   }
 {% endstylesheet %}

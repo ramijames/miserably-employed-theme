@@ -107,9 +107,13 @@
 
   .collections {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: var(--spacing-lg);
     margin-bottom: var(--spacing-xxl);
+    padding: var(--spacing-lg);
+    background-color: var(--color-light);
+    border-radius: var(--br-lg);
+    border: 1px solid var(--color-border);
 
     @media screen and (max-width: 768px) {
       grid-template-columns: 1fr;

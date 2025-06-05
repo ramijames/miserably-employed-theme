@@ -67,7 +67,7 @@
       margin: 0;
       display: flex;
       flex-direction: row;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
 
       h2 {
@@ -78,6 +78,10 @@
         align-items: center;
         gap: var(--spacing-xs);
         color: var(--color-dark);
+
+        @media screen and (max-width: 768px) {
+          font-size: var(--font-size-xl);
+        }
       }
 
       @media screen and (max-width: 1024px) {
@@ -88,6 +92,10 @@
         text-decoration: none;
         font-size: var(--font-size-lg);
         padding: var(--spacing-sm) var(--spacing-md);
+
+        @media screen and (max-width: 768px) {
+          font-size: var(--font-size-md);
+        }
       }
     }
 

@@ -8,39 +8,49 @@
 {% comment %} <h1 class="cart-title">{{ 'cart.title' | t }}</h1> {% endcomment %}
 
 <form class="cart-items" action="{{ routes.cart_url }}" method="post">
-  <div class="total">
-    {% for item in cart.items %}
-      <div class="cart-item">
-        {% render 'image', image: item.image, url: item.url %}
-        <div class="cart-item-details">
-          <p class="cart-item-title">{{ item.product.title }}</p>
-          <p class="cart-item-price">
-            {{ item.price | money }}
-          </p>
-          {% if item.variant.options.size > 0 %}
-            <p class="cart-item-options">
-              {% for option in item.variant.options %}
-                {{ option.name }}: {{ option.value -}}
-                {%- if forloop.last == false %}, {% endif %}
-              {% endfor %}
+  {% if cart.item_count == 0 %}
+    <h1 class="cart-title">Empty cart!</h1>
+    <p class="cart-empty-message">
+      There are no t-shirts in your cart. You should check out
+      <a href="/collections">our collections</a>.
+    </p>
+    <p class="empty-cart">
+      <a href="{{ routes.root_url }}" class="button primary">{{ 'cart.continue_shopping' | t }}</a>
+    </p>
+  {% endif %}
+  {% if cart.item_count > 0 %}
+    <div class="total">
+      {% for item in cart.items %}
+        <div class="cart-item">
+          {% render 'image', image: item.image, url: item.url %}
+          <div class="cart-item-details">
+            <p class="cart-item-title">{{ item.product.title }}</p>
+            <p class="cart-item-price">
+              {{ item.price | money }}
             </p>
-          {% endif %}
+            {% if item.variant.options.size > 0 %}
+              <p class="cart-item-options">
+                {% for option in item.variant.options %}
+                  {{ option.name }}: {{ option.value -}}
+                  {%- if forloop.last == false %}, {% endif %}
+                {% endfor %}
+              </p>
+            {% endif %}
 
-          <span class="remove">{{ 'cart.remove' | t | link_to: item.url_to_remove }}</span>
-
-          <div class="cart-item-quantity">
-            <input type="text" name="updates[]" value="{{ item.quantity }}">
-            <input type="submit" class="small" value="{{ 'cart.update' | t }}">
+            <div class="cart-item-quantity">
+              <input type="text" name="updates[]" value="{{ item.quantity }}">
+              <input type="submit" class="small" value="{{ 'cart.update' | t }}">
+            </div>
           </div>
         </div>
-      </div>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
 
-  <div class="cart-total">
-    <div class="final-price">{{ cart.total_price | money }}</div>
-    <input class="cart-checkout" type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
-  </div>
+    <div class="cart-total">
+      <div class="final-price">{{ cart.total_price | money }}</div>
+      <input class="cart-checkout" type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
+    </div>
+  {% endif %}
 </form>
 
 {% stylesheet %}
@@ -57,12 +67,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: var(--spacing-md);
     background-color: var(--color-light);
-
-    .total {
-      border-bottom: 2px solid var(--color-dark);
-    }
+    border-radius: var(--br-md);
+    border: 1px solid var(--color-border);
+    min-height: 600px;
 
     .cart-item {
       display: flex;
