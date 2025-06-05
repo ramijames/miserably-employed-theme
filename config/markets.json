@@ -8,17 +8,5 @@
  * ------------------------------------------------------------
  */
 {
-  "type": "header",
-  "name": "t:general.header",
-  "sections": {
-    "header": {
-      "type": "header",
-      "settings": {
-        "menu": "top-menu"
-      }
-    }
-  },
-  "order": [
-    "header"
-  ]
+  "markets": {}
 }

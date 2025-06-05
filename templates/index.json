@@ -11,21 +11,48 @@
   "sections": {
     "main": {
       "type": "homepage-hero",
-      "settings": {}
+      "settings": {
+        "hero_tagline": "—Wearable satire for the workplace",
+        "hero_quote": "I can not handle it anymore!",
+        "hero_title": "Tees that say what you really think.",
+        "shop_link": "/collections/recommended",
+        "shop_link_text": "Shop Recommended",
+        "tee_link": "/products/stop-or-ill-turn-this-project-around",
+        "tee_link_text": "Check out this tee"
+      }
     },
     "new": {
       "type": "new",
-      "settings": {}
+      "settings": {
+        "new_title": "New!",
+        "new_collection": "new"
+      }
     },
     "carousel": {
       "type": "carousel",
       "settings": {
-        
+        "carousel_title": "Tees",
+        "carousel_collection": "developer",
+        "categories": [
+          "academia",
+          "designer",
+          "developer",
+          "project-manager",
+          "restaurant-staff",
+          "apparel-for-technology-slaves",
+          "recommended"
+        ],
+        "show_categories": true
       }
     },
     "discord": {
       "type": "discord",
-      "settings": {}
+      "settings": {
+        "discord_title": "Want free gear?",
+        "discord_convincer": "We run frequent giveaways in our Discord channel and on our social  network profiles. Easiest way to get stay informed is to join the  Discord.",
+        "discord_invite_button_link": "https://discord.gg/your-invite-link",
+        "discord_invite_button_text": "Join our Discord"
+      }
     }
   },
   "order": [
