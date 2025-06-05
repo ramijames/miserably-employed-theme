@@ -15,9 +15,9 @@
         "hero_tagline": "—Wearable satire for the workplace",
         "hero_quote": "I can not handle it anymore!",
         "hero_title": "Tees that say what you really think.",
-        "shop_link": "/collections/all",
-        "shop_link_text": "Shop Bestsellers",
-        "tee_link": "/collections/tees",
+        "shop_link": "/collections/recommended",
+        "shop_link_text": "Shop Recommended",
+        "tee_link": "/products/stop-or-ill-turn-this-project-around",
         "tee_link_text": "Check out this tee"
       }
     },
