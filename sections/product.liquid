@@ -49,6 +49,10 @@
       <button class="read-more-button">
         {{ 'icon-plus.svg' | inline_asset_content }}
       </button>
+
+      <button class="read-less-button">
+        {{ 'icon-minus.svg' | inline_asset_content }}
+      </button>
     </div>
 
     <div class="product-form">
@@ -292,7 +296,9 @@
   .product-description {
     font-size: var(--font-size-md);
     margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
     position: relative;
+    transition: all 0.3s ease;
   }
 
   .product-description.truncated {
@@ -300,6 +306,7 @@
     -webkit-line-clamp: 8;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    padding-bottom: 0;
 
     &:after {
       content: '';
@@ -316,13 +323,11 @@
     }
   }
 
-  .read-more-button {
-    color: var(--color-light);
-    background: var(--color-dark);
-    font-weight: bold;
+  .read-less-button {
+    color: var(--color-dark);
+    background: var(--color-light);
     padding: 0;
     cursor: pointer;
-    font-size: var(--font-size-sm);
     margin-top: var(--spacing-xs);
     display: none;
   }
@@ -337,6 +342,39 @@
     width: 40px;
     margin: 0 auto;
     background: var(--color-dark);
+    z-index: 10;
+    padding: 0 var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--br-md);
+    box-shadow: var(--box-shadow);
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--color-light);
+    }
+  }
+
+  .product-description.truncated .read-less-button {
+    display: none;
+  }
+
+  .product-description .read-more-button {
+    display: none;
+  }
+
+  .product-description .read-less-button {
+    display: inline-block;
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    left: 0;
+    height: 40px;
+    width: 40px;
+    margin: 0 auto;
+    background: var(--color-light);
     z-index: 10;
     padding: 0 var(--spacing-xs);
     display: flex;
@@ -372,6 +410,18 @@
     const priceElement = document.getElementById('product-price');
     const mainImage = document.getElementById('main-product-image');
     const thumbnails = document.querySelectorAll('.thumbnail');
+    const productDescription = document.querySelector('.product-description');
+    const readMoreButton = document.querySelector('.read-more-button');
+    const readLessButton = document.querySelector('.read-less-button');
+
+    // Handle read more functionality
+    readMoreButton.addEventListener('click', function() {
+      productDescription.classList.remove('truncated');
+    });
+
+    readLessButton.addEventListener('click', function() {
+      productDescription.classList.add('truncated');
+    });
     
     // Initialize option state
     let selectedOptions = {};
