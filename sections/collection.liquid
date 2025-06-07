@@ -449,15 +449,16 @@
     width: 18px;
     height: 18px;
     border-radius: var(--br-sm);
-    outline: 1.5px solid rgba(255, 255, 255, 1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    outline: 1px solid rgba(255, 255, 255, 1);
     outline-offset: -1px;
     display: inline-block;
     position: relative;
-    box-shadow: var(--box-shadow-md);
+    transition: transform 0.12s, box-shadow 0.12s;
 
     &:hover {
       transform: scale(1.1);
-      box-shadow: var(--box-shadow-lg);
+      box-shadow: var(--box-shadow-md);
     }
   }
 
