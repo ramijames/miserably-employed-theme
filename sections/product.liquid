@@ -145,6 +145,7 @@
     gap: var(--spacing-xl);
     margin-bottom: var(--spacing-xxl);
     padding: 0 0 var(--spacing-xxl);
+    position: relative;
 
     @media screen and (max-width: 1024px) {
       gap: var(--spacing-lg);
@@ -160,12 +161,15 @@
 
   .product-images {
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
     gap: var(--spacing-md);
     width: 50%;
+    position: sticky;
+    top: 0;
 
     @media screen and (max-width: 1024px) {
       width: 100%;
+      flex-direction: column;
     }
   }
 
@@ -174,6 +178,7 @@
     margin-bottom: var(--spacing-sm);
     outline: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: var(--br-md);
+    overflow: hidden;
   }
 
   .main-image img {
@@ -184,12 +189,17 @@
 
   .thumbnail-container {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+    flex-direction: column;
     gap: var(--spacing-sm);
     flex-wrap: wrap;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    @media screen and (max-width: 1024px) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   .thumbnail {
@@ -200,6 +210,7 @@
     outline: 1px solid rgba(0, 0, 0, 0.1);
     outline-offset: -1px;
     transition: border 0.1s ease, outline 0.1s ease;
+    border-radius: var(--br-md);
   }
 
   .thumbnail img {
