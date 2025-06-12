@@ -13,13 +13,33 @@
       "type": "product",
       "settings": {}
     },
+    "carousel_3azzVb": {
+      "type": "carousel",
+      "name": "Carousel",
+      "settings": {
+        "carousel_title": "Tees",
+        "carousel_collection": "recommended",
+        "categories": [
+          "recommended",
+          "new",
+          "on-sale-now"
+        ],
+        "show_categories": true
+      }
+    },
     "discord": {
       "type": "discord",
-      "settings": {}
-    },
+      "settings": {
+        "discord_title": "Want free gear?",
+        "discord_convincer": "The easiest way to stay informed is to join our Discord server, where we run frequent giveaways!",
+        "discord_invite_button_link": "https://discord.gg/your-invite-link",
+        "discord_invite_button_text": "Join our Discord"
+      }
+    }
   },
   "order": [
     "main",
+    "carousel_3azzVb",
     "discord"
   ]
 }
