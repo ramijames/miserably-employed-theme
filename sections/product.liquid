@@ -176,15 +176,16 @@
   .main-image {
     width: 100%;
     margin-bottom: var(--spacing-sm);
-    outline: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: var(--br-md);
-    overflow: hidden;
   }
 
   .main-image img {
     width: 100%;
     height: auto;
     object-fit: cover;
+    outline: 1px solid var(--color-border);
+    outline-offset: -1px;
+    border-radius: var(--br-md);
+    overflow: hidden;
   }
 
   .thumbnail-container {
@@ -223,7 +224,7 @@
   .thumbnail.active {
     border: 2px solid var(--color-dark);
     outline: 2px solid rgba(255, 255, 255, 1);
-    outline-offset: -3px;
+    outline-offset: -4px;
   }
 
   .product-info {
