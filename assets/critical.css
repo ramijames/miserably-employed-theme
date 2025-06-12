@@ -214,3 +214,9 @@ input[type='submit'].small {
   padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-md);
 }
+
+button.bright,
+.button.bright,
+input[type='submit'].bright {
+  background-color: var(--color-success);
+}
