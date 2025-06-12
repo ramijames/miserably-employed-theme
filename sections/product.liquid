@@ -34,6 +34,7 @@
   <div class="product-info">
     {% comment %} I need to make this only show if the product is in stock {% endcomment %}
 
+    <div class="made-by">Miserably Employed Exclusive</div>
     <h1 class="product-title">{{ product.title }}</h1>
 
     <p id="product-price" class="product-price">
@@ -119,8 +120,19 @@
     transform: rotate(-10deg);
   }
 
+  .made-by {
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    color: var(--color-secondary);
+    margin-bottom: var(--spacing-sm);
+  }
+
   .product-title {
     font-size: var(--font-size-xl);
+    text-transform: uppercase;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.05em;
     margin: 0;
     text-align: left;
     width: 100%;
