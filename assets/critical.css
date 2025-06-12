@@ -186,28 +186,6 @@ button.category,
   padding: var(--spacing-sm) var(--spacing-md);
 }
 
-label {
-  display: block;
-  margin-bottom: var(--spacing-xs);
-  color: var(--color-dark);
-  font-size: var(--font-size-md);
-}
-
-input,
-select,
-textarea {
-  font: inherit;
-  padding: var(--spacing-sm);
-  transition: all 0.2s ease;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0;
-
-  &:focus {
-    border-color: var(--color-dark);
-    outline: none;
-  }
-}
-
 button.small,
 .button.small,
 input[type='submit'].small {
@@ -219,4 +197,28 @@ button.bright,
 .button.bright,
 input[type='submit'].bright {
   background-color: var(--color-success);
+}
+
+label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-dark);
+  font-size: var(--font-size-md);
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  padding: var(--spacing-md);
+  transition: all 0.2s ease;
+  border: 2px solid var(--color-border);
+  border-radius: var(--br-md);
+
+  &:focus,
+  &:active,
+  &:hover {
+    border-color: var(--color-dark);
+    outline: none;
+  }
 }
