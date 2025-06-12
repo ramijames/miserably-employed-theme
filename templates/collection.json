@@ -12,9 +12,34 @@
     "main": {
       "type": "collection",
       "settings": {}
+    },
+    "carousel_4BhPUf": {
+      "type": "carousel",
+      "name": "Carousel",
+      "settings": {
+        "carousel_title": "On sale",
+        "carousel_collection": "on-sale-now",
+        "categories": [
+          "recommended",
+          "new"
+        ],
+        "show_categories": true
+      }
+    },
+    "discord_8L7i6A": {
+      "type": "discord",
+      "name": "Discord Banner",
+      "settings": {
+        "discord_title": "Want free gear?",
+        "discord_convincer": "The easiest way to stay informed is to join our Discord server, where we run frequent giveaways!",
+        "discord_invite_button_link": "https://discord.gg/your-invite-link",
+        "discord_invite_button_text": "Join our Discord"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "carousel_4BhPUf",
+    "discord_8L7i6A"
   ]
 }
