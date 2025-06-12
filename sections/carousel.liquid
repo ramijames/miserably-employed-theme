@@ -61,12 +61,12 @@
     </div>
 
     <div class="swiper-buttons">
-      <div class="prev-slide button outline">
+      <div class="prev-slide button">
         <svg width="11" height="15" viewBox="0 0 11 15" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 14L2.57983 9.17689C1.36646 8.3882 1.36646 6.6118 2.57983 5.82311L10 1" stroke="#121212" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="next-slide button outline">
+      <div class="next-slide button">
         <svg width="11" height="15" viewBox="0 0 11 15" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1 14L8.42017 9.17689C9.63354 8.3882 9.63354 6.6118 8.42017 5.82311L0.999999 1" stroke="#121212" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -163,6 +163,27 @@
       width: 100%;
       justify-content: space-between;
       margin-top: var(--spacing-lg);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+
+      .prev-slide,
+      .next-slide {
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .prev-slide svg path,
+      .next-slide svg path {
+        width: 24px;
+        height: 24px;
+        stroke: var(--color-light);
+      }
     }
 
     .product-carousel {
@@ -170,6 +191,7 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       position: relative;
+      margin: 0 calc(var(--spacing-md) + 66px);
 
       &::-webkit-scrollbar {
         display: none; /* Hide scrollbar for WebKit browsers */
