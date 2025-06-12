@@ -12,9 +12,24 @@
     "main": {
       "type": "article",
       "settings": {}
+    },
+    "carousel_ccyjam": {
+      "type": "carousel",
+      "name": "Carousel",
+      "settings": {
+        "carousel_title": "Tees",
+        "carousel_collection": "recommended",
+        "categories": [
+          "new",
+          "recommended",
+          "on-sale-now"
+        ],
+        "show_categories": true
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "carousel_ccyjam"
   ]
 }
