@@ -12,9 +12,23 @@
     "main": {
       "type": "collection",
       "settings": {}
+    },
+    "carousel_4BhPUf": {
+      "type": "carousel",
+      "name": "Carousel",
+      "settings": {
+        "carousel_title": "On sale",
+        "carousel_collection": "on-sale-now",
+        "categories": [
+          "recommended",
+          "new"
+        ],
+        "show_categories": true
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "carousel_4BhPUf"
   ]
 }
