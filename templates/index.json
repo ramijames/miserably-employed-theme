@@ -24,15 +24,15 @@
     "new": {
       "type": "new",
       "settings": {
-        "new_title": "New!",
+        "new_title": "New shirts!",
         "new_collection": "new"
       }
     },
     "carousel": {
       "type": "carousel",
       "settings": {
-        "carousel_title": "Tees",
-        "carousel_collection": "developer",
+        "carousel_title": "Recommended Tees",
+        "carousel_collection": "recommended",
         "categories": [
           "academia",
           "designer",
