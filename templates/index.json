@@ -48,8 +48,8 @@
     "discord": {
       "type": "discord",
       "settings": {
-        "discord_title": "Want free gear?",
-        "discord_convincer": "We run frequent giveaways in our Discord channel and on our social  network profiles. Easiest way to get stay informed is to join the  Discord.",
+        "discord_title": "Want free graphic tees?",
+        "discord_convincer": "We run frequent giveaways in our Discord channel and on our social  network profiles. The easiest way to win free t-shirts is to join our Discord.",
         "discord_invite_button_link": "https://discord.gg/your-invite-link",
         "discord_invite_button_text": "Join our Discord"
       }
