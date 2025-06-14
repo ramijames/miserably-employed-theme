@@ -1,0 +1,117 @@
+{% comment %}
+  carousels for collections
+{% endcomment %}
+
+<div class="categories">
+  {% if section.settings.categories == blank %}
+    <p class="no-products">No categories set in admin.</p>
+  {% else %}
+    <div class="categories-header">
+      {% if section.settings.show_title == true %}
+        <h2 class="section-title">
+          {{- 'header-categories.svg' | inline_asset_content -}}
+          {{ section.settings.categories_title }}
+        </h2>
+      {% endif %}
+      <div class="categories">
+        {% for collection in section.settings.categories %}
+          <a class="button category" href="{{ collection.url }}" class="category-link">{{ collection.title }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .categories {
+    padding: var(--spacing-xxl) 0;
+    position: relative;
+
+    @media screen and (max-width: 1024px) {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .categories-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-lg);
+
+      @media screen and (max-width: 1024px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+      }
+
+      .categories {
+        display: flex;
+        gap: var(--spacing-sm);
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+
+        @media screen and (max-width: 1024px) {
+          justify-content: flex-start;
+          margin-top: var(--spacing-md);
+        }
+
+        .category {
+          padding: var(--spacing-xs) var(--spacing-md);
+          background-color: var(--color-dark);
+          color: var(--color-light);
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: var(--color-dark-hover);
+          }
+        }
+      }
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: var(--font-size-xxl);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--spacing-xs);
+      color: var(--color-dark);
+
+      @media screen and (max-width: 1024px) {
+        font-size: var(--font-size-xl);
+      }
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Categories",
+  "settings": [
+    {
+      "type": "text",
+      "id": "categories_title",
+      "label": "Categories Title",
+      "default": "Categories"
+    },
+    {
+      "type": "collection_list",
+      "id": "categories",
+      "label": "Collections to show in categories"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show Title",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Categories",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
