@@ -28,6 +28,25 @@
         "new_collection": "new"
       }
     },
+    "categories_4mKM97": {
+      "type": "categories",
+      "name": "Categories",
+      "settings": {
+        "categories_title": "Categories",
+        "categories": [
+          "new",
+          "recommended",
+          "academia",
+          "designer",
+          "developer",
+          "project-manager",
+          "restaurant-staff",
+          "apparel-for-technology-slaves",
+          "on-sale-now"
+        ],
+        "show_title": true
+      }
+    },
     "carousel": {
       "type": "carousel",
       "settings": {
@@ -58,6 +77,7 @@
   "order": [
     "main",
     "new",
+    "categories_4mKM97",
     "carousel",
     "discord"
   ]
