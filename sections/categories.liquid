@@ -6,12 +6,10 @@
   {% if section.settings.categories == blank %}
     <p class="no-products">No categories set in admin.</p>
   {% else %}
-    <div class="categories-header">
-      <div class="categories">
-        {% for collection in section.settings.categories %}
-          <a class="button category" href="{{ collection.url }}" class="category-link">{{ collection.title }}</a>
-        {% endfor %}
-      </div>
+    <div class="categories">
+      {% for collection in section.settings.categories %}
+        <a class="button category" href="{{ collection.url }}" class="category-link">{{ collection.title }}</a>
+      {% endfor %}
     </div>
   {% endif %}
 </div>
@@ -22,7 +20,8 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
     align-items: center;
 
     @media screen and (max-width: 1024px) {
