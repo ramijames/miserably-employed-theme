@@ -28,12 +28,32 @@
         "new_collection": "new"
       }
     },
+<<<<<<< HEAD
     "categories": {
       "type": "categories",
       "settings": {
         "categories_title": "Shop by category",
         "categories_collection": "categories",
         "show_categories": true
+=======
+    "categories_4mKM97": {
+      "type": "categories",
+      "name": "Categories",
+      "settings": {
+        "categories_title": "Categories",
+        "categories": [
+          "new",
+          "recommended",
+          "academia",
+          "designer",
+          "developer",
+          "project-manager",
+          "restaurant-staff",
+          "apparel-for-technology-slaves",
+          "on-sale-now"
+        ],
+        "show_title": true
+>>>>>>> 69ab1850dd2b6e45d6e613915ce896d35148d41e
       }
     },
     "carousel": {
@@ -50,7 +70,7 @@
           "apparel-for-technology-slaves",
           "recommended"
         ],
-        "show_categories": true
+        "show_categories": false
       }
     },
     "discord": {
@@ -66,7 +86,11 @@
   "order": [
     "main",
     "new",
+<<<<<<< HEAD
     "categories",
+=======
+    "categories_4mKM97",
+>>>>>>> 69ab1850dd2b6e45d6e613915ce896d35148d41e
     "carousel",
     "discord"
   ]
