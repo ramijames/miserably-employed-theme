@@ -128,13 +128,15 @@
 
         .category {
           padding: var(--spacing-xs) var(--spacing-md);
-          background-color: var(--color-dark);
-          color: var(--color-light);
+          padding: var(--spacing-md) var(--spacing-lg);
+          background-color: var(--color-light);
+          border: 2px solid var(--color-dark);
+          color: var(--color-dark);
           text-decoration: none;
           transition: background-color 0.3s ease;
 
           &:hover {
-            background-color: var(--color-dark-hover);
+            background-color: var(--color-light-hover);
           }
         }
       }
