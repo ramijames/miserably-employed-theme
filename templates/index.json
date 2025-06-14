@@ -42,7 +42,7 @@
           "apparel-for-technology-slaves",
           "recommended"
         ],
-        "show_categories": true
+        "show_categories": false
       }
     },
     "discord": {
