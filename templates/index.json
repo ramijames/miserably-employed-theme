@@ -21,14 +21,7 @@
         "tee_link_text": "Check out this tee"
       }
     },
-    "new": {
-      "type": "new",
-      "settings": {
-        "new_title": "New shirts!",
-        "new_collection": "new"
-      }
-    },
-    "categories": {
+    "categories_4mKM97": {
       "type": "categories",
       "name": "Categories",
       "settings": {
@@ -45,6 +38,13 @@
           "on-sale-now"
         ],
         "show_title": true
+      }
+    },
+    "new": {
+      "type": "new",
+      "settings": {
+        "new_title": "New shirts!",
+        "new_collection": "new"
       }
     },
     "carousel": {
@@ -76,12 +76,8 @@
   },
   "order": [
     "main",
-    "new",
-<<<<<<< HEAD
-    "categories",
-=======
     "categories_4mKM97",
->>>>>>> 69ab1850dd2b6e45d6e613915ce896d35148d41e
+    "new",
     "carousel",
     "discord"
   ]
