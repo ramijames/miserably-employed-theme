@@ -62,26 +62,29 @@
         <input type="hidden" name="id" id="variant-id" value="{{ current_variant.id }}">
 
         {%- for option in product.options_with_values -%}
-          <div class="product-option">
-            <label for="option-{{ forloop.index }}">{{ option.name }}</label>
-            <div class="option-wrapper {% if option.name contains 'Color' %}color-option-wrapper{% endif %}">
-              <select
-                id="option-{{ forloop.index }}"
-                class="option-selector"
-                data-option-index="{{ forloop.index0 }}"
-                data-option-name="{{ option.name | handleize }}"
-              >
-                {%- for value in option.values -%}
-                  <option
-                    value="{{ value | escape }}"
-                    {% if option.selected_value == value %}
-                      selected="selected"
-                    {% endif %}
-                  >
+          <div class="product-option product-option-{{ option.name | handleize }}">
+            <label>{{ option.name }}</label>
+            <div class="option-buttons-wrapper {% if option.name contains 'Color' %}color-option-buttons-wrapper{% endif %}">
+              {%- for value in option.values -%}
+                <button
+                  type="button"
+                  class="option-button {% if option.selected_value == value %}active{% endif %}"
+                  data-option-name="{{ option.name | handleize }}"
+                  data-option-value="{{ value | escape }}"
+                  aria-label="{{ option.name }}: {{ value | escape }}"
+                >
+                  {% if option.name contains 'Color' %}
+                    <span
+                      class="option-color-swatch"
+                      style="background-color: {% render 'color-mapping', color_name: value %}"
+                      title="{{ value | escape }}"
+                    ></span>
+                    <span class="option-color-label visually-hidden">{{ value }}</span>
+                  {% else %}
                     {{ value }}
-                  </option>
-                {%- endfor -%}
-              </select>
+                  {% endif %}
+                </button>
+              {%- endfor -%}
             </div>
           </div>
         {%- endfor -%}
@@ -161,7 +164,7 @@
 
   .product-images {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
     gap: var(--spacing-md);
     width: 50%;
     position: sticky;
@@ -190,17 +193,11 @@
 
   .thumbnail-container {
     display: flex;
-    flex-direction: column;
     gap: var(--spacing-sm);
     flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    @media screen and (max-width: 1024px) {
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-    }
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
 
   .thumbnail {
@@ -410,6 +407,87 @@
       fill: var(--color-light);
     }
   }
+
+  .product-option label {
+    display: block;
+    margin-bottom: var(--spacing-sm); /* Increased spacing */
+    font-weight: 500;
+  }
+
+  .option-buttons-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md); /* Add margin below the group */
+  }
+
+  .option-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    cursor: pointer;
+    border-radius: var(--br-sm);
+    font-size: var(--font-size-sm);
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    display: inline-flex; /* For color swatches */
+    align-items: center; /* For color swatches */
+    justify-content: center; /* For color swatches */
+    min-width: 40px; /* Ensure buttons have some width */
+    text-align: center;
+  }
+
+  .option-button:hover {
+    border-color: var(--color-dark-hover);
+    background-color: #e9ecef; /* Slightly darker light */
+  }
+
+  .option-button.active {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    border-color: var(--color-dark);
+  }
+
+  .option-button.active:hover {
+    background-color: var(--color-dark-hover);
+    border-color: var(--color-dark-hover);
+  }
+
+  /* Styles for Color Swatch Buttons */
+  .color-option-buttons-wrapper .option-button {
+    padding: var(--spacing-xs); /* Smaller padding for color swatches */
+    width: 40px; /* Fixed size for swatch button */
+    height: 40px;
+    border-radius: 50%; /* Make them circular */
+    overflow: hidden;
+  }
+
+  .option-color-swatch {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border for light colors */
+  }
+  .option-button.active .option-color-swatch {
+    outline: 2px solid var(--color-dark);
+    outline-offset: 3px;
+  }
+  .color-option-buttons-wrapper .option-button.active {
+    background-color: transparent; /* Parent active state might not be needed if swatch has outline */
+    border-color: var(--color-dark); /* Or transparent if outline is enough */
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
 {% endstylesheet %}
 
 <script>
@@ -417,16 +495,9 @@
     // Product variants handling
     const variants = {{ product.variants | json }};
     const productOptions = {{ product.options_with_values | json }};
-    // const variantImages = {}; // This map can be simplified if using variant.featured_image directly
-
-    // {% for variant in product.variants %}
-    //   {% if variant.image.id %}
-    //     variantImages[{{ variant.id }}] = {{ variant.image.id }};
-    //   {% endif %}
-    // {% endfor %}
     
     // Get elements
-    const optionSelectors = document.querySelectorAll('.option-selector');
+    const optionButtonGroups = document.querySelectorAll('.option-buttons-wrapper'); // Changed selector
     const variantInput = document.getElementById('variant-id');
     const priceElement = document.getElementById('product-price');
     const mainImage = document.getElementById('main-product-image');
@@ -434,79 +505,127 @@
     const productDescription = document.querySelector('.product-description');
     const readMoreButton = document.querySelector('.read-more-button');
     const readLessButton = document.querySelector('.read-less-button');
+    const addToCartButton = document.getElementById('add-to-cart');
+
 
     // Handle read more functionality
-    readMoreButton.addEventListener('click', function() {
-      productDescription.classList.remove('truncated');
-    });
+    if (readMoreButton && readLessButton && productDescription) {
+      readMoreButton.addEventListener('click', function() {
+        productDescription.classList.remove('truncated');
+      });
 
-    readLessButton.addEventListener('click', function() {
-      productDescription.classList.add('truncated');
-    });
+      readLessButton.addEventListener('click', function() {
+        productDescription.classList.add('truncated');
+      });
+    }
     
     // Initialize option state
     let selectedOptions = {};
-    optionSelectors.forEach(selector => {
-      const optionName = selector.getAttribute('data-option-name').toLowerCase(); // Use lowercase key
-      selectedOptions[optionName] = selector.value;
+    optionButtonGroups.forEach(group => {
+      const activeButton = group.querySelector('.option-button.active');
+      if (activeButton) {
+        const optionName = activeButton.getAttribute('data-option-name').toLowerCase();
+        selectedOptions[optionName] = activeButton.getAttribute('data-option-value');
+      } else if (group.querySelector('.option-button')) {
+        // If no active button, select the first one by default for initialization
+        const firstButton = group.querySelector('.option-button');
+        const optionName = firstButton.getAttribute('data-option-name').toLowerCase();
+        selectedOptions[optionName] = firstButton.getAttribute('data-option-value');
+        // firstButton.classList.add('active'); // Optionally activate the first one visually
+      }
     });
     
     // Find the matching variant when options change
     function findVariantByOptions() {
       return variants.find(variant => {
-        return productOptions.every((option, index) => {
-          const optionNameKey = option.name.toLowerCase(); // Access selectedOptions with lowercase key
-          // Ensure variant.options[index] exists and matches.
-          // Shopify's variant.options array directly corresponds to product.options_with_values by index.
+        // Check if variant.options exists and has the same length as productOptions
+        if (!variant.options || variant.options.length !== productOptions.length) {
+          return false;
+        }
+        return productOptions.every((optionDetail, index) => {
+          const optionNameKey = optionDetail.name.toLowerCase();
+          // Ensure the selectedOptions[optionNameKey] is compared against the correct variant option
+          // Shopify's variant.options is an array of strings ['Red', 'Small']
           return variant.options[index] === selectedOptions[optionNameKey];
         });
       });
     }
 
-    // Placeholder for Shopify's formatMoney function if not globally available
+    // Placeholder for Shopify's formatMoney function
     function formatMoney(priceInCents, format) {
-      // This is a simplified version. Use Shopify's actual formatMoney or a robust library.
       if (typeof Shopify !== 'undefined' && Shopify.formatMoney) {
         return Shopify.formatMoney(priceInCents, format || "{{ shop.money_format }}");
       }
       const amount = (priceInCents / 100).toFixed(2);
-      return `$${amount}`; // Basic fallback
+      const currency = "{{ cart.currency.symbol }}"; // Get currency symbol
+      return `${currency}${amount}`;
     }
     
     // Update the UI based on selected variant
     function updateVariantUI(variant) {
+      const addToCartButton = document.getElementById('add-to-cart');
+      const paymentButton = document.querySelector('.shopify-payment-button');
+
       if (!variant) {
-        // Handle case where no matching variant is found (e.g., disable add to cart)
         if (variantInput) variantInput.value = '';
-        if (priceElement) priceElement.innerHTML = 'Unavailable'; // Or some other indicator
+        if (priceElement) priceElement.innerHTML = 'Unavailable';
+        if (addToCartButton) {
+          addToCartButton.disabled = true;
+          addToCartButton.textContent = 'Unavailable';
+        }
+        if (paymentButton) paymentButton.style.display = 'none';
         return;
       }
       
       if (variantInput) variantInput.value = variant.id;
-      if (priceElement) priceElement.innerHTML = formatMoney(variant.price);
+      if (priceElement) {
+         let priceHTML = formatMoney(variant.price);
+         if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+           priceHTML += ` <span class="compare-at">${formatMoney(variant.compare_at_price)}</span>`;
+         }
+         priceElement.innerHTML = priceHTML;
+      }
       
-      // Update image using the variant's featured_image
+      if (variant.available) {
+        if (addToCartButton) {
+          addToCartButton.disabled = false;
+          addToCartButton.textContent = 'Add to cart';
+        }
+        if (paymentButton) paymentButton.style.display = 'block'; // Or 'inline-block', etc.
+      } else {
+        if (addToCartButton) {
+          addToCartButton.disabled = true;
+          addToCartButton.textContent = 'Sold Out';
+        }
+        if (paymentButton) paymentButton.style.display = 'none';
+      }
+
       if (variant.featured_image && variant.featured_image.src) {
         updateMainImage(variant.featured_image.src);
-        
         thumbnails.forEach(t => t.classList.remove('active'));
         const activeThumbnail = document.querySelector(`.thumbnail[data-image-id="${variant.featured_image.id}"]`);
         if (activeThumbnail) {
           activeThumbnail.classList.add('active');
         }
-      } else {
-        // Optional: Fallback if the variant has no specific image.
-        // You might want to revert to the main product image or do nothing.
-        // If product.featured_media.preview_image.url is available and mainImage is set up for it:
-        // updateMainImage( {{ product.featured_media.preview_image.url | json }} );
       }
     }
     
-    // Handle option change
-    function handleOptionChange(e) {
-      const selector = e.target;
-      const optionName = selector.getAttribute('data-option-name').toLowerCase(); // Use lowercase key
-      selectedOptions[optionName] = selector.value;
+    // Handle option button click
+    function handleOptionButtonClick(e) {
+      const clickedButton = e.target.closest('.option-button');
+      if (!clickedButton) return;
+
+      const optionName = clickedButton.getAttribute('data-option-name').toLowerCase();
+      const optionValue = clickedButton.getAttribute('data-option-value');
+
+      selectedOptions[optionName] = optionValue;
+
+      // Update active class for buttons in the same group
+      const buttonGroup = clickedButton.closest('.option-buttons-wrapper');
+      buttonGroup.querySelectorAll('.option-button').forEach(button => {
+        button.classList.remove('active');
+      });
+      clickedButton.classList.add('active');
       
       const variant = findVariantByOptions();
       updateVariantUI(variant);
@@ -516,40 +635,28 @@
     function updateMainImage(imageUrl) {
       if (mainImage && imageUrl) {
         mainImage.src = imageUrl;
-        // If you use srcset for responsive images, update that too.
-        // e.g., mainImage.srcset = imageUrl; // Or a more complex update
       }
     }
 
-    // Attach event listeners to option selectors
-    optionSelectors.forEach(selector => {
-      selector.addEventListener('change', handleOptionChange);
+    // Attach event listeners to option buttons
+    optionButtonGroups.forEach(group => {
+      group.addEventListener('click', handleOptionButtonClick);
     });
 
     // Attach event listeners to thumbnails
     thumbnails.forEach(thumbnail => {
       thumbnail.addEventListener('click', function(e) {
         e.preventDefault();
-        const newImageUrl = this.getAttribute('data-image-url'); // Or this.href if it's an <a> tag
+        const newImageUrl = this.getAttribute('data-image-url');
         updateMainImage(newImageUrl);
         thumbnails.forEach(t => t.classList.remove('active'));
         this.classList.add('active');
-        
-        // Optional: If clicking a thumbnail should also select a variant,
-        // you'd need more complex logic here to find a variant associated with this image
-        // and then update options and call updateVariantUI.
-        // For now, it just changes the main image.
       });
     });
 
-    // Initial UI update based on pre-selected options (if any)
+    // Initial UI update
     const initialVariant = findVariantByOptions();
-    if (initialVariant) {
-      updateVariantUI(initialVariant);
-    } else if (variants.length > 0) {
-      // If no specific variant matches initial selections, maybe default to the first available variant
-      // updateVariantUI(variants[0]); // Uncomment if you want this behavior
-    }
+    updateVariantUI(initialVariant);
 
   });
 </script>
