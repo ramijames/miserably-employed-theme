@@ -31,7 +31,7 @@
     "carousel": {
       "type": "carousel",
       "settings": {
-        "carousel_title": "Recommended Tees",
+        "carousel_title": "Recommended",
         "carousel_collection": "recommended",
         "categories": [
           "academia",
