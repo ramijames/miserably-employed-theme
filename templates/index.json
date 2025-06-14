@@ -28,6 +28,14 @@
         "new_collection": "new"
       }
     },
+    "categories": {
+      "type": "categories",
+      "settings": {
+        "categories_title": "Shop by category",
+        "categories_collection": "categories",
+        "show_categories": true
+      }
+    },
     "carousel": {
       "type": "carousel",
       "settings": {
@@ -58,6 +66,7 @@
   "order": [
     "main",
     "new",
+    "categories",
     "carousel",
     "discord"
   ]
