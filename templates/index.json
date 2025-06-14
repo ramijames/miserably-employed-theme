@@ -26,8 +26,6 @@
       "name": "Categories",
       "settings": {
         "categories": [
-          "new",
-          "recommended",
           "academia",
           "designer",
           "developer",
