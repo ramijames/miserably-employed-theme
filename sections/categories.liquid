@@ -7,12 +7,6 @@
     <p class="no-products">No categories set in admin.</p>
   {% else %}
     <div class="categories-header">
-      {% if section.settings.show_title == true %}
-        <h2 class="section-title">
-          {{- 'header-categories.svg' | inline_asset_content -}}
-          {{ section.settings.categories_title }}
-        </h2>
-      {% endif %}
       <div class="categories">
         {% for collection in section.settings.categories %}
           <a class="button category" href="{{ collection.url }}" class="category-link">{{ collection.title }}</a>
@@ -24,69 +18,39 @@
 
 {% stylesheet %}
   .categories {
-    padding: var(--spacing-xxl) 0;
+    padding: var(--spacing-lg) 0 0;
     position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
     @media screen and (max-width: 1024px) {
       padding: var(--spacing-xl) 0;
     }
 
-    .categories-header {
+    .categories {
       display: flex;
-      justify-content: space-between;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
       align-items: center;
-      margin-bottom: var(--spacing-lg);
+      justify-content: center;
 
       @media screen and (max-width: 1024px) {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0;
+        justify-content: flex-start;
+        margin-top: var(--spacing-md);
       }
 
-      .categories {
-        display: flex;
-        gap: var(--spacing-sm);
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: flex-end;
+      .category {
+        padding: var(--spacing-md) var(--spacing-lg);
+        background-color: var(--color-dark);
+        color: var(--color-light);
+        text-decoration: none;
+        transition: background-color 0.3s ease;
 
-        @media screen and (max-width: 1024px) {
-          justify-content: flex-start;
-          margin-top: var(--spacing-md);
+        &:hover {
+          background-color: var(--color-dark-hover);
         }
-
-        .category {
-          padding: var(--spacing-xs) var(--spacing-md);
-          background-color: var(--color-dark);
-          color: var(--color-light);
-          text-decoration: none;
-          transition: background-color 0.3s ease;
-
-          &:hover {
-            background-color: var(--color-dark-hover);
-          }
-        }
-      }
-    }
-
-    .section-title {
-      margin: 0;
-      font-size: var(--font-size-xxl);
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: var(--spacing-xs);
-      color: var(--color-dark);
-
-      svg {
-        width: 60px;
-        height: 60px;
-        min-width: 60px;
-        min-height: 60px;
-      }
-
-      @media screen and (max-width: 1024px) {
-        font-size: var(--font-size-xl);
       }
     }
   }
@@ -97,21 +61,9 @@
   "name": "Categories",
   "settings": [
     {
-      "type": "text",
-      "id": "categories_title",
-      "label": "Categories Title",
-      "default": "Categories"
-    },
-    {
       "type": "collection_list",
       "id": "categories",
       "label": "Collections to show in categories"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_title",
-      "label": "Show Title",
-      "default": true
     }
   ],
   "presets": [
