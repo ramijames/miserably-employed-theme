@@ -161,12 +161,15 @@
       font-size: var(--font-size-lg);
       color: var(--color-dark);
       cursor: pointer;
-      width: 100%;
+      width: calc(100% + 24px);
       justify-content: space-between;
       margin-top: var(--spacing-lg);
+      margin-left: -12px;
+      margin-right: -12px;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
+      z-index: 10;
 
       .prev-slide,
       .next-slide {
@@ -177,6 +180,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        outline: 2px solid white;
       }
 
       .prev-slide svg path,
@@ -193,6 +197,10 @@
       scroll-snap-type: x mandatory;
       position: relative;
       margin: 0 calc(var(--spacing-md) + 66px);
+
+      @media screen and (max-width: 600px) {
+        margin: 0;
+      }
 
       &::-webkit-scrollbar {
         display: none; /* Hide scrollbar for WebKit browsers */
