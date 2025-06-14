@@ -21,6 +21,23 @@
         "tee_link_text": "Check out this tee"
       }
     },
+    "categories": {
+      "type": "categories",
+      "name": "Categories",
+      "settings": {
+        "categories": [
+          "new",
+          "recommended",
+          "academia",
+          "designer",
+          "developer",
+          "project-manager",
+          "restaurant-staff",
+          "apparel-for-technology-slaves",
+          "on-sale-now"
+        ]
+      }
+    },
     "new": {
       "type": "new",
       "settings": {
@@ -57,6 +74,7 @@
   },
   "order": [
     "main",
+    "categories",
     "new",
     "carousel",
     "discord"
