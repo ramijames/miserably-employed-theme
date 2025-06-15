@@ -17,17 +17,24 @@
           <a href="{{ blog.previous_article.url }}" class="prev-article">
             {% comment %} ← {{ blog.previous_article.title }} {% endcomment %}
             <img
-              src="{{ 'arrow-left.svg' | asset_url }}"
+              src="{{ 'arrow-left-dark.svg' | asset_url }}"
               alt="{{ blog.previous_article.title }}"
               width="24"
               height="24"
             >
+            Prev
           </a>
         {% endif %}
 
         {% if blog.next_article %}
           <a href="{{ blog.next_article.url }}" class="next-article">
-            <img src="{{ 'arrow-right.svg' | asset_url }}" alt="{{ blog.next_article.title }}" width="24" height="24">
+            Next
+            <img
+              src="{{ 'arrow-right-dark.svg' | asset_url }}"
+              alt="{{ blog.next_article.title }}"
+              width="24"
+              height="24"
+            >
           </a>
         {% endif %}
       </div>
@@ -132,15 +139,15 @@
 
       .article-navigation {
         position: absolute;
-        top: 50%;
+        top: 100%;
         transform: translateY(-50%);
-        left: -30px;
-        right: -30px;
+        left: 30px;
+        right: 30px;
         display: flex;
         flex-direction: row;
         display: flex;
         justify-content: space-between;
-        width: calc(100% + 60px);
+        width: calc(100% - 60px);
         z-index: 1;
 
         @media screen and (max-width: 1024px) {
@@ -163,21 +170,17 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          background-color: var(--color-light);
-          border-radius: var(--br-lg);
-          border: 1px solid var(--color-border);
-          box-shadow: var(--box-shadow-md);
+          background-color: var(--color-dark);
+          border-radius: var(--br-md);
+          border: 2px solid var(--color-light);
           transition: all 0.3s ease;
+          color: var(--color-light);
+          padding: var(--spacing-sm) var(--spacing-md);
+          gap: var(--spacing-sm);
 
           &:hover {
             transform: scale(1.1);
           }
-        }
-
-        .prev-article,
-        .next-article {
-          width: 40px;
-          height: 40px;
         }
 
         .next-article {
