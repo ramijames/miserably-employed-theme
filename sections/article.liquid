@@ -190,6 +190,28 @@
       }
     }
 
+    h1 {
+      margin: var(--spacing-xxl) 0;
+      font-size: var(--font-size-xxl);
+      text-wrap: balance;
+      font-weight: bold;
+      color: var(--color-dark);
+      text-align: center;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.05;
+      text-transform: uppercase;
+      font-style: italic;
+      letter-spacing: -0.05em;
+
+      @media screen and (max-width: 1024px) {
+        font-size: var(--font-size-xl);
+        margin: var(--spacing-xl) 0 var(--spacing-lg) 0;
+      }
+    }
+
     h2 {
       margin-top: var(--spacing-xl);
       font-size: var(--font-size-xxl);
