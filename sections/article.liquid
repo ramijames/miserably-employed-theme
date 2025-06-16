@@ -218,12 +218,23 @@
     h2 {
       margin-top: var(--spacing-xl);
       font-size: var(--font-size-xxl);
+
+      @media screen and (max-width: 1024px) {
+        font-size: var(--font-size-xl);
+        line-height: var(--font-size-xl);
+      }
     }
 
     h3 {
       margin: var(--spacing-xl) 0 var(--spacing-md);
       font-size: var(--font-size-xl);
       color: var(--color-dark);
+
+      @media screen and (max-width: 1024px) {
+        font-size: var(--font-size-lg);
+        margin: var(--spacing-lg) 0 var(--spacing-md);
+        line-height: var(--font-size-lg);
+      }
     }
 
     p {
