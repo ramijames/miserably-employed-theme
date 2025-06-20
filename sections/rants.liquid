@@ -1,20 +1,23 @@
+{%- assign blog_handle = section.settings.blog -%}
+{%- assign blog = blogs[blog_handle] -%}
+
 <div class="rants">
   <div class="rants-header">
     <h2 class="rants-section-title">
       {{- 'header-rants.svg' | inline_asset_content -}}
       {{ section.settings.rants_title }}
     </h2>
-    <a href="{{ blogs.news.url }}" class="button category show-all">
+    <a href="{{ blog.url }}" class="button category show-all">
       Browse all rants
       {{- 'arrow-right.svg' | inline_asset_content -}}
     </a>
   </div>
 
   <div class="rants-articles">
-    {% if blogs.news.articles.size == 0 %}
+    {% if blog.articles.size == 0 %}
       <p class="no-articles">No articles available.</p>
     {% endif %}
-    {% for article in blogs.news.articles limit: 2 %}
+    {% for article in blog.articles limit: 2 %}
       <a href="{{ article.url }}" class="rants-article">
         {% if article.image %}
           {{ article.image | image_url: width: 1000 | image_tag }}
@@ -128,6 +131,12 @@
       "id": "rants_title",
       "label": "Rants Title",
       "default": "Rants"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Select Blog",
+      "info": "Choose the blog to display articles from."
     }
   ],
   "presets": [
