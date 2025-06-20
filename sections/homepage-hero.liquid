@@ -60,7 +60,18 @@
     background-position: bottom center;
     background-repeat: no-repeat;
     position: relative;
-    /* border-radius: var(--br-md); */
+  }
+
+  @media screen and (max-height: 800px) {
+    .homepage-hero {
+      height: 600px;
+    }
+  }
+
+  @media screen and (max-height: 600px) {
+    .homepage-hero {
+      height: 400px;
+    }
   }
 
   @media screen and (max-width: 1024px) {
