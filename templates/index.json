@@ -60,6 +60,12 @@
         "show_categories": false
       }
     },
+    "rants": {
+      "type": "rants",
+      "settings": {
+        "rants_title": "Rants"
+      }
+    },
     "discord": {
       "type": "discord",
       "settings": {
@@ -75,6 +81,7 @@
     "categories",
     "new",
     "carousel",
+    "rants",
     "discord"
   ]
 }
