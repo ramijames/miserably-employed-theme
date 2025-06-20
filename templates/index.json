@@ -63,7 +63,8 @@
     "rants": {
       "type": "rants",
       "settings": {
-        "rants_title": "Rants"
+        "rants_title": "Rants",
+        "blog": "rants"
       }
     },
     "discord": {
