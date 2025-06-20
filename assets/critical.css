@@ -53,7 +53,7 @@ dialog {
 p {
   text-wrap: pretty;
 }
-p,
+
 h1,
 h2,
 h3,
@@ -61,6 +61,8 @@ h4,
 h5,
 h6 {
   overflow-wrap: break-word;
+  font-family: 'Solway', system-ui;
+  line-height: 1.12;
 }
 
 p:empty {

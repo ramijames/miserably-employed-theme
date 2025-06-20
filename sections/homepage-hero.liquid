@@ -149,7 +149,7 @@
     z-index: 2;
     position: relative;
     max-width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
-    margin: 0 auto;
+    margin: 0 auto var(--spacing-lg);
   }
 
   @media screen and (max-width: 1024px) {
@@ -163,6 +163,8 @@
     line-height: 80px;
     text-wrap: balance;
     text-align: left;
+    margin: 0;
+    text-transform: uppercase;
   }
 
   @media screen and (max-width: 1024px) {
