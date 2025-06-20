@@ -20,10 +20,12 @@
         {% if article.image %}
           {{ article.image | image_url: width: 1000 | image_tag }}
         {% endif %}
-        <h2 class="blog-article-title">
-          {{ article.title }}
-        </h2>
-        <p class="blog-excerpt">{{ article.excerpt }}</p>
+        {% comment %}
+          <h2 class="blog-article-title">
+            {{ article.title }}
+          </h2>
+          <p class="blog-excerpt">{{ article.excerpt }}</p>
+        {% endcomment %}
       </a>
     {% endfor %}
   {% endpaginate %}
@@ -78,34 +80,28 @@
 
   .blogs {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--spacing-lg);
-    background-color: var(--color-light);
-    padding: var(--spacing-lg);
-    border-radius: var(--br-lg);
-    border: 1px solid var(--color-border);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
     margin: var(--spacing-xl) 0;
 
     @media screen and (max-width: 1180px) {
-      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-lg);
     }
 
     @media screen and (max-width: 768px) {
       grid-template-columns: 1fr;
+      gap: var(--spacing-md);
     }
   }
 
   .blog-article {
-    background-color: var(--color-light);
     color: var(--color-dark);
     text-decoration: none;
-    padding-bottom: var(--spacing-lg);
 
     img {
       width: 100%;
       height: auto;
       border-radius: var(--br-md);
-      margin-bottom: var(--spacing-md);
       transition: transform 0.3s ease;
       &:hover {
         transform: scale(1.01);
