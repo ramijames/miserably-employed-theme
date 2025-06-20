@@ -5,33 +5,11 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/page
 {% endcomment %}
 
-<div class="page-bg-text">{{ page.title }}</div>
-
-<h1 class="page-title">{{ page.title }}</h1>
-
 {{ page.content }}
 
 {% stylesheet %}
-  .page-bg-text {
-    color: white;
-    background-color: white;
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    font-size: 20rem;
-    text-wrap: nowrap;
-    position: absolute;
-    font-weight: bold;
-    top: -2rem;
-    left: -30%;
-    right: -1vw;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.1;
-    width: 100vw;
-    text-align: center;
-    transform: rotate(-10deg);
-  }
-  .page-title {
-    margin: var(--spacing-xl) 0;
+  h1 {
+    margin: var(--spacing-xxl) 0;
     font-size: var(--font-size-xxxl);
     text-align: center;
     padding: var(--spacing-lg) 0;
