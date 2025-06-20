@@ -5,7 +5,7 @@
 <div class="hero-bg-text">Miserably Employed</div>
 
 <div
-  class="homepage-hero"
+  class="homepage-hero full-width"
   {% if section.settings.hero_background_image != blank %}
     style="background-image: url({{ section.settings.hero_background_image | image_url: 'master' }});"
   {% else %}
@@ -50,17 +50,17 @@
     color: var(--color-light);
     display: flex;
     flex-direction: column;
-    padding: var(--spacing-xxl);
+    padding: var(--spacing-xxl) 0;
     justify-content: space-between;
     align-items: flex-start;
-    height: 720px;
+    height: 920px;
     text-align: center;
     gap: var(--spacing-lg);
     background-size: cover;
     background-position: bottom center;
     background-repeat: no-repeat;
     position: relative;
-    border-radius: var(--br-md);
+    /* border-radius: var(--br-md); */
   }
 
   @media screen and (max-width: 1024px) {
@@ -78,7 +78,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(-20deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.35) 75%);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 75%);
     border-radius: var(--br-md);
     z-index: 1;
   }
@@ -105,6 +105,11 @@
     gap: var(--spacing-md);
     z-index: 2;
     position: relative;
+    max-width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
+    margin: 0 auto;
+    /* --content-width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
+    --content-margin: minmax(var(--page-margin), 1fr);
+    --content-grid: var(--content-margin) var(--content-width) var(--content-margin); */
   }
 
   .hero-content-vibe p {
@@ -143,6 +148,8 @@
     max-width: 620px;
     z-index: 2;
     position: relative;
+    max-width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
+    margin: 0 auto;
   }
 
   @media screen and (max-width: 1024px) {
