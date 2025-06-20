@@ -127,16 +127,18 @@
         }
 
         .category {
-          padding: var(--spacing-xs) var(--spacing-md);
-          padding: var(--spacing-md) var(--spacing-lg);
-          background-color: var(--color-light);
-          border: 2px solid var(--color-dark);
           color: var(--color-dark);
           text-decoration: none;
+          border: none;
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+          font-family: 'Solway', system-ui;
           transition: background-color 0.3s ease;
+          background-color: transparent;
+          border-radius: 0;
+          padding: var(--spacing-xs) 0;
 
           &:hover {
-            background-color: var(--color-light-hover);
+            border-bottom: 2px solid var(--color-dark);
           }
         }
       }
