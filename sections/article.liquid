@@ -6,43 +6,41 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/article
 {% endcomment %}
 
-<div class="article-bg-text">{{ article.title }}</div>
+<h1 class="article-bg-text">{{ article.title }}</h1>
+
+<div class="article-image-and-nav">
+  {% if article.image %}
+    {{ article.image | image_url: width: 1000 | image_tag: class: 'top-article-image', alt: article.title }}
+    <div class="article-navigation">
+      {% if blog.previous_article %}
+        <a href="{{ blog.previous_article.url }}" class="prev-article">
+          {% comment %} ← {{ blog.previous_article.title }} {% endcomment %}
+          <img
+            src="{{ 'arrow-left-dark.svg' | asset_url }}"
+            alt="{{ blog.previous_article.title }}"
+            width="24"
+            height="24"
+          >
+          Prev
+        </a>
+      {% endif %}
+
+      {% if blog.next_article %}
+        <a href="{{ blog.next_article.url }}" class="next-article">
+          Next
+          <img
+            src="{{ 'arrow-right-dark.svg' | asset_url }}"
+            alt="{{ blog.next_article.title }}"
+            width="24"
+            height="24"
+          >
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
 
 <div class="article">
-  <div class="article-image-and-nav">
-    {% if article.image %}
-      {{ article.image | image_url: width: 1000 | image_tag: class: 'article-image', alt: article.title }}
-      <div class="article-navigation">
-        {% if blog.previous_article %}
-          <a href="{{ blog.previous_article.url }}" class="prev-article">
-            {% comment %} ← {{ blog.previous_article.title }} {% endcomment %}
-            <img
-              src="{{ 'arrow-left-dark.svg' | asset_url }}"
-              alt="{{ blog.previous_article.title }}"
-              width="24"
-              height="24"
-            >
-            Prev
-          </a>
-        {% endif %}
-
-        {% if blog.next_article %}
-          <a href="{{ blog.next_article.url }}" class="next-article">
-            Next
-            <img
-              src="{{ 'arrow-right-dark.svg' | asset_url }}"
-              alt="{{ blog.next_article.title }}"
-              width="24"
-              height="24"
-            >
-          </a>
-        {% endif %}
-      </div>
-    {% endif %}
-  </div>
-
-  <h1 class="article-title">{{ article.title }}</h1>
-
   {{ article.content }}
 
   <a class="button small primary" href="{{ blog.url }}" class="back-to-blog">
@@ -122,9 +120,73 @@
     transform: rotate(-10deg);
   }
 
+  .article-image-and-nav {
+    position: relative;
+    margin: calc(var(--spacing-lg) + 160px) 0 0;
+
+    .article-navigation {
+      position: absolute;
+      top: 100%;
+      transform: translateY(-50%);
+      left: 30px;
+      right: 30px;
+      display: flex;
+      flex-direction: row;
+      display: flex;
+      justify-content: space-between;
+      width: calc(100% - 60px);
+      z-index: 1;
+
+      @media screen and (max-width: 1024px) {
+        left: 0;
+        right: 0;
+        width: 100%;
+        top: 100%;
+      }
+
+      &:has(.prev-article:only-child) {
+        justify-content: flex-start; /* Left-align when only prev exists */
+      }
+
+      &:has(.next-article:only-child) {
+        justify-content: flex-end; /* Right-align when only next exists */
+      }
+
+      a {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--color-dark);
+        border-radius: var(--br-md);
+        border: 2px solid var(--color-light);
+        transition: all 0.3s ease;
+        color: var(--color-light);
+        padding: var(--spacing-sm) var(--spacing-md);
+        gap: var(--spacing-sm);
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+
+      .next-article {
+        align-self: flex-end;
+      }
+    }
+  }
+
+  .top-article-image {
+    margin: 0 auto !important;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    border-radius: var(--br-md);
+  }
+
   .article {
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 0 auto var(--spacing-sm);
     padding: var(--spacing-xxl);
     color: var(--color-dark);
     font-size: var(--font-size-base);
@@ -132,65 +194,6 @@
 
     @media screen and (max-width: 1024px) {
       padding: 0;
-    }
-
-    .article-image-and-nav {
-      position: relative;
-
-      .article-navigation {
-        position: absolute;
-        top: 100%;
-        transform: translateY(-50%);
-        left: 30px;
-        right: 30px;
-        display: flex;
-        flex-direction: row;
-        display: flex;
-        justify-content: space-between;
-        width: calc(100% - 60px);
-        z-index: 1;
-
-        @media screen and (max-width: 1024px) {
-          left: 0;
-          right: 0;
-          width: 100%;
-          top: 100%;
-        }
-
-        &:has(.prev-article:only-child) {
-          justify-content: flex-start; /* Left-align when only prev exists */
-        }
-
-        &:has(.next-article:only-child) {
-          justify-content: flex-end; /* Right-align when only next exists */
-        }
-
-        a {
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: var(--color-dark);
-          border-radius: var(--br-md);
-          border: 2px solid var(--color-light);
-          transition: all 0.3s ease;
-          color: var(--color-light);
-          padding: var(--spacing-sm) var(--spacing-md);
-          gap: var(--spacing-sm);
-
-          &:hover {
-            transform: scale(1.1);
-          }
-        }
-
-        .next-article {
-          align-self: flex-end;
-        }
-
-        img {
-          margin: 0 !important;
-        }
-      }
     }
 
     h1 {

@@ -122,6 +122,14 @@ body {
   grid-column: 1 / -1;
 }
 
+.shopify-policy__container {
+  margin: calc(var(--spacing-xl) + 160px) auto !important;
+
+  h1 {
+    margin-bottom: var(--spacing-xl);
+  }
+}
+
 /** Buttons */
 
 button,
