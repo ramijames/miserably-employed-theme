@@ -6,11 +6,9 @@
   {% if section.settings.categories == blank %}
     <p class="no-products">No categories set in admin.</p>
   {% else %}
-    <div class="categories">
-      {% for collection in section.settings.categories %}
-        <a class="button category" href="{{ collection.url }}" class="category-link">{{ collection.title }}</a>
-      {% endfor %}
-    </div>
+    {% for collection in section.settings.categories %}
+      <a class="button category" href="{{ collection.url }}" class="category-link">{{ collection.title }}</a>
+    {% endfor %}
   {% endif %}
 </div>
 
