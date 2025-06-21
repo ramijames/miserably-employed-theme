@@ -28,21 +28,6 @@
         "new_collection": "new"
       }
     },
-    "categories": {
-      "type": "categories",
-      "name": "Categories",
-      "settings": {
-        "categories": [
-          "academia",
-          "designer",
-          "developer",
-          "project-manager",
-          "restaurant-staff",
-          "apparel-for-technology-slaves",
-          "on-sale-now"
-        ]
-      }
-    },
     "carousel": {
       "type": "carousel",
       "settings": {
@@ -75,14 +60,29 @@
         "discord_invite_button_link": "https://discord.gg/your-invite-link",
         "discord_invite_button_text": "Join our Discord"
       }
+    },
+    "categories": {
+      "type": "categories",
+      "name": "Categories",
+      "settings": {
+        "categories": [
+          "academia",
+          "designer",
+          "developer",
+          "project-manager",
+          "restaurant-staff",
+          "apparel-for-technology-slaves",
+          "on-sale-now"
+        ]
+      }
     }
   },
   "order": [
     "main",
     "new",
-    "categories",
     "carousel",
     "rants",
-    "discord"
+    "discord",
+    "categories"
   ]
 }
