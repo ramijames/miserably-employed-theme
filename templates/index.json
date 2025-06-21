@@ -21,6 +21,13 @@
         "tee_link_text": "Check out this tee"
       }
     },
+    "new": {
+      "type": "new",
+      "settings": {
+        "new_title": "New shirts!",
+        "new_collection": "new"
+      }
+    },
     "categories": {
       "type": "categories",
       "name": "Categories",
@@ -34,13 +41,6 @@
           "apparel-for-technology-slaves",
           "on-sale-now"
         ]
-      }
-    },
-    "new": {
-      "type": "new",
-      "settings": {
-        "new_title": "New shirts!",
-        "new_collection": "new"
       }
     },
     "carousel": {
@@ -79,8 +79,8 @@
   },
   "order": [
     "main",
-    "categories",
     "new",
+    "categories",
     "carousel",
     "rants",
     "discord"
