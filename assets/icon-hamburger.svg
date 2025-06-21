@@ -1,9 +1,9 @@
 <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_25_682)" filter="url(#filter0_d_25_682)">
-<circle cx="24" cy="20" r="19" fill="white" stroke="white" stroke-width="2" stroke-linecap="round"/>
-<path d="M16 20H32" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M16 14H32" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M16 26H32" stroke="#121212" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="24" cy="20" r="19" fill="#121212" stroke="#121212" stroke-width="2" stroke-linecap="round"/>
+<path d="M16 20H32" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 14H32" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 26H32" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 <defs>
 <filter id="filter0_d_25_682" x="0" y="0" width="48" height="48" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
