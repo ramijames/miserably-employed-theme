@@ -21,21 +21,6 @@
         "tee_link_text": "Check out this tee"
       }
     },
-    "categories": {
-      "type": "categories",
-      "name": "Categories",
-      "settings": {
-        "categories": [
-          "academia",
-          "designer",
-          "developer",
-          "project-manager",
-          "restaurant-staff",
-          "apparel-for-technology-slaves",
-          "on-sale-now"
-        ]
-      }
-    },
     "new": {
       "type": "new",
       "settings": {
@@ -75,14 +60,29 @@
         "discord_invite_button_link": "https://discord.gg/your-invite-link",
         "discord_invite_button_text": "Join our Discord"
       }
+    },
+    "categories": {
+      "type": "categories",
+      "name": "Categories",
+      "settings": {
+        "categories": [
+          "academia",
+          "designer",
+          "developer",
+          "project-manager",
+          "restaurant-staff",
+          "apparel-for-technology-slaves",
+          "on-sale-now"
+        ]
+      }
     }
   },
   "order": [
     "main",
-    "categories",
     "new",
     "carousel",
     "rants",
-    "discord"
+    "discord",
+    "categories"
   ]
 }
