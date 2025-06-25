@@ -1,4 +1,4 @@
-<header class="full-width">
+<header class="full-width" id="PageHeader">
   <div class="header-menu">
     {%- liquid
       if section.settings.menu != blank
@@ -43,7 +43,47 @@
   </div>
 </header>
 
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', function () {
+    let lastScrollY = window.scrollY;
+    const header = document.querySelector('#PageHeader');
+    let ticking = false;
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          if (window.scrollY > lastScrollY && window.scrollY > 100) {
+            // Scrolling down
+            header.style.transform = 'translateY(-120%)';
+          } else {
+            // Scrolling up
+            header.style.transform = 'translateY(0)';
+          }
+          lastScrollY = window.scrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll);
+  });
+{% endjavascript %}
+
 {% stylesheet %}
+  keyframes slideIn {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  #PageHeader {
+    animation: slideIn 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+  }
   header {
     display: flex;
     align-items: center;
