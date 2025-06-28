@@ -61,7 +61,8 @@ h4,
 h5,
 h6 {
   overflow-wrap: break-word;
-  font-family: 'National Park', system-ui;
+  text-wrap: balance;
+  font-family: 'Public Sans', system-ui;
   line-height: 1.12;
 }
 
