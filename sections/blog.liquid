@@ -8,9 +8,8 @@
 <div class="blog-bg-text">Miserably Employed</div>
 
 <h1 class="blog-title">
-  <img src="{{ 'rant-left.svg' | asset_url }}" alt="Rants!" width="100" height="100">
-  {{ blog.title }}
-  <img src="{{ 'rant-right.svg' | asset_url }}" alt="Rants!" width="100" height="100">
+  {{- 'header-rants.svg' | inline_asset_content -}}
+  Rants
 </h1>
 
 <div class="blogs">
@@ -58,15 +57,16 @@
   }
 
   .blog-title {
-    margin: calc(var(--spacing-xxl) + 160px) 0 var(--spacing-xxl);
-    font-size: var(--font-size-xxxl);
+    margin: calc(var(--spacing-md) + 160px) 0 0;
+    font-size: var(--font-size-xxl);
     font-weight: bold;
     color: var(--color-dark);
-    text-align: center;
+    text-align: left;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
 
     @media screen and (max-width: 1024px) {
       font-size: var(--font-size-xxl);

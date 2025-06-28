@@ -128,6 +128,7 @@ body {
 
   h1 {
     margin-bottom: var(--spacing-xl);
+    font-size: var(--font-size-xxxl);
   }
 }
 
@@ -232,4 +233,8 @@ textarea {
     border-color: var(--color-dark);
     outline: none;
   }
+}
+
+.boop {
+  margin-top: 96px;
 }

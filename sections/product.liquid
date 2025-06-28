@@ -5,10 +5,6 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
-<div class="product-bg-text">
-  {{ product.title | escape }}
-</div>
-
 <div class="product-section">
   <div class="product-images">
     {% assign featured_image = product.selected_or_first_available_variant.featured_image
@@ -146,7 +142,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     gap: var(--spacing-xl);
-    margin: calc(var(--spacing-xxl) + 160px) 0 var(--spacing-sm);
+    margin: var(--spacing-xl) 0;
     padding: 0 0 var(--spacing-xxl);
     position: relative;
 
