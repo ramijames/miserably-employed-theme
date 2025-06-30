@@ -119,8 +119,7 @@
     justify-content: space-between;
   }
 
-  #PageHeader.opaque,
-  #PageHeader.header--on-policy-page {
+  #PageHeader.opaque {
     background: var(--color-light);
     color: var(--color-dark);
 
@@ -146,6 +145,10 @@
 
     .header__inline-menu .list-menu__item svg path {
       stroke: var(--color-dark);
+    }
+
+    .header-icons svg path {
+      fill: var(--color-dark);
     }
   }
 
@@ -194,7 +197,6 @@
     overflow: hidden;
     max-width: var(--page-margin);
     background: var(--color-success);
-    border: 2px solid var(--color-dark);
     color: var(--color-dark);
     width: 24px;
     height: 24px;
@@ -208,8 +210,14 @@
     font-weight: bold;
   }
 
-  .header-icons svg {
-    width: 2rem;
+  .header-icons {
+    svg {
+      width: 2rem;
+
+      path {
+        fill: var(--color-light);
+      }
+    }
   }
 
   header .logo {
