@@ -1,6 +1,5 @@
 <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_25_686)" filter="url(#filter0_d_25_686)">
-<circle cx="24" cy="20" r="19" fill="#121212" stroke="#121212" stroke-width="2" stroke-linecap="round"/>
+<g filter="url(#filter0_d_25_686)">
 <path d="M18.3396 25.6583L29.6533 14.3446" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M29.6533 25.6583L18.3396 14.3446" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
@@ -15,8 +14,5 @@
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_25_686"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_25_686" result="shape"/>
 </filter>
-<clipPath id="clip0_25_686">
-<rect width="40" height="40" fill="white" transform="translate(4)"/>
-</clipPath>
 </defs>
 </svg>
