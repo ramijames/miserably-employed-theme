@@ -5,6 +5,22 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
+<div class="page-top full-width">
+  <div class="page-top-content">
+    <div class="made-by">Miserably Employed Exclusive</div>
+    <h1 class="product-title">{{ product.title }}</h1>
+
+    <p id="product-price" class="product-price">
+      {{ product.selected_or_first_available_variant.price | money }}
+      {% if product.selected_or_first_available_variant.compare_at_price
+          != product.selected_or_first_available_variant.price
+      %}
+        <span class="compare-at">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+      {% endif %}
+    </p>
+  </div>
+</div>
+
 <div class="product-section">
   <div class="product-images">
     {% assign featured_image = product.selected_or_first_available_variant.featured_image
@@ -30,17 +46,6 @@
   <div class="product-info">
     {% comment %} I need to make this only show if the product is in stock {% endcomment %}
 
-    <div class="made-by">Miserably Employed Exclusive</div>
-    <h1 class="product-title">{{ product.title }}</h1>
-
-    <p id="product-price" class="product-price">
-      {{ product.selected_or_first_available_variant.price | money }}
-      {% if product.selected_or_first_available_variant.compare_at_price
-          != product.selected_or_first_available_variant.price
-      %}
-        <span class="compare-at">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
-      {% endif %}
-    </p>
     <div class="product-description truncated">
       {{ product.description }}
       <button class="read-more-button">
@@ -100,40 +105,18 @@
 </div>
 
 {% stylesheet %}
-  .product-bg-text {
-    color: white;
-    background-color: white;
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    font-size: 20rem;
-    text-wrap: nowrap;
-    position: absolute;
-    font-weight: bold;
-    top: -2rem;
-    left: -30%;
-    right: -1vw;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.1;
-    width: 100vw;
-    text-align: center;
-    transform: rotate(-10deg);
-  }
-
   .made-by {
     font-size: var(--font-size-lg);
     color: var(--color-secondary);
   }
 
   .product-title {
-    font-size: var(--font-size-xl);
-    text-transform: uppercase;
-    font-weight: 900;
-    font-style: italic;
-    letter-spacing: -0.05em;
+    font-size: var(--font-size-xxl);
     margin: 0;
     text-align: left;
     width: 100%;
-    color: var(--color-dark);
+    color: var(--color-light);
+    margin-top: var(--spacing-sm);
   }
 
   .product-section {
@@ -162,7 +145,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
-    width: 50%;
+    width: 60%;
     position: sticky;
     top: 0;
 
@@ -172,18 +155,35 @@
     }
   }
 
+  .product-price {
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    margin-bottom: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+  }
+
+  .compare-at {
+    text-decoration: line-through;
+    color: var(--color-secondary);
+    margin-left: var(--spacing-xs);
+  }
+
+  .product-form {
+    width: 100%;
+  }
+
   .main-image {
     width: 100%;
     margin-bottom: var(--spacing-sm);
-    background-color: var(--color-light);
+    background-color: white;
+    border-radius: var(--br-md);
+    overflow: hidden;
   }
 
   .main-image img {
     width: 100%;
     height: auto;
     object-fit: cover;
-    outline: 1px solid var(--color-border);
-    outline-offset: -1px;
     border-radius: var(--br-md);
     overflow: hidden;
   }
@@ -222,7 +222,7 @@
   }
 
   .product-info {
-    width: 50%;
+    width: 40%;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -230,27 +230,6 @@
     align-items: flex-start;
 
     @media screen and (max-width: 1024px) {
-      width: 100%;
-    }
-
-    .product-description {
-      font-size: var(--font-size-md);
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .product-price {
-      font-size: var(--font-size-lg);
-      font-weight: bold;
-      margin-bottom: var(--spacing-md);
-    }
-
-    .compare-at {
-      text-decoration: line-through;
-      color: var(--color-secondary);
-      margin-left: var(--spacing-xs);
-    }
-
-    .product-form {
       width: 100%;
     }
   }
@@ -310,10 +289,10 @@
   }
 
   .product-description {
-    font-size: var(--font-size-lg);
-    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-md);
     padding-bottom: var(--spacing-lg);
     position: relative;
+    margin: var(--spacing-xxl) 0 var(--spacing-lg);
   }
 
   .product-description.truncated {

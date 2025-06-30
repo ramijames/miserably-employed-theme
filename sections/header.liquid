@@ -1,4 +1,12 @@
-<header class="full-width" id="PageHeader">
+{%- liquid
+  assign policy_handles = 'privacy-policy,refund-policy,shipping-policy,terms-of-service' | split: ','
+  assign header_classes = 'full-width'
+  if policy_handles contains page.handle
+    assign header_classes = header_classes | append: ' header--on-policy-page'
+  endif
+-%}
+
+<header class="{{ header_classes }}" id="PageHeader">
   <div class="header-content">
     <div class="header-menu">
       {%- liquid
@@ -105,7 +113,8 @@
     background: transparent;
   }
 
-  #PageHeader.opaque {
+  #PageHeader.opaque,
+  #PageHeader.header--on-policy-page {
     background: var(--color-light);
     color: var(--color-dark);
 
@@ -127,6 +136,10 @@
 
     .list-menu-li header-menu details summary span {
       color: var(--color-dark);
+    }
+
+    .header__inline-menu .list-menu__item svg path {
+      stroke: var(--color-dark);
     }
   }
 

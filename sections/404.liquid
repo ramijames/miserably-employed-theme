@@ -5,15 +5,57 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/404
 {% endcomment %}
 
-<h1>{{ '404.title' | t }}</h1>
+<div class="page-top no-bottom full-width">
+  <div class="page-top-content">
+    <h1 class="page-title">
+      {{ '404.title' | t }}
+    </h1>
+    <p class="page-description">
+      {{ '404.not_found' | t }}
+    </p>
+    <a href="{{ routes.all_products_collection_url }}" class="button back-to-shopping">
+      {{ 'arrow-left-dark.svg' | inline_asset_content }}
+      {{ '404.back_to_shopping' | t }}
+    </a>
+  </div>
+</div>
 
-<p>
-  {{ '404.not_found' | t }}
-</p>
+{% comment %}
+  <h1>{{ '404.title' | t }}</h1>
 
-<a href="{{ routes.all_products_collection_url }}">
-  {{ '404.back_to_shopping' | t }}
-</a>
+  <p>
+    {{ '404.not_found' | t }}
+  </p>
+{% endcomment %}
+
+{% stylesheet %}
+  .page-top {
+    text-align: center;
+  }
+
+  .page-top-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    justify-content: center;
+  }
+
+  .page-description {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .back-to-shopping {
+    margin-top: var(--spacing-xl);
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

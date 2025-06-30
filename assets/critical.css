@@ -124,11 +124,32 @@ body {
 }
 
 .shopify-policy__container {
-  margin: calc(var(--spacing-xl) + 160px) auto !important;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: calc(var(--spacing-lg) + 100px) var(--spacing-md);
+  background-color: var(--color-dark);
 
   h1 {
     margin-bottom: var(--spacing-xl);
     font-size: var(--font-size-xxxl);
+    color: var(--color-light);
+    text-align: left;
+  }
+
+  .shopify-policy__title {
+    max-width: calc(var(--page-width) - var(--page-margin) * 2);
+    margin: 0 auto;
+    color: var(--color-light);
+    font-size: var(--font-size-md);
+    line-height: 1.6;
+  }
+
+  .shopify-policy__body {
+    max-width: calc(var(--page-width) - var(--page-margin) * 2);
+    margin: 0 auto;
+    color: var(--color-light);
+    font-size: var(--font-size-md);
+    line-height: 1.6;
   }
 }
 
@@ -213,6 +234,7 @@ button.bright,
 .button.bright,
 input[type='submit'].bright {
   background-color: var(--color-success);
+  outline: 2px solid var(--color-success);
 }
 
 label {
@@ -245,6 +267,14 @@ textarea {
   background-color: var(--color-dark);
   color: var(--color-light);
   width: 100%;
+
+  &.no-bottom {
+    margin-bottom: 0;
+  }
+
+  &.centered {
+    text-align: center;
+  }
 
   .page-top-content {
     width: 100%;

@@ -17,15 +17,6 @@
   </div>
 </div>
 
-{% comment %}
-  <div class="blog-bg-text">Miserably Employed</div>
-
-  <h1 class="blog-title">
-    {{- 'header-rants.svg' | inline_asset_content -}}
-    Rants
-  </h1>
-{% endcomment %}
-
 <div class="blogs">
   {% paginate blog.articles by 18 %}
     {% for article in blog.articles %}
