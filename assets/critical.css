@@ -140,6 +140,7 @@ input[type='submit'] {
   font: inherit;
   color: var(--color-light);
   background-color: var(--color-dark);
+  outline: 2px solid var(--color-dark-hover);
   text-decoration: none;
   border: none;
   padding: var(--spacing-md) var(--spacing-lg);
@@ -177,6 +178,7 @@ button.primary,
 .button.primary {
   background-color: var(--color-light);
   color: var(--color-dark);
+  outline: 2px solid var(--color-light-hover);
 }
 
 button.primary:hover,
@@ -189,6 +191,7 @@ button.outline,
 .button.outline {
   background-color: var(--color-light);
   color: var(--color-dark);
+  outline: 2px solid var(--color-light-hover);
 }
 
 button.category,
@@ -196,6 +199,7 @@ button.category,
   background-color: var(--color-light);
   color: var(--color-dark);
   padding: var(--spacing-sm) var(--spacing-md);
+  outline: 2px solid var(--color-light-hover);
 }
 
 button.small,
@@ -235,6 +239,30 @@ textarea {
   }
 }
 
-.boop {
-  margin-top: 96px;
+.page-top {
+  padding: calc(var(--spacing-xl) + 100px) 0;
+  margin: 0 auto -100px;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  width: 100%;
+
+  .page-top-content {
+    width: 100%;
+    max-width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
+    margin: 0 auto;
+
+    .page-title {
+      display: flex;
+      flex-direction: row;
+      color: var(--color-light);
+      align-items: center;
+      gap: var(--spacing-md);
+      font-size: var(--font-size-xxxl);
+      margin: 0;
+    }
+
+    .page-description {
+      margin: var(--spacing-sm) 0 0;
+    }
+  }
 }

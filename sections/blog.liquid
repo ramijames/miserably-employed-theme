@@ -5,12 +5,26 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/blog
 {% endcomment %}
 
-<div class="blog-bg-text">Miserably Employed</div>
+<div class="page-top full-width">
+  <div class="page-top-content">
+    <h1 class="page-title">
+      {{- 'header-rants-dark.svg' | inline_asset_content -}}
+      Rants
+    </h1>
+    <p class="page-description">
+      {{ section.settings.rants_description | default: 'Explore our latest rants and articles.' }}
+    </p>
+  </div>
+</div>
 
-<h1 class="blog-title">
-  {{- 'header-rants.svg' | inline_asset_content -}}
-  Rants
-</h1>
+{% comment %}
+  <div class="blog-bg-text">Miserably Employed</div>
+
+  <h1 class="blog-title">
+    {{- 'header-rants.svg' | inline_asset_content -}}
+    Rants
+  </h1>
+{% endcomment %}
 
 <div class="blogs">
   {% paginate blog.articles by 18 %}
@@ -80,17 +94,17 @@
 
   .blogs {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-xl);
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--spacing-md);
     margin: var(--spacing-xl) 0;
+    z-index: 1;
 
     @media screen and (max-width: 1180px) {
-      gap: var(--spacing-lg);
+      grid-template-columns: 1fr 1fr;
     }
 
     @media screen and (max-width: 768px) {
       grid-template-columns: 1fr;
-      gap: var(--spacing-md);
     }
   }
 
@@ -102,7 +116,9 @@
       width: 100%;
       height: auto;
       border-radius: var(--br-md);
+      border: 2px solid var(--color-light);
       transition: transform 0.3s ease;
+
       &:hover {
         transform: scale(1.01);
       }

@@ -5,11 +5,13 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
-<h1 class="collections-bg-text">{{ 'collections.title' | t }}</h1>
-
-<div class="collections-top">
-  <h1>{{ 'collections.title' | t }}</h1>
-  <div class="collections-description">Some of our favorite collections, curated just for you.</div>
+<div class="page-top full-width">
+  <div class="page-top-content">
+    <div class="collections-top">
+      <h1>{{ 'collections.title' | t }}</h1>
+      <div class="collections-description">Some of our favorite collections, curated just for you.</div>
+    </div>
+  </div>
 </div>
 
 <div class="collections">
@@ -50,8 +52,6 @@
 
   .collections-bg-text {
     color: white;
-    background-color: white;
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     font-size: 20rem;
     text-wrap: nowrap;
     position: absolute;
@@ -68,14 +68,13 @@
   }
 
   .collections-top h1 {
-    margin: calc(var(--spacing-xxl) + 160px) 0 var(--spacing-sm);
+    margin: 0 0 var(--spacing-md);
     font-size: var(--font-size-xxxl);
     font-weight: bold;
-    color: var(--color-dark);
+    color: var(--color-light);
     position: relative;
     z-index: 2;
     text-wrap: balance;
-    box-shadow: 2px 2px 10px white;
 
     @media screen and (max-width: 1024px) {
       font-size: var(--font-size-xxl);
@@ -87,8 +86,8 @@
   }
 
   .collections-description {
-    font-size: var(--font-size-md);
-    color: var(--color-dark);
+    font-size: var(--font-size-lg);
+    color: var(--color-light);
     line-height: 1.5;
     position: relative;
     z-index: 2;
@@ -96,7 +95,6 @@
     width: 100%;
     text-wrap: balance;
     opacity: 0.5;
-    box-shadow: 2px 2px 10px white;
 
     @media screen and (max-width: 1024px) {
       max-width: 100%;
@@ -108,16 +106,17 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
     margin-bottom: var(--spacing-xxl);
-    padding: var(--spacing-lg);
-    background-color: var(--color-light);
-    border-radius: var(--br-lg);
-    border: 1px solid var(--color-border);
 
     a {
       text-decoration: none;
       color: inherit;
       display: grid;
       grid-template-columns: 1fr 1fr;
+      border: 2px solid var(--color-light);
+      border-radius: var(--br-lg);
+      overflow: hidden;
+      background-color: var(--color-light);
+      padding: var(--spacing-md);
 
       @media screen and (max-width: 1024px) {
         display: flex;
@@ -132,7 +131,6 @@
         transition: transform 0.3s ease;
         transform: scale(1);
         border-radius: var(--br-md);
-        border: 1px solid var(--color-border);
 
         @media screen and (max-width: 600px) {
           width: 100%;

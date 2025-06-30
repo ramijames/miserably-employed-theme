@@ -12,10 +12,12 @@
     style="background-image: url('{{ 'homepage-background.jpg' | asset_url }}');"
   {% endif %}
 >
-  <div class="hero-content-vibe">
-    <p class="tagline">{{ section.settings.hero_tagline }}</p>
-    <p class="quote">"{{ section.settings.hero_quote }}"</p>
-  </div>
+  {% comment %}
+    <div class="hero-content-vibe">
+      <p class="tagline">{{ section.settings.hero_tagline }}</p>
+      <p class="quote">"{{ section.settings.hero_quote }}"</p>
+    </div>
+  {% endcomment %}
   <div class="hero-content">
     <h1>{{ section.settings.hero_title }}</h1>
     <div class="hero-buttons">
@@ -50,10 +52,10 @@
     color: var(--color-light);
     display: flex;
     flex-direction: column;
-    padding: var(--spacing-xxl) 0;
-    justify-content: space-between;
+    padding: calc(var(--spacing-xxl) + 100px) 0 var(--spacing-xxl);
+    justify-content: center;
     align-items: flex-start;
-    height: 720px;
+    height: 800px;
     text-align: center;
     gap: var(--spacing-lg);
     background-size: cover;
@@ -65,12 +67,14 @@
   @media screen and (max-height: 800px) {
     .homepage-hero {
       height: 600px;
+      justify-content: flex-end;
     }
   }
 
   @media screen and (max-height: 600px) {
     .homepage-hero {
       height: 400px;
+      justify-content: flex-end;
     }
   }
 
@@ -79,6 +83,7 @@
       padding: var(--spacing-lg);
       height: calc(100vh - 90px - var(--spacing-md));
       background-position: bottom center;
+      justify-content: flex-end;
     }
   }
 
@@ -89,9 +94,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 75%);
+    background: linear-gradient(90deg, rgba(122, 95, 255, 0.7) 45%, rgba(255, 191, 28, 0.65) 100%);
     border-radius: var(--br-md);
     z-index: 1;
+    mix-blend-mode: overlay;
+    opacity: 0.7;
   }
 
   @media screen and (max-width: 1024px) {
@@ -102,25 +109,23 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 75%);
-      border-radius: var(--br-md);
-      z-index: 1;
+      background: linear-gradient(180deg, rgba(122, 95, 255, 0.7) 30%, rgba(255, 191, 28, 0.65) 50%, rgb(0, 0, 0) 100%);
+      mix-blend-mode: overlay;
+      opacity: 0.7;
     }
   }
 
   .hero-content-vibe {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     gap: var(--spacing-md);
     z-index: 2;
     position: relative;
     max-width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
     margin: 0 auto;
-    /* --content-width: min(calc(var(--page-width) - var(--page-margin) * 2), calc(100% - var(--page-margin) * 2));
-    --content-margin: minmax(var(--page-margin), 1fr);
-    --content-grid: var(--content-margin) var(--content-width) var(--content-margin); */
   }
 
   .hero-content-vibe p {
@@ -184,13 +189,6 @@
     .hero-content h1 {
       font-size: var(--font-size-xxl);
       line-height: 60px;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    .hero-content h1 {
-      font-size: var(--font-size-xl);
-      line-height: 30px;
     }
   }
 
