@@ -12,12 +12,6 @@
     style="background-image: url('{{ 'homepage-background.jpg' | asset_url }}');"
   {% endif %}
 >
-  {% comment %}
-    <div class="hero-content-vibe">
-      <p class="tagline">{{ section.settings.hero_tagline }}</p>
-      <p class="quote">"{{ section.settings.hero_quote }}"</p>
-    </div>
-  {% endcomment %}
   <div class="hero-content">
     <h1>{{ section.settings.hero_title }}</h1>
     <div class="hero-buttons">
@@ -183,12 +177,11 @@
     margin: 0 var(--spacing-xxl) var(--spacing-lg) 0;
     font-style: italic;
     text-shadow: 4px 6px 0 var(--color-dark), 6px 8px 0 rgba(0, 0, 0, 0.2);
-  }
 
-  @media screen and (max-width: 1024px) {
-    .hero-content h1 {
-      font-size: var(--font-size-xxl);
-      line-height: 60px;
+    @media screen and (max-width: 768px) {
+      font-size: var(--font-size-xl);
+      line-height: 32px;
+      margin: 0 var(--spacing-lg) var(--spacing-md) 0;
     }
   }
 
