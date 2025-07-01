@@ -17,7 +17,7 @@
     {% if blog.articles.size == 0 %}
       <p class="no-articles">No articles available.</p>
     {% endif %}
-    {% for article in blog.articles limit: 4 %}
+    {% for article in blog.articles limit: 2 %}
       <a href="{{ article.url }}" class="rants-article">
         {% if article.image %}
           {{ article.image | image_url: width: 1000 | image_tag }}
