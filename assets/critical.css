@@ -7,6 +7,10 @@
 
 html {
   overflow-x: hidden;
+
+  &.menu-drawer-open {
+    overflow: hidden;
+  }
 }
 
 body {
@@ -17,6 +21,10 @@ body {
   overflow-x: hidden;
   border-top: 4px solid black;
   border-bottom: 40px solid black;
+
+  &.menu-drawer-open {
+    overflow: hidden;
+  }
 }
 
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
